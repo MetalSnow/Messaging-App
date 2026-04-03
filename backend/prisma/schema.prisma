@@ -11,4 +11,45 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+   url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  username String    @db.VarChar(50)
+  email    String    @unique @db.VarChar(255)
+  password String    @db.VarChar(255)
+  profiles Profile?
+  friends1 Friends[] @relation("UserFriends1")
+  friends2 Friends[] @relation("UserFriends2")
+  sentMessages Messages [] @relation("sentMessages")
+  receivedMessages Messages[] @relation("receivedMessages")
+}
+
+model Profile {
+  id         Int     @id @default(autoincrement())
+  profilePic String? @db.VarChar(255)
+  coverPic   String? @db.VarChar(255)
+  userId     Int     @unique
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Friends {
+  userId1 Int
+  userId2 Int
+
+  user1 User @relation("UserFriends1", fields: [userId1], references: [id], onDelete: Cascade)
+  user2 User @relation("UserFriends2", fields: [userId2], references: [id], onDelete: Cascade)
+
+  @@id([userId1, userId2])
+}
+model Messages {
+  id       Int @id @default(autoincrement())
+  message  String 
+  senderId   Int
+  receiverId Int
+  createdAt  DateTime @default(now())
+
+  user1 User @relation("sentMessages", fields: [senderId], references: [id])
+  user2 User @relation("receivedMessages", fields: [receiverId], references: [id])
 }

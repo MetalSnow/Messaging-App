@@ -16,13 +16,13 @@ const signupUser = asyncHandler(async (req, res) => {
 
   res.json({
     data: user,
-    message: '"Account created successfully. You can now log in."',
+    message: 'Account created successfully. You can now log in.',
   });
 });
 
 const loginUser = asyncHandler((req, res) => {
   const user = req.user;
-  res.json({ data: user, message: 'Login successful.' });
+  res.json({ success: true, data: user, message: 'Login successful.' });
 });
 
 module.exports = { signupUser, loginUser };

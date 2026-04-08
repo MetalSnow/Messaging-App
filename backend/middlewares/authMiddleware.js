@@ -1,6 +1,17 @@
 const passport = require('../config/passport');
 
-module.exports = (req, res, next) => {
+const isAuth = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'You are not authorized to view this resource.',
+    });
+  }
+};
+
+const authenticate = (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       return res.status(500).json({
@@ -16,7 +27,12 @@ module.exports = (req, res, next) => {
       });
     }
 
-    req.user = user;
-    next();
+    req.login(user, (err) => {
+      if (err) return next(err);
+
+      next();
+    });
   })(req, res, next);
 };
+
+module.exports = { isAuth, authenticate };

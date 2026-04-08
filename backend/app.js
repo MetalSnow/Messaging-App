@@ -1,5 +1,4 @@
 const express = require('express');
-
 const passport = require('./config/passport');
 const session = require('express-session');
 const errorHandler = require('./middlewares/errorHandler');
@@ -7,6 +6,8 @@ const authRouter = require('./routes/authRouter');
 const profileRouter = require('./routes/profileRouter');
 const friendsRouter = require('./routes/friendsRouter');
 const messagesRouter = require('./routes/messagesRouter');
+const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
+const prisma = require('./config/prismaClient');
 require('dotenv').config();
 
 const app = express();
@@ -25,6 +26,11 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 7,
       sameSite: 'lax',
     },
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 2 * 60 * 1000, //ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
   }),
 );
 

@@ -19,4 +19,23 @@ const getProfile = asyncHandler(async (req, res) => {
   res.json({ data: profile });
 });
 
-module.exports = { getProfile };
+const editProfile = asyncHandler(async (req, res) => {
+  const userId = Number(req.params.id);
+  const { bio, gender, profilePic, coverPic } = req.body;
+
+  const data = await prisma.profile.update({
+    where: {
+      userId,
+    },
+    data: {
+      bio,
+      gender,
+      profilePic,
+      coverPic,
+    },
+  });
+
+  res.json({ message: 'Profile updated!', profile: data });
+});
+
+module.exports = { getProfile, editProfile };

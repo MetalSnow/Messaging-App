@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('./config/passport');
 const session = require('express-session');
 const errorHandler = require('./middlewares/errorHandler');
-const authRouter = require('./routes/authRouter');
+const userRouter = require('./routes/userRouter');
 const profileRouter = require('./routes/profileRouter');
 const friendsRouter = require('./routes/friendsRouter');
 const messagesRouter = require('./routes/messagesRouter');
@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'Messaging App Server' });
 });
 
-app.use(authRouter);
+app.use(userRouter);
 app.use(profileRouter);
 app.use(friendsRouter);
 app.use(messagesRouter);

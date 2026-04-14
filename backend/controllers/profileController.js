@@ -21,13 +21,14 @@ const getProfile = asyncHandler(async (req, res) => {
 
 const editProfile = asyncHandler(async (req, res) => {
   const userId = Number(req.params.id);
-  const { bio, gender, profilePic, coverPic } = req.body;
+  const { name, bio, gender, profilePic, coverPic } = req.body;
 
   const data = await prisma.profile.update({
     where: {
       userId,
     },
     data: {
+      name,
       bio,
       gender,
       profilePic,

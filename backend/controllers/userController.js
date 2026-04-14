@@ -2,6 +2,21 @@ const asyncHandler = require('express-async-handler');
 const prisma = require('../config/prismaClient');
 const bcrypt = require('bcryptjs');
 
+const findUsers = asyncHandler(async (req, res) => {
+  const query = req.query.q;
+
+  const data = await prisma.user.findMany({
+    where: {
+      OR: [
+        { name: { contains: query, mode: 'insensitive' } },
+        { username: { contains: query, mode: 'insensitive' } },
+      ],
+    },
+  });
+
+  res.json({ data });
+});
+
 const signupUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -25,4 +40,4 @@ const loginUser = asyncHandler((req, res) => {
   res.json({ success: true, data: user, message: 'Login successful.' });
 });
 
-module.exports = { signupUser, loginUser };
+module.exports = { signupUser, loginUser, findUsers };

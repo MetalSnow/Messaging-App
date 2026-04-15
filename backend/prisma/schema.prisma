@@ -53,6 +53,7 @@ model Profile {
 model Friends {
   userId1 Int
   userId2 Int
+  status  String @default("Pending")
 
   user1 User @relation("UserFriends1", fields: [userId1], references: [id], onDelete: Cascade)
   user2 User @relation("UserFriends2", fields: [userId2], references: [id], onDelete: Cascade)

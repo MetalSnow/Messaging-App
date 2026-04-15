@@ -7,6 +7,7 @@ const getAllFriends = asyncHandler(async (req, res) => {
   const users = await prisma.friends.findMany({
     where: {
       OR: [{ userId1: userId }, { userId2: userId }],
+      status: 'Accepted',
     },
   });
 

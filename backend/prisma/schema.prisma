@@ -26,6 +26,10 @@ enum Gender {
   FEMALE
   OTHER
 }
+enum Status {
+  PENDING 
+  ACCEPTED
+}
 
 model User {
   id               Int        @id @default(autoincrement())
@@ -53,7 +57,7 @@ model Profile {
 model Friends {
   userId1 Int
   userId2 Int
-  status  String @default("Pending")
+  status  Status @default(PENDING)
 
   user1 User @relation("UserFriends1", fields: [userId1], references: [id], onDelete: Cascade)
   user2 User @relation("UserFriends2", fields: [userId2], references: [id], onDelete: Cascade)

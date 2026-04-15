@@ -3,7 +3,7 @@ const {
   signupUser,
   loginUser,
   findUsers,
-} = require('../controllers/userController');
+} = require('../controllers/user.controller');
 const { authenticate, isAuth } = require('../middlewares/authMiddleware');
 
 const userRouter = express.Router();

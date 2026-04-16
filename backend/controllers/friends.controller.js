@@ -38,7 +38,7 @@ const sendRequest = asyncHandler(async (req, res) => {
     },
   });
 
-  res.json({ data });
+  res.json({ data, message: 'Request sent' });
 });
 
 const updateReqStatus = asyncHandler(async (req, res) => {
@@ -57,7 +57,23 @@ const updateReqStatus = asyncHandler(async (req, res) => {
     },
   });
 
-  res.json({ data });
+  res.json({ data, message: 'Request accepted' });
 });
 
-module.exports = { getAllFriends, sendRequest, updateReqStatus };
+const deleteReq = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const senderId = Number(req.params.senderId);
+
+  const data = await prisma.friends.deleteMany({
+    where: {
+      OR: [
+        { userId1: senderId, userId2: userId },
+        { userId1: userId, userId2: senderId },
+      ],
+    },
+  });
+
+  res.json({ data, message: 'Request Rejected' });
+});
+
+module.exports = { getAllFriends, sendRequest, updateReqStatus, deleteReq };

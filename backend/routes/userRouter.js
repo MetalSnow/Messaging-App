@@ -1,15 +1,17 @@
 const express = require('express');
 const {
-  signupUser,
-  loginUser,
   findUsers,
+  updateUserInfo,
+  deleteUser,
+  updateUserPassword,
 } = require('../controllers/user.controller');
-const { authenticate, isAuth } = require('../middlewares/authMiddleware');
+const { isAuth } = require('../middlewares/authMiddleware');
 
 const userRouter = express.Router();
 
 userRouter.get('/users', isAuth, findUsers);
-userRouter.post('/sign-up', signupUser);
-userRouter.post('/log-in', authenticate, loginUser);
+userRouter.patch('/user', isAuth, updateUserInfo);
+userRouter.patch('/user/password', isAuth, updateUserPassword);
+userRouter.delete('/user', isAuth, deleteUser);
 
 module.exports = userRouter;

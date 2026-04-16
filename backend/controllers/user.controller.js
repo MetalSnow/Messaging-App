@@ -17,27 +17,72 @@ const findUsers = asyncHandler(async (req, res) => {
   res.json({ data });
 });
 
-const signupUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const user = await prisma.user.create({
+const updateUserInfo = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { name, username, email } = req.body;
+  const user = await prisma.user.update({
+    where: {
+      id: userId,
+    },
     data: {
+      name,
       username,
       email,
+    },
+  });
+
+  res.json({
+    data: user,
+    message: 'Account updated!',
+  });
+});
+
+const updateUserPassword = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const { oldPassword, newPassword } = req.body;
+
+  const isMatched = await bcrypt.compare(oldPassword, req.user.password);
+  console.log(req.user.password);
+
+  if (!isMatched) {
+    return res.status(401).json({ message: 'Old password is incorrect.' });
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  const user = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
       password: hashedPassword,
     },
   });
 
   res.json({
     data: user,
-    message: 'Account created successfully. You can now log in.',
+    message: 'Password changed',
   });
 });
 
-const loginUser = asyncHandler((req, res) => {
-  const user = req.user;
-  res.json({ success: true, data: user, message: 'Login successful.' });
+const deleteUser = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  const user = await prisma.user.delete({
+    where: {
+      id: userId,
+    },
+  });
+
+  res.json({
+    data: user,
+    message: 'Account has been deleted.',
+  });
 });
 
-module.exports = { signupUser, loginUser, findUsers };
+module.exports = {
+  findUsers,
+  updateUserInfo,
+  updateUserPassword,
+  deleteUser,
+};

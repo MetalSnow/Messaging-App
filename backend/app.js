@@ -8,6 +8,7 @@ const friendsRouter = require('./routes/friendsRouter');
 const messagesRouter = require('./routes/messagesRouter');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const prisma = require('./config/prismaClient');
+const authRouter = require('./routes/authRouter');
 require('dotenv').config();
 
 const app = express();
@@ -40,6 +41,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'Messaging App Server' });
 });
 
+app.use(authRouter);
 app.use(userRouter);
 app.use(profileRouter);
 app.use(friendsRouter);

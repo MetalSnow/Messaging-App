@@ -12,4 +12,4 @@ authRouter.post('/signup', signupUser);
 authRouter.post('/login', authenticate, loginUser);
 authRouter.post('/logout', isAuth, logout);
 
-module.exports = userRouter;
+module.exports = authRouter;

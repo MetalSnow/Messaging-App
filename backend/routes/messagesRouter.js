@@ -6,8 +6,11 @@ const {
   deleteConvo,
   createMessage,
 } = require('../controllers/messages.controller');
+const { isAuth } = require('../middlewares/authMiddleware');
 
 const messagesRouter = express.Router();
+
+messagesRouter.use(isAuth);
 
 messagesRouter.get('/msgs/:friendId', getMessages);
 messagesRouter.post('/msgs/:friendId', createMessage);

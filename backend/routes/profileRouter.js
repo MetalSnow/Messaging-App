@@ -7,7 +7,9 @@ const {
 
 const profileRouter = express.Router();
 
-profileRouter.get('/profile/:username', isAuth, getProfile);
-profileRouter.patch('/profile/:id', isAuth, editProfile);
+profileRouter.use(isAuth);
+
+profileRouter.get('/profile/:username', getProfile);
+profileRouter.patch('/profile/:id', editProfile);
 
 module.exports = profileRouter;

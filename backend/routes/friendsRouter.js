@@ -9,9 +9,11 @@ const { isAuth } = require('../middlewares/authMiddleware');
 
 const friendsRouter = express.Router();
 
-friendsRouter.get('/friends', isAuth, getAllFriends);
-friendsRouter.post('/friend-requests/:recipientId', isAuth, sendRequest);
-friendsRouter.patch('/friend-requests/:senderId', isAuth, updateReqStatus);
-friendsRouter.delete('/friend-requests/:senderId', isAuth, deleteReq);
+friendsRouter.use(isAuth);
+
+friendsRouter.get('/friends', getAllFriends);
+friendsRouter.post('/friend-requests/:recipientId', sendRequest);
+friendsRouter.patch('/friend-requests/:senderId', updateReqStatus);
+friendsRouter.delete('/friend-requests/:senderId', deleteReq);
 
 module.exports = friendsRouter;

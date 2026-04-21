@@ -1,0 +1,7 @@
+import './App.css';
+
+function App() {
+  return <h1>Welcome to RippleChat</h1>;
+}
+
+export default App;

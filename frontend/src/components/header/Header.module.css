@@ -1,0 +1,3 @@
+.logo {
+  composes: logo from '../home/HomePage.module.css';
+}

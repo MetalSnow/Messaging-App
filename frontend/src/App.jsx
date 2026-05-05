@@ -1,7 +1,7 @@
-import './App.css';
+import HomePage from './components/home/HomePage';
 
-function App() {
-  return <h1>Welcome to RippleChat</h1>;
-}
+const App = () => {
+  return <HomePage />;
+};
 
 export default App;

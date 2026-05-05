@@ -55,7 +55,13 @@ body {
 }
 
 #root {
-  width: 1126px;
+  background-color: gray;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255, 255, 255),
+    rgb(198, 171, 244)
+  );
+  background-image: linear-gradient(to bottom, #0b1120, #2d1b4e);
   max-width: 100%;
   margin: 0 auto;
   text-align: center;

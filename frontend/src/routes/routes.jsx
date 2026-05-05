@@ -3,7 +3,7 @@ import ErrorPage from '../error/ErrorPage';
 
 const routes = [
   {
-    path: '/',
+    path: '/:name?',
     element: <App />,
     errorElement: <ErrorPage />,
   },

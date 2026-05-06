@@ -1,16 +1,52 @@
+import { useState } from 'react';
+import usePost from '../../hooks/usePost';
+import { LoaderCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Signup = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const { postData, validation, error, loading } = usePost(`${API_URL}/signup`);
+  const navigate = useNavigate();
+
   const signupUser = async (formData) => {
     'use server';
     const username = formData.get('username');
     const email = formData.get('email');
     const password = formData.get('password');
+    const confirmedPassword = formData.get('confirmedPassword');
 
-    const data = { username, email, password };
-    console.log(data);
+    const data = { username, email, password, confirmedPassword };
+    setUsername(username);
+    setEmail(email);
+
+    try {
+      const res = await postData(data);
+      if (res?.status === 200) {
+        navigate('/login', {
+          state: { message: 'Account created successfully' },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   return (
     <>
       <h2>Sign Up</h2>
+      {error && <p>Server error occured!</p>}
+      {validation && (
+        <ul>
+          {validation.map((error, index) => (
+            <li key={index} style={{ color: 'red' }}>
+              {error.msg}
+            </li>
+          ))}
+        </ul>
+      )}
       <form action={signupUser}>
         <label htmlFor="username">Username:</label>
         <input
@@ -18,6 +54,8 @@ const Signup = () => {
           name="username"
           id="username"
           placeholder="Enter Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <label htmlFor="email">Email:</label>
@@ -26,6 +64,8 @@ const Signup = () => {
           name="email"
           id="email"
           placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <label htmlFor="password">Password:</label>
@@ -36,7 +76,15 @@ const Signup = () => {
           placeholder="Enter password"
           required
         />
-        <button type="submit">Sign up</button>
+        <label htmlFor="confirmedPassword">Confirm Password:</label>
+        <input
+          type="password"
+          name="confirmedPassword"
+          id="confirmedPassword"
+          placeholder="Confirm password"
+          required
+        />
+        {loading ? <LoaderCircle /> : <button type="submit">Sign up</button>}
       </form>
     </>
   );

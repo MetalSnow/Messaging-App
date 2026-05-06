@@ -1,4 +1,9 @@
+import { Check } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+
 const Login = () => {
+  const location = useLocation().state;
+
   const loginUser = async (formData) => {
     'use server';
     const username = formData.get('username');
@@ -9,6 +14,12 @@ const Login = () => {
   };
   return (
     <>
+      {location && (
+        <p>
+          {location.message}{' '}
+          <Check color="green" size={16} strokeWidth={3} absoluteStrokeWidth />
+        </p>
+      )}
       <h2>Log in</h2>
       <form action={loginUser}>
         <label htmlFor="username">Username:</label>

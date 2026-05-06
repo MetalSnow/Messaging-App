@@ -9,9 +9,12 @@ const messagesRouter = require('./routes/messagesRouter');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const prisma = require('./config/prismaClient');
 const authRouter = require('./routes/authRouter');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

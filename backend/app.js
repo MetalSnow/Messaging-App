@@ -14,7 +14,7 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -29,7 +29,9 @@ app.use(
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       sameSite: 'lax',
+      httpOnly: true,
     },
+
     store: new PrismaSessionStore(prisma, {
       checkPeriod: 2 * 60 * 1000, //ms
       dbRecordIdIsSessionId: true,

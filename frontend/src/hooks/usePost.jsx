@@ -15,6 +15,7 @@ const usePost = (url) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(data),
       });
 
@@ -22,15 +23,22 @@ const usePost = (url) => {
         throw new Error(`HTTP error! status code:${response.status} `);
       }
 
+      const result = await response.json();
+
       if (response.status === 400) {
-        const result = await response.json();
         setValidation(result.errors);
         setLoading(false);
         return;
       }
 
+      if (response.status === 401) {
+        setValidation(result.error);
+        setLoading(false);
+        return;
+      }
+
       setLoading(false);
-      return response;
+      return result;
     } catch (error) {
       setLoading(false);
       setError(error);

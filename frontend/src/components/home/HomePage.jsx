@@ -9,15 +9,24 @@ import {
 } from 'lucide-react';
 import Header from '../header/Header';
 import styles from './HomePage.module.css';
-import { useParams } from 'react-router-dom';
-import Signup from '../auth/Singup';
+import { Link, useParams } from 'react-router-dom';
+import Signup from '../auth/Signup';
 import Login from '../auth/Login';
 
 const HomePage = () => {
   const { name } = useParams();
   return (
     <>
-      <Header />
+      <Header>
+        <ul>
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/signup">Signup</Link>
+          </li>
+        </ul>
+      </Header>
       {name === 'signup' ? (
         <Signup />
       ) : name === 'login' ? (
@@ -25,7 +34,7 @@ const HomePage = () => {
       ) : (
         <main className={styles.main}>
           <div>
-            <img src="/icons/rippleLogo.svg" alt="" width={100} />
+            <img src="/icons/rippleLogo.png" alt="" width={100} />
             <h1>Ripple Chat</h1>
             <p>Connect with friends and grow your network.</p>
             <p>

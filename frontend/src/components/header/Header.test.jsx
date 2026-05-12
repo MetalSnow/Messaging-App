@@ -37,7 +37,7 @@ describe('Header component', () => {
     const img = screen.getByRole('img');
     expect(img).toBeInTheDocument();
 
-    expect(img).toHaveAttribute('src', '/icons/rippleLogo.svg');
+    expect(img).toHaveAttribute('src', '/icons/rippleLogo.png');
   });
 
   it('renders navigation landmark', () => {

@@ -1,3 +1,9 @@
 .logo {
   composes: logo from '../home/HomePage.module.css';
 }
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}

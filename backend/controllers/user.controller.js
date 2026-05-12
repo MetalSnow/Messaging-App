@@ -17,6 +17,12 @@ const findUsers = asyncHandler(async (req, res) => {
   res.json({ data });
 });
 
+const findUser = asyncHandler((req, res) => {
+  const data = req.user;
+
+  res.json({ data });
+});
+
 const updateUserInfo = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const { name, username, email } = req.body;
@@ -82,6 +88,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 
 module.exports = {
   findUsers,
+  findUser,
   updateUserInfo,
   updateUserPassword,
   deleteUser,

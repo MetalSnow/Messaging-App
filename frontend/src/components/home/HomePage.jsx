@@ -17,16 +17,7 @@ const HomePage = () => {
   const { name } = useParams();
   return (
     <>
-      <Header>
-        <ul>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup">Signup</Link>
-          </li>
-        </ul>
-      </Header>
+      <Header />
       {name === 'signup' ? (
         <Signup />
       ) : name === 'login' ? (

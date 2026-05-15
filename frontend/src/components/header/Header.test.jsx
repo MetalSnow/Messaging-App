@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Header from './Header';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 // import userEvent from '@testing-library/user-event';
 import ThemeToggle from './ThemeToggle';
 /*global describe, it, expect, vi */
@@ -18,9 +18,9 @@ window.matchMedia =
 describe('Header component', () => {
   const renderHeader = () =>
     render(
-      <BrowserRouter>
-        <Header />
-      </BrowserRouter>,
+      <MemoryRouter>
+        <Header />,
+      </MemoryRouter>,
     );
 
   it('renders the main heading with app name', () => {
@@ -40,11 +40,11 @@ describe('Header component', () => {
     expect(img).toHaveAttribute('src', '/icons/rippleLogo.png');
   });
 
-  it('renders navigation landmark', () => {
+  it('renders unordered list', () => {
     renderHeader();
 
-    const nav = screen.getByRole('navigation');
-    expect(nav).toBeInTheDocument();
+    const ul = screen.getByRole('list');
+    expect(ul).toBeInTheDocument();
   });
 
   it('renders Login and Signup links', () => {

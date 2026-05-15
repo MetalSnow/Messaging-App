@@ -1,3 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`App component > renders correct heading 1`] = `"Welcome to RippleChat"`;

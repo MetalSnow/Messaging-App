@@ -32,7 +32,7 @@ const Dashboard = () => {
     getUserData();
   }, [fetchData]);
 
-  if (error) return <p>Server error occured!</p>;
+  if (error) return <p>{error.message}</p>;
 
   return (
     <>

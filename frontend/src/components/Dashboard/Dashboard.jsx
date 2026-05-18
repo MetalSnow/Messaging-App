@@ -13,12 +13,16 @@ import { useEffect, useState } from 'react';
 import styles from './Dashboard.module.css';
 import Aside from './Aside';
 import ThemeToggle from '../header/ThemeToggle';
+import { Outlet, useParams } from 'react-router-dom';
+import Friends from '../friends/Friends';
+import ErrorPage from '../../error/ErrorPage';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Dashboard = () => {
   const { fetchData, error, loading } = useFetch(`${API_URL}/user`);
   const [user, setUser] = useState(null);
+  const { name } = useParams();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -31,6 +35,10 @@ const Dashboard = () => {
     };
     getUserData();
   }, [fetchData]);
+
+  const validPages = ['friends'];
+
+  if (name && !validPages.includes(name)) return <ErrorPage />;
 
   if (error) return <p>{error.message}</p>;
 
@@ -68,35 +76,39 @@ const Dashboard = () => {
             </ul>
           </header>
           <div className={styles.container}>
-            <main>
-              <div>
-                <h1>
-                  Welcome back, {user?.username} <HeartHandshake />
-                </h1>
-                <p>Here's what's happening with your network today.</p>
-              </div>
-              <div>
+            {name === 'friends' ? (
+              <Friends />
+            ) : (
+              <main>
                 <div>
-                  <MessageCircle size={18} />
-                  <span>12 unread messages</span>
+                  <h1>
+                    Welcome back, {user?.username} <HeartHandshake />
+                  </h1>
+                  <p>Here's what's happening with your network today.</p>
                 </div>
-
                 <div>
-                  <Users size={18} />
-                  <span>3 active groups</span>
-                </div>
+                  <div>
+                    <MessageCircle size={18} />
+                    <span>12 unread messages</span>
+                  </div>
 
-                <button>
-                  <Plus size={18} />
-                  Start New Chat
-                </button>
-                <img
-                  src="/icons/rippleLogo.png"
-                  alt="ripple-logo"
-                  width={100}
-                />
-              </div>
-            </main>
+                  <div>
+                    <Users size={18} />
+                    <span>3 active groups</span>
+                  </div>
+
+                  <button>
+                    <Plus size={18} />
+                    Start New Chat
+                  </button>
+                  <img
+                    src="/icons/rippleLogo.png"
+                    alt="ripple-logo"
+                    width={100}
+                  />
+                </div>
+              </main>
+            )}
             <Aside />
           </div>
         </>

@@ -21,7 +21,6 @@ const useFetch = (url) => {
       }
 
       const result = await response.json();
-
       setLoading(false);
       return result.data;
     } catch (error) {

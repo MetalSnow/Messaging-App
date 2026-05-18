@@ -18,7 +18,7 @@ const Aside = () => {
       </h1>
       <ul>
         <li>
-          <Link>
+          <Link to="/dashboard">
             <LayoutDashboard />
             Dashboard
           </Link>
@@ -30,7 +30,7 @@ const Aside = () => {
           </Link>
         </li>
         <li>
-          <Link>
+          <Link to="/dashboard/friends">
             <Users />
             Friends
           </Link>

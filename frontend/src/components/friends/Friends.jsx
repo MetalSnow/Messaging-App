@@ -1,17 +1,25 @@
 import { useEffect, useState } from 'react';
 import useFetch from '../../hooks/useFetch';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, MessageCircleMore, UserRoundX } from 'lucide-react';
+import Modal from '../modal/Modal';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Friends = () => {
   const { fetchData, error, loading } = useFetch(`${API_URL}/friends`);
+  const [friendId, setFriendId] = useState(null);
+  const {
+    fetchData: removeFriend,
+    error: errorRemove,
+    loading: loadingRemove,
+  } = useFetch(`${API_URL}/friend-requests/${friendId}`);
   const [friendList, setFriendList] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const data = await fetchData();
+        const data = await fetchData('GET');
         setFriendList(data);
       } catch (error) {
         console.error(error);
@@ -20,7 +28,22 @@ const Friends = () => {
     getFriends();
   }, [fetchData]);
 
+  const openModal = (friendId) => {
+    setFriendId(friendId);
+    setIsOpen(true);
+  };
+
+  const handleRemoveFriend = async () => {
+    try {
+      const data = await removeFriend('DELETE');
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   if (error) return <p>Server error occured!</p>;
+
   return (
     <>
       <h2>Friend list</h2>
@@ -29,10 +52,32 @@ const Friends = () => {
       ) : (
         <ul>
           {friendList.map((friend) => (
-            <li key={friend.id}>{friend.username}</li>
+            <li key={friend.id}>
+              <p>{friend.username}</p>{' '}
+              <button onClick={() => {}}>
+                <MessageCircleMore />
+                Chat
+              </button>
+              <button onClick={() => openModal(friend.id)}>
+                <UserRoundX />
+                Unfriend
+              </button>
+            </li>
           ))}
         </ul>
       )}
+      <Modal modalIsOpen={modalIsOpen} closeModal={() => setIsOpen(false)}>
+        <h2>Remove Friend</h2>
+
+        <p>Are you sure you want to remove this user from your friends list?</p>
+        {errorRemove ? (
+          <p>Server error occured!</p>
+        ) : loadingRemove ? (
+          'Removing...'
+        ) : (
+          <button onClick={handleRemoveFriend}>Remove Friend</button>
+        )}
+      </Modal>
     </>
   );
 };

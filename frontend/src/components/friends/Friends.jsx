@@ -35,8 +35,11 @@ const Friends = () => {
 
   const handleRemoveFriend = async () => {
     try {
-      const data = await removeFriend('DELETE');
-      console.log(data);
+      await removeFriend('DELETE');
+      //Update the UI
+      const data = await fetchData('GET');
+      setFriendList(data);
+      setIsOpen(false);
     } catch (error) {
       console.error(error);
     }

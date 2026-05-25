@@ -16,6 +16,7 @@ import ThemeToggle from '../header/ThemeToggle';
 import { Outlet, useParams } from 'react-router-dom';
 import Friends from '../friends/Friends';
 import ErrorPage from '../../error/ErrorPage';
+import Messages from '../messages/Messages';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -36,12 +37,13 @@ const Dashboard = () => {
     getUserData();
   }, [fetchData]);
 
-  const validPages = ['friends'];
+  const validPages = ['friends', 'messages'];
 
   if (name && !validPages.includes(name)) return <ErrorPage />;
 
   if (error) return <p>{error.message}</p>;
 
+  console.log(name);
   return (
     <>
       {loading ? (
@@ -78,6 +80,8 @@ const Dashboard = () => {
           <div className={styles.container}>
             {name === 'friends' ? (
               <Friends />
+            ) : name === 'messages' ? (
+              <Messages />
             ) : (
               <main>
                 <div>

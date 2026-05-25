@@ -24,7 +24,7 @@ const Aside = () => {
           </Link>
         </li>
         <li>
-          <Link>
+          <Link to="/dashboard/messages">
             <MessageCircle />
             Messages
           </Link>

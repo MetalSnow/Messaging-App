@@ -2,19 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './HomePage';
 
-/*global describe, it, vi, expect */
-
-vi.mock('../header/Header', () => ({
-  default: () => <div>Header</div>,
-}));
-
-vi.mock('../auth/Login', () => ({
-  default: () => <div>Login Component</div>,
-}));
-
-vi.mock('../auth/Signup', () => ({
-  default: () => <div>Signup Component</div>,
-}));
+/*global describe, it, expect */
 
 describe('HomePage', () => {
   it('renders homepage content', () => {
@@ -31,27 +19,31 @@ describe('HomePage', () => {
     ).toBeInTheDocument();
   });
 
-  it('renders signup component', () => {
+  it('renders start chatting button', () => {
     render(
-      <MemoryRouter initialEntries={['/signup']}>
-        <Routes>
-          <Route path="/:name" element={<HomePage />} />
-        </Routes>
+      <MemoryRouter>
+        <HomePage />
       </MemoryRouter>,
     );
 
-    expect(screen.getByText('Signup Component')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /start chatting/i }),
+    ).toBeInTheDocument();
   });
 
-  it('renders login component', () => {
+  it('renders feature list items', () => {
     render(
-      <MemoryRouter initialEntries={['/login']}>
-        <Routes>
-          <Route path="/:name" element={<HomePage />} />
-        </Routes>
+      <MemoryRouter>
+        <HomePage />
       </MemoryRouter>,
     );
 
-    expect(screen.getByText('Login Component')).toBeInTheDocument();
+    expect(screen.getByText(/Real-time Messaging/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/End-to-End Encryption/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/Build Your Network/i)).toBeInTheDocument();
+
+    expect(screen.getByText(/Fast, Secure & Reliable/i)).toBeInTheDocument();
   });
 });

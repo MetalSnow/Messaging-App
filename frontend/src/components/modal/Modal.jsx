@@ -7,9 +7,9 @@ const Modal = ({ modalIsOpen, closeModal, children }) => {
 
   useEffect(() => {
     if (modalIsOpen) {
-      ref.current?.showModal();
+      ref.current.showModal?.();
     } else {
-      ref.current?.close();
+      ref.current.close?.();
     }
   }, [modalIsOpen]);
 

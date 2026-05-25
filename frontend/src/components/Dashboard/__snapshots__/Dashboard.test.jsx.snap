@@ -274,7 +274,7 @@ exports[`Dashboard component > renders header, aside and main content 1`] = `
         <li>
           <a
             data-discover="true"
-            href="/"
+            href="/dashboard"
           >
             <svg
               aria-hidden="true"
@@ -349,7 +349,7 @@ exports[`Dashboard component > renders header, aside and main content 1`] = `
         <li>
           <a
             data-discover="true"
-            href="/"
+            href="/dashboard/friends"
           >
             <svg
               aria-hidden="true"

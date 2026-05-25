@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Routes, Route } from 'react-router-dom';
 // import userEvent from '@testing-library/user-event';
 import Dashboard from './Dashboard';
 /*global describe, it, expect, vi */
@@ -27,8 +27,10 @@ vi.mock('../../hooks/useFetch', () => ({
 describe('Dashboard component', () => {
   it('renders header, aside and main content', () => {
     const { container } = render(
-      <MemoryRouter>
-        <Dashboard />
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route path="/:name?" element={<Dashboard />} />
+        </Routes>
       </MemoryRouter>,
     );
     screen.debug();

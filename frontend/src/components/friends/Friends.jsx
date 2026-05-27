@@ -1,32 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useFetch from '../../hooks/useFetch';
 import { LoaderCircle, MessageCircleMore, UserRoundX } from 'lucide-react';
 import Modal from '../modal/Modal';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Friends = () => {
-  const { fetchData, error, loading } = useFetch(`${API_URL}/friends`);
+const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
   const [friendId, setFriendId] = useState(null);
   const {
     fetchData: removeFriend,
     error: errorRemove,
     loading: loadingRemove,
   } = useFetch(`${API_URL}/friend-requests/${friendId}`);
-  const [friendList, setFriendList] = useState([]);
-  const [modalIsOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    const getFriends = async () => {
-      try {
-        const data = await fetchData('GET');
-        setFriendList(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getFriends();
-  }, [fetchData]);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const openModal = (friendId) => {
     setFriendId(friendId);

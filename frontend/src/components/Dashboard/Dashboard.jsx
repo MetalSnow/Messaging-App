@@ -22,20 +22,28 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const Dashboard = () => {
   const { fetchData, error, loading } = useFetch(`${API_URL}/user`);
+  const {
+    fetchData: fetchFriendList,
+    error: friendListError,
+    loading: friendListLoading,
+  } = useFetch(`${API_URL}/friends`);
+  const [friendList, setFriendList] = useState([]);
   const [user, setUser] = useState(null);
   const { name } = useParams();
 
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const data = await fetchData();
-        setUser(data);
+        const userData = await fetchData();
+        setUser(userData);
+        const friends = await fetchFriendList('GET');
+        setFriendList(friends);
       } catch (error) {
         console.error(error);
       }
     };
     getUserData();
-  }, [fetchData]);
+  }, [fetchData, fetchFriendList]);
 
   const validPages = ['friends', 'messages'];
 
@@ -43,7 +51,6 @@ const Dashboard = () => {
 
   if (error) return <p>{error.message}</p>;
 
-  console.log(name);
   return (
     <>
       {loading ? (
@@ -79,9 +86,19 @@ const Dashboard = () => {
           </header>
           <div className={styles.container}>
             {name === 'friends' ? (
-              <Friends />
+              <Friends
+                setFriendList={setFriendList}
+                friendList={friendList}
+                fetchData={fetchFriendList}
+                error={friendListError}
+                loading={friendListLoading}
+              />
             ) : name === 'messages' ? (
-              <Messages />
+              <Messages
+                friendList={friendList}
+                friendListError={friendListError}
+                friendListLoading={friendListLoading}
+              />
             ) : (
               <main>
                 <div>

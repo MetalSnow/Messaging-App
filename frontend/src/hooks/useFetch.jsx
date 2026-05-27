@@ -5,11 +5,12 @@ const useFetch = (url) => {
   const [error, setError] = useState(null);
 
   const fetchData = useCallback(
-    async (method) => {
+    async (method, id) => {
       setError(null);
       setLoading(true);
+      const fullUrl = id ? url + id : url;
       try {
-        const response = await fetch(url, {
+        const response = await fetch(fullUrl, {
           method,
           credentials: 'include',
         });

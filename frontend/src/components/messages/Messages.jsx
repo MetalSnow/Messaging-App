@@ -1,4 +1,9 @@
-import { ListFilter, LoaderCircle, MessageCircleMore } from 'lucide-react';
+import {
+  EllipsisVertical,
+  ListFilter,
+  LoaderCircle,
+  MessageCircleMore,
+} from 'lucide-react';
 import useFetch from '../../hooks/useFetch';
 import { useState } from 'react';
 
@@ -6,17 +11,17 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 const Messages = ({ friendList, friendListError, friendListLoading }) => {
   const { fetchData, error, loading } = useFetch(`${API_URL}/msgs/`);
-  const [msgs, setMsgs] = useState(null);
+  const [convo, setConvo] = useState(null);
 
-  const handleClickBtn = async (friendId) => {
+  const handleClickBtn = async (friend) => {
     try {
-      const msgs = await fetchData('GET', friendId);
-      setMsgs(msgs);
+      const msgs = await fetchData('GET', friend.id);
+      console.log(friend);
+      setConvo({ friend, msgs });
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <div>
       <h2>Messages</h2>
@@ -33,8 +38,8 @@ const Messages = ({ friendList, friendListError, friendListLoading }) => {
           <ul>
             {friendList.map((friend) => (
               <li key={friend.id}>
-                <button onClick={() => handleClickBtn(friend.id)}>
-                  {friend.username}
+                <button onClick={() => handleClickBtn(friend)}>
+                  {friend.name ?? friend.username}
                 </button>
               </li>
             ))}
@@ -42,7 +47,7 @@ const Messages = ({ friendList, friendListError, friendListLoading }) => {
         )}
       </div>
       <div>
-        {msgs === null ? (
+        {convo === null ? (
           <>
             {' '}
             <MessageCircleMore size={46} />
@@ -53,18 +58,40 @@ const Messages = ({ friendList, friendListError, friendListLoading }) => {
           <p>Server error occured</p>
         ) : loading ? (
           <LoaderCircle />
-        ) : msgs.length === 0 ? (
+        ) : convo.msgs.length === 0 ? (
           <>
+            <div>
+              <img src={null} alt="pfp" />
+              <div>
+                <p>{convo.friend.name ?? convo.friend.username}</p>
+                <p>{convo.friend.username}</p>
+              </div>
+              <button>
+                <EllipsisVertical />
+              </button>
+            </div>
             <MessageCircleMore size={46} />
             <h2>Say hello 👋</h2>
             <p>Start the conversation by sending a message.</p>
           </>
         ) : (
-          <ul>
-            {msgs.map((msg) => (
-              <li key={msg.id}>{msg.message}</li>
-            ))}
-          </ul>
+          <>
+            <div>
+              <img src={null} alt="pfp" />
+              <div>
+                <p>{convo.friend.name ?? convo.friend.username}</p>
+                <p>{convo.friend.username}</p>
+              </div>
+              <button>
+                <EllipsisVertical />
+              </button>
+            </div>
+            <ul>
+              {convo.msgs.map((msg) => (
+                <li key={msg.id}>{msg.message}</li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
     </div>

@@ -24,7 +24,9 @@ const getAllFriends = asyncHandler(async (req, res) => {
     },
   });
 
-  res.json({ data });
+  const filtredData = data.map(({ password, ...rest }) => rest);
+
+  res.json({ data: filtredData });
 });
 
 const sendRequest = asyncHandler(async (req, res) => {

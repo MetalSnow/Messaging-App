@@ -51,8 +51,8 @@ const signupUser = [
         errors: errors.array(),
       });
     }
-    const { username, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const { username, email, password: pswd } = req.body;
+    const hashedPassword = await bcrypt.hash(pswd, 10);
 
     const user = await prisma.user.create({
       data: {
@@ -62,15 +62,17 @@ const signupUser = [
       },
     });
 
+    const { password, ...rest } = user;
+    console.log(rest);
     res.json({
-      data: user,
+      data: rest,
       message: 'Account created successfully. You can now log in.',
     });
   }),
 ];
 
 const loginUser = asyncHandler((req, res) => {
-  const user = req.user;
+  const { password, ...user } = req.user;
   res.json({ success: true, data: user, message: 'Login successful.' });
 });
 

@@ -63,7 +63,7 @@ const signupUser = [
     });
 
     const { password, ...rest } = user;
-    console.log(rest);
+
     res.json({
       success: true,
       data: rest,

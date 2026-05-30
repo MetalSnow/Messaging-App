@@ -12,7 +12,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const loginUser = async (formData) => {
-    'use server';
     const username = formData.get('username');
     const password = formData.get('password');
 

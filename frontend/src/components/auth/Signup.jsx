@@ -12,7 +12,6 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const signupUser = async (formData) => {
-    'use server';
     const username = formData.get('username');
     const email = formData.get('email');
     const password = formData.get('password');

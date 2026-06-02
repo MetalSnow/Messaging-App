@@ -22,7 +22,7 @@ const getMessages = asyncHandler(async (req, res) => {
         ],
       },
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: 'asc' },
   });
 
   res.json({ data });

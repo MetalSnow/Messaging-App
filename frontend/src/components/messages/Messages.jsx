@@ -10,6 +10,7 @@ import styles from './Messages.module.css';
 import useFetch from '../../hooks/useFetch';
 import { useState } from 'react';
 import usePost from '../../hooks/usePost';
+import { format } from 'date-fns';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -114,7 +115,18 @@ const Messages = ({ friendList, friendListError, friendListLoading }) => {
                     <>
                       <ul>
                         {convo.msgs.map((msg) => (
-                          <li key={msg.id}>{msg.message}</li>
+                          <li key={msg.id}>
+                            <p>{msg.message}</p>
+                            <span>
+                              {format(
+                                new Date(msg.createdAt),
+                                'MM/dd/yy HH:mm',
+                              )}
+                            </span>
+                            <button>
+                              <EllipsisVertical />
+                            </button>
+                          </li>
                         ))}
                       </ul>
                     </>

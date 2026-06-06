@@ -32,13 +32,15 @@ const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
     }
   };
 
-  if (error) return <p>Server error occured!</p>;
-
   return (
     <>
       <h2>Friend list</h2>
-      {loading ? (
+      {error ? (
+        <p>Server error occured!</p>
+      ) : loading ? (
         <LoaderCircle />
+      ) : friendList.length == 0 ? (
+        <p>You haven't added any friends yet.</p>
       ) : (
         <ul>
           {friendList.map((friend) => (

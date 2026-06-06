@@ -95,6 +95,7 @@ const Dashboard = () => {
               />
             ) : name === 'messages' ? (
               <Messages
+                user={user}
                 friendList={friendList}
                 friendListError={friendListError}
                 friendListLoading={friendListLoading}

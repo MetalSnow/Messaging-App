@@ -14,7 +14,7 @@ import { format } from 'date-fns';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Messages = ({ friendList, friendListError, friendListLoading }) => {
+const Messages = ({ user, friendList, friendListError, friendListLoading }) => {
   const { fetchData, error, loading } = useFetch(`${API_URL}/msgs/`);
   const {
     postData,
@@ -114,20 +114,36 @@ const Messages = ({ friendList, friendListError, friendListLoading }) => {
                   ) : (
                     <>
                       <ul>
-                        {convo.msgs.map((msg) => (
-                          <li key={msg.id}>
-                            <p>{msg.message}</p>
-                            <span>
-                              {format(
-                                new Date(msg.createdAt),
-                                'MM/dd/yy HH:mm',
-                              )}
-                            </span>
-                            <button>
-                              <EllipsisVertical />
-                            </button>
-                          </li>
-                        ))}
+                        {convo.msgs.map((msg) => {
+                          const isEditable =
+                            new Date().getTime() -
+                              new Date(msg.createdAt).getTime() <
+                            5 * 60 * 1000;
+                          return (
+                            <li key={msg.id}>
+                              <p>{msg.message}</p>
+                              <span>
+                                {format(
+                                  new Date(msg.createdAt),
+                                  'MM/dd/yy HH:mm',
+                                )}
+                              </span>
+                              <button>
+                                <EllipsisVertical />
+                              </button>
+                              <div>
+                                {msg.senderId === user.id && isEditable && (
+                                  <button>Edit</button>
+                                )}
+                                <button>
+                                  {msg.senderId === user.id
+                                    ? 'unsend'
+                                    : 'remove'}
+                                </button>
+                              </div>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </>
                   )}

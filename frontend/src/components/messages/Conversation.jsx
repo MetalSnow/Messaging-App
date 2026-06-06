@@ -6,15 +6,20 @@ import {
   MessageCircleMore,
   Send,
 } from 'lucide-react';
-import styles from './Messages.module.css';
+import styles from './Conversation.module.css';
 import useFetch from '../../hooks/useFetch';
 import { useState } from 'react';
 import usePost from '../../hooks/usePost';
-import { format } from 'date-fns';
+import Message from './Message';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Messages = ({ user, friendList, friendListError, friendListLoading }) => {
+const Conversation = ({
+  user,
+  friendList,
+  friendListError,
+  friendListLoading,
+}) => {
   const { fetchData, error, loading } = useFetch(`${API_URL}/msgs/`);
   const {
     postData,
@@ -23,7 +28,7 @@ const Messages = ({ user, friendList, friendListError, friendListLoading }) => {
   } = usePost(`${API_URL}/msgs/`);
   const [convo, setConvo] = useState(null);
 
-  const handleClickBtn = async (friend) => {
+  const handleMsgsBtn = async (friend) => {
     try {
       const msgs = await fetchData('GET', friend.id);
       setConvo({ friend, msgs });
@@ -70,7 +75,7 @@ const Messages = ({ user, friendList, friendListError, friendListLoading }) => {
           <ul>
             {friendList.map((friend) => (
               <li key={friend.id}>
-                <button onClick={() => handleClickBtn(friend)}>
+                <button onClick={() => handleMsgsBtn(friend)}>
                   {friend.name ?? friend.username}
                 </button>
               </li>
@@ -114,36 +119,11 @@ const Messages = ({ user, friendList, friendListError, friendListLoading }) => {
                   ) : (
                     <>
                       <ul>
-                        {convo.msgs.map((msg) => {
-                          const isEditable =
-                            new Date().getTime() -
-                              new Date(msg.createdAt).getTime() <
-                            5 * 60 * 1000;
-                          return (
-                            <li key={msg.id}>
-                              <p>{msg.message}</p>
-                              <span>
-                                {format(
-                                  new Date(msg.createdAt),
-                                  'MM/dd/yy HH:mm',
-                                )}
-                              </span>
-                              <button>
-                                <EllipsisVertical />
-                              </button>
-                              <div>
-                                {msg.senderId === user.id && isEditable && (
-                                  <button>Edit</button>
-                                )}
-                                <button>
-                                  {msg.senderId === user.id
-                                    ? 'unsend'
-                                    : 'remove'}
-                                </button>
-                              </div>
-                            </li>
-                          );
-                        })}
+                        {convo.msgs.map((msg) => (
+                          <li key={msg.id}>
+                            <Message msg={msg} user={user} />
+                          </li>
+                        ))}
                       </ul>
                     </>
                   )}
@@ -174,4 +154,4 @@ const Messages = ({ user, friendList, friendListError, friendListLoading }) => {
   );
 };
 
-export default Messages;
+export default Conversation;

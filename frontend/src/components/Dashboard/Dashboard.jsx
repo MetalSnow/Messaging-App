@@ -16,7 +16,7 @@ import ThemeToggle from '../header/ThemeToggle';
 import { Outlet, useParams } from 'react-router-dom';
 import Friends from '../friends/Friends';
 import ErrorPage from '../../error/ErrorPage';
-import Messages from '../messages/Messages';
+import Conversation from '../messages/Conversation';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -94,7 +94,7 @@ const Dashboard = () => {
                 loading={friendListLoading}
               />
             ) : name === 'messages' ? (
-              <Messages
+              <Conversation
                 user={user}
                 friendList={friendList}
                 friendListError={friendListError}

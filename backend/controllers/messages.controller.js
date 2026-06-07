@@ -58,11 +58,12 @@ const editMessage = asyncHandler(async (req, res) => {
   const isLessThan5Minutes =
     Date.now() - new Date(msg.createdAt).getTime() < 5 * 60 * 1000;
 
-  if (isLessThan5Minutes) {
+  if (!isLessThan5Minutes) {
     return res.json({
-      message: 'Messages can be edited within 5 minutes of sending.',
+      message: 'Messages cannot be edited within 5 minutes of sending.',
     });
   }
+
   const data = await prisma.messages.update({
     where: {
       id: msgId,

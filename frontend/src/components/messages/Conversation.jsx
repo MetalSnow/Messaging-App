@@ -43,7 +43,7 @@ const Conversation = ({
 
     const friend = convo.friend;
     try {
-      await postData({ message }, convo.friend.id);
+      await postData('POST', { message }, convo.friend.id);
       // Update the UI
       const msgs = await fetchData('GET', friend.id);
       setConvo({ friend, msgs });
@@ -121,7 +121,13 @@ const Conversation = ({
                       <ul>
                         {convo.msgs.map((msg) => (
                           <li key={msg.id}>
-                            <Message msg={msg} user={user} />
+                            <Message
+                              msg={msg}
+                              user={user}
+                              refetchMsgs={fetchData}
+                              friend={convo.friend}
+                              setConvo={setConvo}
+                            />
                           </li>
                         ))}
                       </ul>

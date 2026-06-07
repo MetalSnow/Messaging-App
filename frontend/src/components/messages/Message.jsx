@@ -1,22 +1,30 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { format } from 'date-fns';
 import { EllipsisVertical } from 'lucide-react';
+import usePost from '../../hooks/usePost';
 
-const Message = ({ msg, user }) => {
+const API_URL = import.meta.env.VITE_API_URL;
+
+const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
   const [editInput, setEditInput] = useState(msg.message);
-  const formRef = useRef(null);
-  const paraRef = useRef(null);
-  const handleEdit = () => {
-    formRef.current.style = 'display: block;';
-    paraRef.current.style = 'display: none;';
-  };
+  const [showForm, setShowForm] = useState(false);
+  const { postData, error, loading } = usePost(`${API_URL}/msg/${msg.id}`);
 
-  const editMsg = (e, msgId) => {
+  const editMsg = async (e) => {
     e.preventDefault();
-    console.log(editInput);
-    formRef.current.style = 'display: none;';
-    paraRef.current.style = 'display: block;';
-    console.log(msgId);
+    if (editInput === '') return;
+
+    try {
+      const res = await postData('PATCH', { editedMsg: editInput });
+      console.log(res);
+      //Update the UI
+      const msgs = await refetchMsgs('GET', friend.id);
+      setConvo({ friend, msgs });
+    } catch (error) {
+      console.error(error);
+    }
+
+    setShowForm(false);
   };
 
   const isEditable =
@@ -24,26 +32,27 @@ const Message = ({ msg, user }) => {
 
   return (
     <>
-      <p ref={paraRef}>{msg.message}</p>
-      <form
-        onSubmit={(e) => editMsg(e, msg.id)}
-        ref={formRef}
-        style={{ display: 'none' }}
-      >
-        <input
-          onChange={(e) => setEditInput(e.target.value)}
-          type="text"
-          name="editedMsg"
-          value={editInput}
-        />
-      </form>
+      {!showForm && <p>{msg.message}</p>}
+      <span style={{ fontSize: '10px' }}>
+        {error ? 'Server error' : loading && 'loading...'}
+      </span>
+      {showForm && (
+        <form onSubmit={editMsg}>
+          <input
+            onChange={(e) => setEditInput(e.target.value)}
+            type="text"
+            name="editedMsg"
+            value={editInput}
+          />
+        </form>
+      )}
       <span>{format(new Date(msg.createdAt), 'MM/dd/yy HH:mm')}</span>
       <button>
         <EllipsisVertical />
       </button>
       <div>
         {msg.senderId === user.id && isEditable && (
-          <button onClick={handleEdit}>Edit</button>
+          <button onClick={() => setShowForm(true)}>Edit</button>
         )}
         <button>{msg.senderId === user.id ? 'unsend' : 'remove'}</button>
       </div>

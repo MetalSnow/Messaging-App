@@ -5,14 +5,14 @@ const usePost = (url) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const postData = async (data, id) => {
+  const postData = async (method, data, id) => {
     setError(null);
     setValidation(null);
     setLoading(true);
     const fullUrl = id ? url + id : url;
     try {
       const response = await fetch(fullUrl, {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json',
         },

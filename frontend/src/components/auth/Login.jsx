@@ -19,7 +19,7 @@ const Login = () => {
     setUsername(username);
 
     try {
-      const res = await postData(data);
+      const res = await postData('POST', data);
       if (res?.success) {
         navigate('/dashboard');
       }

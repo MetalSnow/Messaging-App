@@ -22,7 +22,7 @@ const Signup = () => {
     setEmail(email);
 
     try {
-      const res = await postData(data);
+      const res = await postData('POST', data);
       console.log(res);
       if (res?.success) {
         navigate('/login', {

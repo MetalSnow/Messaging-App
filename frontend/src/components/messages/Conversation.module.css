@@ -1,5 +1,15 @@
-.msgsContainer {
+.conversation {
+  color: white;
+
   & textarea {
     resize: none;
+  }
+
+  .messages {
+    /* margin-left: 250px;
+    width: 50%;
+    display: grid;
+    align-items: center;
+    justify-content: center; */
   }
 }

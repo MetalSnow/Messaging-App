@@ -60,7 +60,7 @@ const Conversation = ({
   };
 
   return (
-    <div className={styles.msgsContainer}>
+    <div className={styles.conversation}>
       <h2>Messages</h2>
       <div>
         <button>All</button>
@@ -83,7 +83,7 @@ const Conversation = ({
           </ul>
         )}
       </div>
-      <div>
+      <div className={styles.messages}>
         {convo === null ? (
           <>
             {' '}
@@ -120,7 +120,13 @@ const Conversation = ({
                     <>
                       <ul>
                         {convo.msgs.map((msg) => (
-                          <li key={msg.id}>
+                          <li
+                            key={msg.id}
+                            style={{
+                              backgroundColor:
+                                msg.senderId == user.id ? '#7646ff' : '#2c2c2c',
+                            }}
+                          >
                             <Message
                               msg={msg}
                               user={user}

@@ -1,6 +1,17 @@
-.aside {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
+.dashBoard {
+  width: 100%;
+  & header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  & main {
+    display: flex;
+    & div {
+      width: 80%;
+    }
+    & aside {
+      width: 20%;
+    }
+  }
 }

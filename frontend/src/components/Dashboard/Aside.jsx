@@ -12,10 +12,6 @@ import {
 const Aside = () => {
   return (
     <aside className={styles.aside}>
-      <h1>
-        <img src="/icons/rippleLogo.png" alt="ripple-logo" width={80} />
-        <span>RippleChat</span>
-      </h1>
       <ul>
         <li>
           <Link to="/dashboard">

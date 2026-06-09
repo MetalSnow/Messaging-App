@@ -56,8 +56,12 @@ const Dashboard = () => {
       {loading ? (
         <LoaderCircle />
       ) : (
-        <>
+        <div className={styles.dashBoard}>
           <header>
+            <h1>
+              <img src="/icons/rippleLogo.png" alt="ripple-logo" width={80} />
+              <span>RippleChat</span>
+            </h1>
             <label htmlFor="q">
               <Search />
               <input
@@ -84,7 +88,8 @@ const Dashboard = () => {
               </li>
             </ul>
           </header>
-          <div className={styles.container}>
+          <main>
+            <Aside />
             {name === 'friends' ? (
               <Friends
                 setFriendList={setFriendList}
@@ -101,7 +106,7 @@ const Dashboard = () => {
                 friendListLoading={friendListLoading}
               />
             ) : (
-              <main>
+              <div>
                 <div>
                   <h1>
                     Welcome back, {user?.username} <HeartHandshake />
@@ -129,11 +134,10 @@ const Dashboard = () => {
                     width={100}
                   />
                 </div>
-              </main>
+              </div>
             )}
-            <Aside />
-          </div>
-        </>
+          </main>
+        </div>
       )}
     </>
   );

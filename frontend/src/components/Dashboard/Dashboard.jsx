@@ -13,10 +13,11 @@ import { useEffect, useState } from 'react';
 import styles from './Dashboard.module.css';
 import Aside from './Aside';
 import ThemeToggle from '../header/ThemeToggle';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, Link } from 'react-router-dom';
 import Friends from '../friends/Friends';
 import ErrorPage from '../../error/ErrorPage';
 import Conversation from '../messages/Conversation';
+import Profile from '../profile/Profile';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -29,7 +30,7 @@ const Dashboard = () => {
   } = useFetch(`${API_URL}/friends`);
   const [friendList, setFriendList] = useState([]);
   const [user, setUser] = useState(null);
-  const { name } = useParams();
+  const { name, username } = useParams();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -45,9 +46,10 @@ const Dashboard = () => {
     getUserData();
   }, [fetchData, fetchFriendList]);
 
-  const validPages = ['friends', 'messages'];
+  const validPages = ['dashboard', 'friends', 'messages', 'profile'];
 
   if (name && !validPages.includes(name)) return <ErrorPage />;
+  if (name === 'profile' && !username) return <ErrorPage />;
 
   if (error) return <p>{error.message}</p>;
 
@@ -78,10 +80,10 @@ const Dashboard = () => {
                 </button>
               </li>
               <li>
-                <button>
+                <Link to={`/profile/${user?.username}`}>
                   <CircleUserRound />
                   <span>{user?.username}</span>
-                </button>
+                </Link>
               </li>
               <li>
                 <ThemeToggle />
@@ -105,6 +107,8 @@ const Dashboard = () => {
                 friendListError={friendListError}
                 friendListLoading={friendListLoading}
               />
+            ) : name === 'profile' && username ? (
+              <Profile />
             ) : (
               <div>
                 <div>
@@ -124,10 +128,10 @@ const Dashboard = () => {
                     <span>3 active groups</span>
                   </div>
 
-                  <button>
+                  <Link to="/messages">
                     <Plus size={18} />
                     Start New Chat
-                  </button>
+                  </Link>
                   <img
                     src="/icons/rippleLogo.png"
                     alt="ripple-logo"

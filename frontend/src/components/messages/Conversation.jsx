@@ -8,7 +8,8 @@ import {
 } from 'lucide-react';
 import styles from './Conversation.module.css';
 import useFetch from '../../hooks/useFetch';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import Message from './Message';
 
@@ -27,6 +28,22 @@ const Conversation = ({
     loading: loadingPost,
   } = usePost(`${API_URL}/msgs/`);
   const [convo, setConvo] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const fetchMsgs = async () => {
+      if (location.state) {
+        const friend = location.state;
+        try {
+          const msgs = await fetchData('GET', friend.id);
+          setConvo({ friend, msgs });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    fetchMsgs();
+  }, [location, fetchData]);
 
   const handleMsgsBtn = async (friend) => {
     try {
@@ -94,11 +111,13 @@ const Conversation = ({
         ) : (
           <>
             <div>
-              <img src={null} alt="pfp" />
-              <div>
-                <p>{convo.friend.name ?? convo.friend.username}</p>
-                <p>{convo.friend.username}</p>
-              </div>
+              <Link to={`/profile/${convo.friend.username.toLowerCase()}`}>
+                <img src={null} alt="pfp" />
+                <div>
+                  <p>{convo.friend.name ?? convo.friend.username}</p>
+                  <p>{convo.friend.username}</p>
+                </div>
+              </Link>
               <button>
                 <EllipsisVertical />
               </button>

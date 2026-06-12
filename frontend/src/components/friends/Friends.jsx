@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useFetch from '../../hooks/useFetch';
 import { LoaderCircle, MessageCircleMore, UserRoundX } from 'lucide-react';
 import Modal from '../modal/Modal';
+import { useNavigate, Link } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,8 +13,8 @@ const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
     error: errorRemove,
     loading: loadingRemove,
   } = useFetch(`${API_URL}/friend-requests/${friendId}`);
-
   const [modalIsOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const openModal = (friendId) => {
     setFriendId(friendId);
@@ -45,8 +46,10 @@ const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
         <ul>
           {friendList.map((friend) => (
             <li key={friend.id}>
-              <p>{friend.username}</p>{' '}
-              <button onClick={() => {}}>
+              <Link to={`/profile/${friend.username.toLowerCase()}`}>
+                {friend.username}
+              </Link>{' '}
+              <button onClick={() => navigate('/messages', { state: friend })}>
                 <MessageCircleMore />
                 Chat
               </button>

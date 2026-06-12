@@ -4,6 +4,7 @@ import HomePage from '../components/home/HomePage';
 import Signup from '../components/auth/Signup';
 import Login from '../components/auth/Login';
 import ErrorPage from '../error/ErrorPage';
+import Profile from '../components/profile/Profile';
 
 const routes = [
   {
@@ -11,21 +12,21 @@ const routes = [
     element: <App />,
     children: [
       {
-        path: '/',
+        path: '',
         element: <HomePage />,
       },
       {
-        path: '/signup',
+        path: 'signup',
         element: <Signup />,
       },
       {
-        path: '/login',
+        path: 'login',
         element: <Login />,
       },
     ],
   },
   {
-    path: 'dashboard/:name?',
+    path: '/:name/:username?',
     element: <Dashboard />,
   },
   {

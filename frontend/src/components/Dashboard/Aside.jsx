@@ -20,13 +20,13 @@ const Aside = () => {
           </Link>
         </li>
         <li>
-          <Link to="/dashboard/messages">
+          <Link to="/messages">
             <MessageCircle />
             Messages
           </Link>
         </li>
         <li>
-          <Link to="/dashboard/friends">
+          <Link to="/friends">
             <Users />
             Friends
           </Link>

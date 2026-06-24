@@ -1,5 +1,6 @@
 const express = require('express');
 const {
+  getCurrentUser,
   findUsers,
   updateUserInfo,
   deleteUser,
@@ -13,7 +14,8 @@ const userRouter = express.Router();
 userRouter.use(isAuth);
 
 userRouter.get('/users', findUsers);
-userRouter.get('/user', findUser);
+userRouter.get('/user', getCurrentUser);
+userRouter.get('/user/:userId', findUser);
 userRouter.patch('/user', updateUserInfo);
 userRouter.patch('/user/password', updateUserPassword);
 userRouter.delete('/user', deleteUser);

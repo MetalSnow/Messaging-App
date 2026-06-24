@@ -17,10 +17,23 @@ const findUsers = asyncHandler(async (req, res) => {
   res.json({ data });
 });
 
-const findUser = asyncHandler((req, res) => {
-  const data = req.user;
+const getCurrentUser = asyncHandler((req, res) => {
+  const { password, ...rest } = req.user;
 
-  res.json({ data });
+  return res.json({ data: rest });
+});
+
+const findUser = asyncHandler(async (req, res) => {
+  const userId = req.params.userId;
+  const user = await prisma.user.findFirst({
+    where: {
+      id: userId,
+    },
+  });
+
+  const { password, ...rest } = user;
+
+  res.json({ data: rest });
 });
 
 const updateUserInfo = asyncHandler(async (req, res) => {
@@ -87,6 +100,7 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  getCurrentUser,
   findUsers,
   findUser,
   updateUserInfo,

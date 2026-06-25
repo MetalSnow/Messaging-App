@@ -11,29 +11,42 @@ const Profile = () => {
   const { fetchData, loading, error } = useFetch(
     `${API_URL}/profile/${username}`,
   );
+  const {
+    fetchData: fetchUser,
+    loading: userLoading,
+    userError,
+  } = useFetch(`${API_URL}/user/`);
   const [data, setData] = useState(null);
 
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const res = await fetchData('GET');
-        console.log(res);
-        setData(res);
+        const profile = await fetchData('GET');
+        const { name, username } = await fetchUser('GET', profile.userId);
+
+        setData({ ...profile, name, username });
+        console.log({ ...profile, name, username });
       } catch (error) {
         console.error(error);
       }
     };
     getProfile();
-  }, [fetchData]);
+  }, [fetchData, fetchUser]);
 
   return (
     <div>
-      {error ? (
+      {error || userError ? (
         <p>Server error occured!</p>
-      ) : loading ? (
+      ) : loading || userLoading ? (
         <LoaderCircle />
       ) : (
-        <h1>{data?.userId}</h1>
+        <>
+          <div style={{ backgroundImage: `url(${data?.coverPic})` }}>
+            <img src={data?.profilePic} alt="profile-pic" />
+            <h1>{data?.name ?? data?.username}</h1>
+          </div>
+          <p>{data?.bio}</p>
+        </>
       )}
     </div>
   );

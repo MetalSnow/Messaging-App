@@ -24,7 +24,7 @@ const getCurrentUser = asyncHandler((req, res) => {
 });
 
 const findUser = asyncHandler(async (req, res) => {
-  const userId = req.params.userId;
+  const userId = Number(req.params.userId);
   const user = await prisma.user.findFirst({
     where: {
       id: userId,

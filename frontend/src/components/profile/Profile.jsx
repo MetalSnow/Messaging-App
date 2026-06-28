@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import { useEffect } from 'react';
-import { Heading1, LoaderCircle } from 'lucide-react';
+import { Heading1, LoaderCircle, UserCheck, UserPlus } from 'lucide-react';
 import { useState } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Profile = () => {
+const Profile = ({ friendList, user }) => {
   const { username } = useParams();
   const { fetchData, loading, error } = useFetch(
     `${API_URL}/profile/${username}`,
@@ -44,6 +44,21 @@ const Profile = () => {
           <div style={{ backgroundImage: `url(${data?.coverPic})` }}>
             <img src={data?.profilePic} alt="profile-pic" />
             <h1>{data?.name ?? data?.username}</h1>
+            {user?.username !== data?.username && (
+              <button>
+                {friendList.some(
+                  (friend) => friend.username === data?.username,
+                ) ? (
+                  <>
+                    <UserCheck /> Friends
+                  </>
+                ) : (
+                  <>
+                    <UserPlus /> Add friend
+                  </>
+                )}
+              </button>
+            )}
           </div>
           <p>{data?.bio}</p>
         </>

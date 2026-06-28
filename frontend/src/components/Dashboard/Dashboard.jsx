@@ -108,7 +108,7 @@ const Dashboard = () => {
                 friendListLoading={friendListLoading}
               />
             ) : name === 'profile' && username ? (
-              <Profile />
+              <Profile friendList={friendList} user={user} />
             ) : (
               <div>
                 <div>

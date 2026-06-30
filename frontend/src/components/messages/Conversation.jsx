@@ -111,7 +111,7 @@ const Conversation = ({
         ) : (
           <>
             <div>
-              <Link to={`/profile/${convo.friend.username.toLowerCase()}`}>
+              <Link to={`/profile/${convo.friend.username}`}>
                 <img src={null} alt="pfp" />
                 <div>
                   <p>{convo.friend.name ?? convo.friend.username}</p>

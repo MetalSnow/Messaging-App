@@ -1,7 +1,13 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import { useEffect } from 'react';
-import { Heading1, LoaderCircle, UserCheck, UserPlus } from 'lucide-react';
+import {
+  Heading1,
+  LoaderCircle,
+  MessageCircleMore,
+  UserCheck,
+  UserPlus,
+} from 'lucide-react';
 import { useState } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -17,6 +23,7 @@ const Profile = ({ friendList, user }) => {
     userError,
   } = useFetch(`${API_URL}/user/`);
   const [data, setData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getProfile = async () => {
@@ -45,19 +52,27 @@ const Profile = ({ friendList, user }) => {
             <img src={data?.profilePic} alt="profile-pic" />
             <h1>{data?.name ?? data?.username}</h1>
             {user?.username !== data?.username && (
-              <button>
+              <>
                 {friendList.some(
                   (friend) => friend.username === data?.username,
                 ) ? (
                   <>
-                    <UserCheck /> Friends
+                    <button>
+                      <UserCheck /> Friends
+                    </button>
+                    <button
+                      onClick={() => navigate('/messages', { state: data })}
+                    >
+                      <MessageCircleMore />
+                      Message
+                    </button>
                   </>
                 ) : (
-                  <>
+                  <button>
                     <UserPlus /> Add friend
-                  </>
+                  </button>
                 )}
-              </button>
+              </>
             )}
           </div>
           <p>{data?.bio}</p>

@@ -7,23 +7,23 @@ import { useNavigate, Link } from 'react-router-dom';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
-  const [friendId, setFriendId] = useState(null);
+  const [friend, setFriend] = useState(null);
   const {
     fetchData: removeFriend,
     error: errorRemove,
     loading: loadingRemove,
-  } = useFetch(`${API_URL}/friend-requests/${friendId}`);
+  } = useFetch(`${API_URL}/friend-requests/`);
   const [modalIsOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  const openModal = (friendId) => {
-    setFriendId(friendId);
+  const openModal = (friend) => {
+    setFriend(friend);
     setIsOpen(true);
   };
 
   const handleRemoveFriend = async () => {
     try {
-      await removeFriend('DELETE');
+      await removeFriend('DELETE', friend.id);
       //Update the UI
       const data = await fetchData('GET');
       setFriendList(data);
@@ -51,7 +51,7 @@ const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
                 <MessageCircleMore />
                 Chat
               </button>
-              <button onClick={() => openModal(friend.id)}>
+              <button onClick={() => openModal(friend)}>
                 <UserRoundX />
                 Unfriend
               </button>
@@ -60,15 +60,18 @@ const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
         </ul>
       )}
       <Modal modalIsOpen={modalIsOpen} closeModal={() => setIsOpen(false)}>
-        <h2>Remove Friend</h2>
+        <h2>Unfriend {friend?.name ?? friend?.username}</h2>
 
-        <p>Are you sure you want to remove this user from your friends list?</p>
+        <p>
+          Are you sure you want to remove {friend?.name ?? friend?.username} as
+          your friend?
+        </p>
         {errorRemove ? (
           <p>Server error occured!</p>
         ) : loadingRemove ? (
           'Removing...'
         ) : (
-          <button onClick={handleRemoveFriend}>Remove Friend</button>
+          <button onClick={handleRemoveFriend}>Confirm</button>
         )}
       </Modal>
     </>

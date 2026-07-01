@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
 import { useEffect } from 'react';
+import Modal from '../modal/Modal';
 import {
   Heading1,
   LoaderCircle,
@@ -12,11 +13,13 @@ import { useState } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Profile = ({ friendList, user }) => {
+const Profile = ({ friendList, user, fetchData, setFriendList }) => {
   const { username } = useParams();
-  const { fetchData, loading, error } = useFetch(
-    `${API_URL}/profile/${username}`,
-  );
+  const {
+    fetchData: fetchProfile,
+    loading,
+    error,
+  } = useFetch(`${API_URL}/profile/${username}`);
   const {
     fetchData: fetchUser,
     loading: userLoading,
@@ -24,11 +27,17 @@ const Profile = ({ friendList, user }) => {
   } = useFetch(`${API_URL}/user/`);
   const [data, setData] = useState(null);
   const navigate = useNavigate();
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const {
+    fetchData: removeFriend,
+    error: errorRemove,
+    loading: loadingRemove,
+  } = useFetch(`${API_URL}/friend-requests/`);
 
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const profile = await fetchData('GET');
+        const profile = await fetchProfile('GET');
         const { name, username } = await fetchUser('GET', profile.userId);
 
         setData({ ...profile, name, username });
@@ -38,7 +47,19 @@ const Profile = ({ friendList, user }) => {
       }
     };
     getProfile();
-  }, [fetchData, fetchUser]);
+  }, [fetchProfile, fetchUser]);
+
+  const handleRemoveFriend = async () => {
+    try {
+      await removeFriend('DELETE', data?.userId);
+      // Update the UI
+      const list = await fetchData('GET');
+      setFriendList(list);
+      setIsOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -57,7 +78,7 @@ const Profile = ({ friendList, user }) => {
                   (friend) => friend.username === data?.username,
                 ) ? (
                   <>
-                    <button>
+                    <button onClick={() => setIsOpen(true)}>
                       <UserCheck /> Friends
                     </button>
                     <button
@@ -78,6 +99,21 @@ const Profile = ({ friendList, user }) => {
           <p>{data?.bio}</p>
         </>
       )}
+      <Modal modalIsOpen={modalIsOpen} closeModal={() => setIsOpen(false)}>
+        <h2>Unfriend {data?.name ?? data?.username}</h2>
+
+        <p>
+          Are you sure you want to remove {data?.name ?? data?.username} as your
+          friend?
+        </p>
+        {errorRemove ? (
+          <p>Server error occured!</p>
+        ) : loadingRemove ? (
+          'Removing...'
+        ) : (
+          <button onClick={handleRemoveFriend}>Confirm</button>
+        )}
+      </Modal>
     </div>
   );
 };

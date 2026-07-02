@@ -1,5 +1,6 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/useFetch';
+import usePost from '../../hooks/usePost';
 import { useEffect } from 'react';
 import Modal from '../modal/Modal';
 import {
@@ -8,6 +9,7 @@ import {
   MessageCircleMore,
   UserCheck,
   UserPlus,
+  UserX,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -33,7 +35,12 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
     error: errorRemove,
     loading: loadingRemove,
   } = useFetch(`${API_URL}/friend-requests/`);
-
+  const {
+    postData,
+    error: errorRequest,
+    loading: loadingRequest,
+  } = usePost(`${API_URL}/friend-requests/`);
+  const [reqStatus, setReqSatatus] = useState(null);
   useEffect(() => {
     const getProfile = async () => {
       try {
@@ -56,6 +63,16 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
       const list = await fetchData('GET');
       setFriendList(list);
       setIsOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleFriendReq = async () => {
+    try {
+      const res = await postData('POST', undefined, data?.userId);
+      console.log(res);
+      setReqSatatus(res.status);
     } catch (error) {
       console.error(error);
     }
@@ -89,8 +106,18 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                     </button>
                   </>
                 ) : (
-                  <button>
-                    <UserPlus /> Add friend
+                  <button onClick={handleFriendReq}>
+                    {reqStatus === 'PENDING' ? (
+                      <>
+                        <UserX />
+                        Cancel request
+                      </>
+                    ) : (
+                      <>
+                        <UserPlus />
+                        Add friend
+                      </>
+                    )}
                   </button>
                 )}
               </>

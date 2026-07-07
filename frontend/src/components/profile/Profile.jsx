@@ -6,10 +6,12 @@ import Modal from '../modal/Modal';
 import {
   Heading1,
   LoaderCircle,
+  Mars,
   MessageCircleMore,
   UserCheck,
   UserPlus,
   UserX,
+  Venus,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -72,7 +74,17 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
     try {
       const res = await postData('POST', undefined, data?.userId);
       console.log(res);
-      setReqSatatus(res.status);
+      setReqSatatus(res.data.status);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleCancelReq = async () => {
+    try {
+      const res = await postData('DELETE', undefined, data?.userId);
+      console.log(res);
+      setReqSatatus(res.data.status);
     } catch (error) {
       console.error(error);
     }
@@ -88,7 +100,19 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
         <>
           <div style={{ backgroundImage: `url(${data?.coverPic})` }}>
             <img src={data?.profilePic} alt="profile-pic" />
-            <h1>{data?.name ?? data?.username}</h1>
+            <h1>
+              {data?.name ?? data?.username}{' '}
+              <span>
+                {' '}
+                {data?.gender === 'MALE' ? (
+                  <Mars size={18} color="#297fff" absoluteStrokeWidth />
+                ) : data?.gender === 'FEMALE' ? (
+                  <Venus size={18} color="#f56bff" absoluteStrokeWidth />
+                ) : (
+                  ''
+                )}
+              </span>
+            </h1>
             {user?.username !== data?.username && (
               <>
                 {friendList.some(
@@ -106,19 +130,25 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                     </button>
                   </>
                 ) : (
-                  <button onClick={handleFriendReq}>
+                  <>
                     {reqStatus === 'PENDING' ? (
-                      <>
+                      <button onClick={handleCancelReq}>
                         <UserX />
-                        Cancel request
-                      </>
+                        {errorRequest ? (
+                          'Error request'
+                        ) : loadingRequest ? (
+                          <LoaderCircle />
+                        ) : (
+                          'Cancel request'
+                        )}
+                      </button>
                     ) : (
-                      <>
+                      <button onClick={handleFriendReq}>
                         <UserPlus />
                         Add friend
-                      </>
+                      </button>
                     )}
-                  </button>
+                  </>
                 )}
               </>
             )}

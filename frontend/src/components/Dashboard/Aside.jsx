@@ -38,7 +38,7 @@ const Aside = () => {
           </Link>
         </li>
         <li>
-          <Link>
+          <Link to="/settings">
             <Settings />
             Settings
           </Link>

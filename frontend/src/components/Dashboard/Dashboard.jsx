@@ -18,6 +18,7 @@ import Friends from '../friends/Friends';
 import ErrorPage from '../../error/ErrorPage';
 import Conversation from '../messages/Conversation';
 import Profile from '../profile/Profile';
+import Settings from '../settings/Settings';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -46,7 +47,13 @@ const Dashboard = () => {
     getUserData();
   }, [fetchData, fetchFriendList]);
 
-  const validPages = ['dashboard', 'friends', 'messages', 'profile'];
+  const validPages = [
+    'dashboard',
+    'friends',
+    'messages',
+    'profile',
+    'settings',
+  ];
 
   if (name && !validPages.includes(name)) return <ErrorPage />;
   if (name === 'profile' && !username) return <ErrorPage />;
@@ -114,6 +121,8 @@ const Dashboard = () => {
                 fetchData={fetchFriendList}
                 setFriendList={setFriendList}
               />
+            ) : name === 'settings' ? (
+              <Settings user={user} />
             ) : (
               <div>
                 <div>

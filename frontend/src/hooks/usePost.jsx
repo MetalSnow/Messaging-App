@@ -13,11 +13,12 @@ const usePost = (url) => {
     try {
       const response = await fetch(fullUrl, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers:
+          data instanceof FormData
+            ? {}
+            : { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify(data),
+        body: data instanceof FormData ? data : JSON.stringify(data),
       });
 
       if (response.status === 500) {

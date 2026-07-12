@@ -12,14 +12,10 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const signupUser = async (formData) => {
-    const username = formData.get('username');
-    const email = formData.get('email');
-    const password = formData.get('password');
-    const confirmedPassword = formData.get('confirmedPassword');
+    const data = Object.fromEntries(formData.entries());
 
-    const data = { username, email, password, confirmedPassword };
-    setUsername(username);
-    setEmail(email);
+    setUsername(data.username);
+    setEmail(data.email);
 
     try {
       const res = await postData('POST', data);

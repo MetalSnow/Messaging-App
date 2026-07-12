@@ -9,6 +9,7 @@ import useFetch from '../../hooks/useFetch';
 import { useEffect, useState } from 'react';
 import styles from './Settings.module.css';
 import Select from 'react-select';
+import usePost from '../../hooks/usePost';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -18,6 +19,11 @@ const Settings = ({ user }) => {
     loading,
     error,
   } = useFetch(`${API_URL}/profile/${user?.username}`);
+  const {
+    postData: patchData,
+    loading: loadingPatch,
+    error: errorPatch,
+  } = usePost(`${API_URL}/profile/`);
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(null);
 
@@ -35,6 +41,15 @@ const Settings = ({ user }) => {
     getProfile();
   }, [fetchProfile, user]);
 
+  const editProfile = async (formData) => {
+    try {
+      const res = await patchData('PATCH', formData, user.id);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className={styles.settings}>
       <h2>Settings & privacy</h2>
@@ -44,29 +59,42 @@ const Settings = ({ user }) => {
       ) : loading ? (
         <LoaderCircle />
       ) : (
-        <form style={{ backgroundColor: editMode === 'profile' && '#4a5568' }}>
+        <form
+          action={editProfile}
+          style={{ backgroundColor: editMode === 'profile' && '#4a5568' }}
+        >
           <button type="button" onClick={() => setEditMode('profile')}>
             Edit <SquarePen />
           </button>
-          <div>
-            <p>Profile picture:</p>
+          <label htmlFor="profilePic">
+            Profile picture:
             <img src={profile?.profilePic} alt="profile-pic" width="80px" />
             {editMode === 'profile' && (
-              <button type="button" style={{}}>
-                Change
-              </button>
+              <input
+                type="file"
+                name="profilePic"
+                id="profilePic"
+                accept="image/png, image/jpeg"
+              />
             )}
-          </div>
-          <div>
-            <p>Cover picture:</p>
+          </label>
+          <label htmlFor="coverPic">
+            Cover picture:
             <img
               src={profile?.coverPic}
               alt="cover-pic"
               width={160}
               height={80}
             />
-            {editMode === 'profile' && <button type="button">Change</button>}
-          </div>
+            {editMode === 'profile' && (
+              <input
+                type="file"
+                name="coverPic"
+                id="coverPic"
+                accept="image/png, image/jpeg"
+              />
+            )}
+          </label>
           <label htmlFor="gender">
             Gender:
             {editMode === 'profile' ? (
@@ -103,14 +131,25 @@ const Settings = ({ user }) => {
           <label htmlFor="bio">
             Bio:
             {editMode === 'profile' ? (
-              <input type="text" defaultValue={profile?.bio} />
+              <input
+                type="text"
+                name="bio"
+                id="bio"
+                defaultValue={profile?.bio}
+              />
             ) : (
               <p>{profile?.bio}</p>
             )}
           </label>
           {editMode === 'profile' && (
             <>
-              <button type="submit">Save</button>
+              {loadingPatch ? (
+                <LoaderCircle />
+              ) : errorPatch ? (
+                <p>Server error!</p>
+              ) : (
+                <button type="submit">Save</button>
+              )}
               <button type="button" onClick={() => setEditMode(null)}>
                 Cancel
               </button>

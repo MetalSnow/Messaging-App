@@ -26,38 +26,48 @@ const getProfile = asyncHandler(async (req, res) => {
   res.json({ data: profile });
 });
 
-const editProfile = asyncHandler(async (req, res) => {
+const editProfile = asyncHandler(async (req, res, next) => {
   const userId = Number(req.params.id);
   const { bio, gender } = req.body;
   const profilePic = req.files['profilePic'];
   const coverPic = req.files['coverPic'];
-  let profilePath;
-  let coverPath;
+  let profilePublicUrl;
+  let coverPublicUrl;
 
   if (profilePic) {
-    profilePath = `${userId}/${Date.now()}-${profilePic[0].originalname}`;
+    const profilePath = `${userId}/${Date.now()}-${profilePic[0].originalname}`;
 
     const { data, error } = await supabase.storage
       .from('avatar')
-      .upload(profilePath, profilePic[0].buffer);
+      .upload(profilePath, profilePic[0].buffer, {
+        contentType: profilePic[0].mimetype,
+      });
 
     if (error) {
       console.error('Upload error:', error);
       return next(error);
     }
+
+    profilePublicUrl = supabase.storage.from('avatar').getPublicUrl(profilePath)
+      .data.publicUrl;
   }
 
   if (coverPic) {
-    coverPath = `${userId}/${Date.now()}-${coverPic[0].originalname}`;
+    const coverPath = `${userId}/${Date.now()}-${coverPic[0].originalname}`;
 
     const { data, error } = await supabase.storage
       .from('cover')
-      .upload(coverPath, coverPic[0].buffer);
+      .upload(coverPath, coverPic[0].buffer, {
+        contentType: coverPic[0].mimetype,
+      });
 
     if (error) {
       console.error('Upload error:', error);
       return next(error);
     }
+
+    coverPublicUrl = supabase.storage.from('cover').getPublicUrl(coverPath)
+      .data.publicUrl;
   }
 
   const data = await prisma.profile.update({
@@ -67,8 +77,8 @@ const editProfile = asyncHandler(async (req, res) => {
     data: {
       bio,
       gender,
-      profilePic: profilePath,
-      coverPic: coverPath,
+      profilePic: profilePublicUrl,
+      coverPic: coverPublicUrl,
     },
   });
 

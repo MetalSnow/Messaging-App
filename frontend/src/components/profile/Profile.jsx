@@ -50,7 +50,6 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
         const { name, username } = await fetchUser('GET', profile.userId);
 
         setData({ ...profile, name, username });
-        console.log({ ...profile, name, username });
       } catch (error) {
         console.error(error);
       }

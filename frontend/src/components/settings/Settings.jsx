@@ -41,10 +41,13 @@ const Settings = ({ user }) => {
     getProfile();
   }, [fetchProfile, user]);
 
-  const editProfile = async (formData) => {
+  const editProfile = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
     try {
       const res = await patchData('PATCH', formData, user.id);
-      console.log(res);
+      setProfile(res.profile);
+      setEditMode(null);
     } catch (error) {
       console.error(error);
     }
@@ -57,10 +60,10 @@ const Settings = ({ user }) => {
       {error ? (
         <p>Server error occured!</p>
       ) : loading ? (
-        <LoaderCircle />
+        <LoaderCircle className={styles.loader} />
       ) : (
         <form
-          action={editProfile}
+          onSubmit={editProfile}
           style={{ backgroundColor: editMode === 'profile' && '#4a5568' }}
         >
           <button type="button" onClick={() => setEditMode('profile')}>
@@ -98,7 +101,7 @@ const Settings = ({ user }) => {
           <label htmlFor="gender">
             Gender:
             {editMode === 'profile' ? (
-              <select name="gender" id="gender">
+              <select name="gender" id="gender" defaultValue={profile?.gender}>
                 <option value="MALE">Male</option>
                 <option value="FEMALE">Female</option>
                 <option value="OTHER">Other</option>
@@ -144,13 +147,17 @@ const Settings = ({ user }) => {
           {editMode === 'profile' && (
             <>
               {loadingPatch ? (
-                <LoaderCircle />
+                <LoaderCircle className={styles.loader} />
               ) : errorPatch ? (
                 <p>Server error!</p>
               ) : (
                 <button type="submit">Save</button>
               )}
-              <button type="button" onClick={() => setEditMode(null)}>
+              <button
+                type="button"
+                onClick={() => setEditMode(null)}
+                disabled={loadingPatch}
+              >
                 Cancel
               </button>
             </>

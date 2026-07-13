@@ -13,4 +13,13 @@
     border-radius: 10px;
     border: 1px solid white;
   }
+  & .loader {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

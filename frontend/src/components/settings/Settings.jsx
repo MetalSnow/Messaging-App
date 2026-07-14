@@ -13,7 +13,7 @@ import usePost from '../../hooks/usePost';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Settings = ({ user }) => {
+const Settings = ({ user, setUser }) => {
   const {
     fetchData: fetchProfile,
     loading,
@@ -24,6 +24,11 @@ const Settings = ({ user }) => {
     loading: loadingPatch,
     error: errorPatch,
   } = usePost(`${API_URL}/profile/`);
+  const {
+    postData: patchUser,
+    loading: loadingUser,
+    error: errorUser,
+  } = usePost(`${API_URL}/user`);
   const [profile, setProfile] = useState(null);
   const [editMode, setEditMode] = useState(null);
 
@@ -43,11 +48,19 @@ const Settings = ({ user }) => {
 
   const editProfile = async (e) => {
     e.preventDefault();
+
     const formData = new FormData(e.currentTarget);
     try {
-      const res = await patchData('PATCH', formData, user.id);
-      setProfile(res.profile);
-      setEditMode(null);
+      if (editMode === 'profile') {
+        const res = await patchData('PATCH', formData, user.id);
+        setProfile(res.profile);
+        setEditMode(null);
+      } else if (editMode === 'account') {
+        const updatedUser = Object.fromEntries(formData.entries());
+        const res = await patchUser('PATCH', updatedUser);
+        setUser(res.data);
+        setEditMode(null);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -165,7 +178,10 @@ const Settings = ({ user }) => {
         </form>
       )}
       <h3>Account details</h3>
-      <form style={{ backgroundColor: editMode === 'account' && '#4a5568' }}>
+      <form
+        onSubmit={editProfile}
+        style={{ backgroundColor: editMode === 'account' && '#4a5568' }}
+      >
         <button type="button" onClick={() => setEditMode('account')}>
           Edit <SquarePen />
         </button>

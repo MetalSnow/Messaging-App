@@ -122,7 +122,7 @@ const Dashboard = () => {
                 setFriendList={setFriendList}
               />
             ) : name === 'settings' ? (
-              <Settings user={user} />
+              <Settings user={user} setUser={setUser} />
             ) : (
               <div>
                 <div>

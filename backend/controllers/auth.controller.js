@@ -3,7 +3,6 @@ const prisma = require('../config/prismaClient');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 
-const alphaErr = 'must only contain letters.';
 const lengthErr = 'must be minimum 3 characters.';
 
 const validateUser = [

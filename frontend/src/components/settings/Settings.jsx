@@ -28,8 +28,16 @@ const Settings = ({ user, setUser }) => {
     postData: patchUser,
     loading: loadingUser,
     error: errorUser,
+    validation: userValidation,
   } = usePost(`${API_URL}/user`);
+  const {
+    postData: patchPassword,
+    loading: loadingPassword,
+    error: errorPassword,
+    validation: passwordValidation,
+  } = usePost(`${API_URL}/user/password`);
   const [profile, setProfile] = useState(null);
+  const [passwordMsg, setpasswordMsg] = useState(null);
   const [editMode, setEditMode] = useState(null);
 
   useEffect(() => {
@@ -58,8 +66,18 @@ const Settings = ({ user, setUser }) => {
       } else if (editMode === 'account') {
         const updatedUser = Object.fromEntries(formData.entries());
         const res = await patchUser('PATCH', updatedUser);
+        console.log(res);
         setUser(res.data);
-        setEditMode(null);
+        if (res.data) {
+          setEditMode(null);
+        }
+      } else if (editMode === 'password') {
+        const updatedPassword = Object.fromEntries(formData.entries());
+        const res = await patchPassword('PATCH', updatedPassword);
+        setpasswordMsg(res.message);
+        if (res.data) {
+          setEditMode(null);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -185,6 +203,15 @@ const Settings = ({ user, setUser }) => {
         <button type="button" onClick={() => setEditMode('account')}>
           Edit <SquarePen />
         </button>
+        {userValidation && (
+          <ul>
+            {userValidation.map((error, index) => (
+              <li key={index} style={{ color: 'red' }}>
+                {error.msg}
+              </li>
+            ))}
+          </ul>
+        )}
         <label htmlFor="name">
           Name:
           <input
@@ -193,6 +220,7 @@ const Settings = ({ user, setUser }) => {
             id="name"
             defaultValue={user?.name}
             disabled={editMode !== 'account'}
+            placeholder="Name"
           />
         </label>
         <label htmlFor="username">
@@ -203,6 +231,8 @@ const Settings = ({ user, setUser }) => {
             id="username"
             defaultValue={user?.username}
             disabled={editMode !== 'account'}
+            placeholder="Username"
+            required
           />
         </label>
         <label htmlFor="email">
@@ -213,41 +243,100 @@ const Settings = ({ user, setUser }) => {
             id="email"
             defaultValue={user?.email}
             disabled={editMode !== 'account'}
+            placeholder="Email address"
+            required
           />
         </label>
         {editMode === 'account' && (
           <>
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => setEditMode(null)}>
+            {loadingUser ? (
+              <LoaderCircle className={styles.loader} />
+            ) : errorUser ? (
+              <p>Server error!</p>
+            ) : (
+              <button type="submit">Save</button>
+            )}
+            <button
+              type="button"
+              onClick={() => setEditMode(null)}
+              disabled={loadingPatch}
+            >
               Cancel
             </button>
           </>
         )}
       </form>
       <h3>Security & Password</h3>
-      <form style={{ backgroundColor: editMode === 'password' && '#4a5568' }}>
-        <button type="button" onClick={() => setEditMode('password')}>
+      <form
+        onSubmit={editProfile}
+        style={{ backgroundColor: editMode === 'password' && '#4a5568' }}
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setEditMode('password');
+            setpasswordMsg(null);
+          }}
+        >
           Change password <SquarePen />
         </button>
-        {editMode === 'password' && (
+        {passwordMsg && <p style={{ color: '#8ffb61dd' }}>{passwordMsg}</p>}
+        {editMode === 'password' ? (
           <div>
-            <label htmlFor="password">
+            {passwordValidation && (
+              <ul>
+                {passwordValidation.map((error, index) => (
+                  <li key={index} style={{ color: 'red' }}>
+                    {error.msg}
+                  </li>
+                ))}
+              </ul>
+            )}
+            <label htmlFor="currentPassword">
               Current Password:
-              <input type="password" name="password" id="password" />
+              <input
+                type="password"
+                name="currentPassword"
+                id="currentPassword"
+                placeholder="Current password"
+                required
+              />
             </label>
-            <label htmlFor="password">
+            <label htmlFor="newPassword">
               New Password:
-              <input type="password" name="password" id="password" />
+              <input
+                type="password"
+                name="newPassword"
+                id="newPassword"
+                placeholder="New Password"
+                required
+              />
             </label>
-            <label htmlFor="password">
+            <label htmlFor="confirmedPassword">
               Re-type new Password:
-              <input type="password" name="password" id="password" />
+              <input
+                type="password"
+                name="confirmedPassword"
+                id="confirmedPassword"
+                placeholder="Confirm new password"
+                required
+              />
             </label>
-            <button type="submit">Save</button>
+            {loadingPassword ? (
+              <LoaderCircle className={styles.loader} />
+            ) : errorPassword ? (
+              <p>Server error!</p>
+            ) : (
+              <button type="submit">Save</button>
+            )}
             <button type="button" onClick={() => setEditMode(null)}>
               Cancel
             </button>
           </div>
+        ) : (
+          <label>
+            Password: <input type="password" value="**************" disabled />
+          </label>
         )}
       </form>
       <button>Log out</button>

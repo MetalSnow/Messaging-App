@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import styles from './Settings.module.css';
 import Select from 'react-select';
 import usePost from '../../hooks/usePost';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../modal/Modal';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -36,9 +38,16 @@ const Settings = ({ user, setUser }) => {
     error: errorPassword,
     validation: passwordValidation,
   } = usePost(`${API_URL}/user/password`);
+  const {
+    postData: postLogOut,
+    loading: loadingLogOut,
+    error: errorLogOut,
+  } = usePost(`${API_URL}/logout`);
   const [profile, setProfile] = useState(null);
   const [passwordMsg, setpasswordMsg] = useState(null);
   const [editMode, setEditMode] = useState(null);
+  const navigate = useNavigate();
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const getProfile = async () => {
@@ -79,6 +88,15 @@ const Settings = ({ user, setUser }) => {
           setEditMode(null);
         }
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLogOut = async () => {
+    try {
+      await postLogOut('POST');
+      navigate('/');
     } catch (error) {
       console.error(error);
     }
@@ -339,8 +357,19 @@ const Settings = ({ user, setUser }) => {
           </label>
         )}
       </form>
-      <button>Log out</button>
+      <button onClick={() => setIsOpen(true)}>Log out</button>
       <button>Delete Account</button>
+      <Modal modalIsOpen={modalIsOpen} closeModal={() => setIsOpen(false)}>
+        <h2>Log out?</h2>
+        <p>Are you sure you want to log out?</p>
+        {errorLogOut ? (
+          <p>Server error!</p>
+        ) : loadingLogOut ? (
+          <LoaderCircle className={styles.loader} />
+        ) : (
+          <button onClick={handleLogOut}>Log out</button>
+        )}
+      </Modal>
     </div>
   );
 };

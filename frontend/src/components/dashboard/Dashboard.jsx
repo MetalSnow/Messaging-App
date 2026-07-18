@@ -19,6 +19,7 @@ import ErrorPage from '../../error/ErrorPage';
 import Conversation from '../messages/Conversation';
 import Profile from '../profile/Profile';
 import Settings from '../settings/Settings';
+import Notifications from '../notificaions/Notifications';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -85,6 +86,7 @@ const Dashboard = () => {
                 <button>
                   <Bell />
                 </button>
+                <Notifications />
               </li>
               <li>
                 <Link to={`/profile/${user?.username}`}>

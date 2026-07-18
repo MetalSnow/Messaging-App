@@ -183,11 +183,11 @@ const Settings = ({ user, setUser }) => {
           <label htmlFor="bio">
             Bio:
             {editMode === 'profile' ? (
-              <input
-                type="text"
+              <textarea
                 name="bio"
                 id="bio"
                 defaultValue={profile?.bio}
+                placeholder="Write your bio..."
               />
             ) : (
               <p>{profile?.bio}</p>

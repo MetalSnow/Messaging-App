@@ -29,6 +29,32 @@ const getAllFriends = asyncHandler(async (req, res) => {
   res.json({ data: filtredData });
 });
 
+const getFriendReqs = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+
+  const users = await prisma.friends.findMany({
+    where: {
+      OR: [{ userId1: userId }, { userId2: userId }],
+      status: 'PENDING',
+    },
+  });
+
+  // filter current user's up coming requests
+  const upComingReqs = users.map((obj) => obj.userId2 == userId && obj.userId1);
+
+  const data = await prisma.user.findMany({
+    where: {
+      id: {
+        in: upComingReqs,
+      },
+    },
+  });
+
+  const filtredData = data.map(({ password, ...rest }) => rest);
+
+  res.json({ data: filtredData });
+});
+
 const sendRequest = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const recipientId = Number(req.params.recipientId);
@@ -78,4 +104,10 @@ const deleteReq = asyncHandler(async (req, res) => {
   res.json({ data, message: 'Request Rejected' });
 });
 
-module.exports = { getAllFriends, sendRequest, updateReqStatus, deleteReq };
+module.exports = {
+  getAllFriends,
+  sendRequest,
+  updateReqStatus,
+  deleteReq,
+  getFriendReqs,
+};

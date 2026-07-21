@@ -14,12 +14,19 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+app.use(
+  cors({
+    credentials: true,
+    origin: 'http://localhost:5173',
+  }),
+);
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(express.static('public'));
+
+const isProd = process.env.NODE_ENV === 'production';
 
 app.use(
   session({
@@ -28,8 +35,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      sameSite: 'lax',
-      httpOnly: true,
+      sameSite: isProd ? 'none' : 'lax',
+      secure: isProd,
     },
 
     store: new PrismaSessionStore(prisma, {

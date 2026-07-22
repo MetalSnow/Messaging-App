@@ -86,7 +86,10 @@ const Dashboard = () => {
                 <button>
                   <Bell />
                 </button>
-                <Notifications />
+                <Notifications
+                  setFriendList={setFriendList}
+                  fetchFriendList={fetchFriendList}
+                />
               </li>
               <li>
                 <Link to={`/profile/${user?.username}`}>

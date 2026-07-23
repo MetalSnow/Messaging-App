@@ -20,6 +20,7 @@ import Conversation from '../messages/Conversation';
 import Profile from '../profile/Profile';
 import Settings from '../settings/Settings';
 import Notifications from '../notificaions/Notifications';
+import SearchBar from '../searchBar/SearchBar';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -33,6 +34,8 @@ const Dashboard = () => {
   const [friendList, setFriendList] = useState([]);
   const [user, setUser] = useState(null);
   const { name, username } = useParams();
+  const [notifToggle, setNotifToggle] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
     const getUserData = async () => {
@@ -47,6 +50,14 @@ const Dashboard = () => {
     };
     getUserData();
   }, [fetchData, fetchFriendList]);
+
+  useEffect(() => {
+    if (!notifToggle) return;
+
+    document.addEventListener('mousedown', () => setNotifToggle(false));
+    return () =>
+      document.removeEventListener('mousedown', setNotifToggle(false));
+  }, [notifToggle]);
 
   const validPages = [
     'dashboard',
@@ -72,24 +83,36 @@ const Dashboard = () => {
               <img src="/icons/rippleLogo.png" alt="ripple-logo" width={80} />
               <span>RippleChat</span>
             </h1>
-            <label htmlFor="q">
-              <Search />
-              <input
-                type="search"
-                name="q"
-                id="q"
-                placeholder="Search users..."
-              />
-            </label>
+            <div>
+              <label htmlFor="q">
+                <Search />
+                <input
+                  type="search"
+                  name="q"
+                  id="q"
+                  placeholder="Search users..."
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+              </label>
+              <SearchBar searchInput={searchInput} />
+            </div>
+
             <ul>
               <li>
-                <button>
+                <button
+                  onClick={() =>
+                    notifToggle ? setNotifToggle(false) : setNotifToggle(true)
+                  }
+                >
                   <Bell />
                 </button>
-                <Notifications
-                  setFriendList={setFriendList}
-                  fetchFriendList={fetchFriendList}
-                />
+                {notifToggle && (
+                  <Notifications
+                    setFriendList={setFriendList}
+                    fetchFriendList={fetchFriendList}
+                  />
+                )}
               </li>
               <li>
                 <Link to={`/profile/${user?.username}`}>

@@ -52,6 +52,8 @@ const Notifications = ({ fetchFriendList, setFriendList }) => {
         <p>Server error occured.</p>
       ) : loading ? (
         <LoaderCircle />
+      ) : requests.length === 0 ? (
+        <p>No friend requests</p>
       ) : (
         requests.map((req) => (
           <li key={req.id}>

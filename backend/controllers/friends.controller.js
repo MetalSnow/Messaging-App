@@ -40,7 +40,9 @@ const getFriendReqs = asyncHandler(async (req, res) => {
   });
 
   // filter current user's up coming requests
-  const upComingReqs = users.map((obj) => obj.userId2 == userId && obj.userId1);
+  const upComingReqs = users
+    .filter((obj) => obj.userId2 === userId)
+    .map((obj) => obj.userId1);
 
   const data = await prisma.user.findMany({
     where: {
@@ -48,6 +50,7 @@ const getFriendReqs = asyncHandler(async (req, res) => {
         in: upComingReqs,
       },
     },
+    include: { profile: true },
   });
 
   const filtredData = data.map(({ password, ...rest }) => rest);

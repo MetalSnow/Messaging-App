@@ -26,23 +26,24 @@ enum Gender {
   FEMALE
   OTHER
 }
+
 enum Status {
-  PENDING 
+  PENDING
   ACCEPTED
 }
 
 model User {
   id               Int        @id @default(autoincrement())
-  name             String?     @db.VarChar(100)
+  name             String?    @db.VarChar(100)
   username         String     @unique @db.VarChar(50)
   email            String     @unique @db.VarChar(255)
   password         String     @db.VarChar(255)
-  profiles         Profile?
+  profile          Profile?
   friends1         Friends[]  @relation("UserFriends1")
   friends2         Friends[]  @relation("UserFriends2")
   sentMessages     Messages[] @relation("sentMessages")
   receivedMessages Messages[] @relation("receivedMessages")
-  messages         Messages[]  @relation("deletedBy")
+  messages         Messages[] @relation("deletedBy")
 }
 
 model Profile {
@@ -72,8 +73,8 @@ model Messages {
   senderId   Int
   receiverId Int
   createdAt  DateTime @default(now())
-  deletedBy  Int?     
-  user       User?     @relation("deletedBy", fields: [deletedBy], references: [id])
+  deletedBy  Int?
+  user       User?    @relation("deletedBy", fields: [deletedBy], references: [id])
 
   user1 User @relation("sentMessages", fields: [senderId], references: [id])
   user2 User @relation("receivedMessages", fields: [receiverId], references: [id])

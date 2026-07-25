@@ -74,8 +74,13 @@ const findUsers = asyncHandler(async (req, res) => {
         { username: { contains: query, mode: 'insensitive' } },
       ],
     },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      profile: { select: { profilePic: true } },
+    },
   });
-
   res.json({ data });
 });
 

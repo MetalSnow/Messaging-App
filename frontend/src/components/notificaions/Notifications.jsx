@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useFetch from '../../hooks/useFetch';
 import usePost from '../../hooks/usePost';
+import { Link } from 'react-router-dom';
 import {
   Check,
   LoaderCircle,
@@ -57,7 +58,10 @@ const Notifications = ({ fetchFriendList, setFriendList }) => {
       ) : (
         requests.map((req) => (
           <li key={req.id}>
-            <p>{req.username}</p>
+            <Link to={`/profile/${req.username}`}>
+              <img width={40} src={req.profile?.profilePic} alt="profilePic" />
+              <p>{req.username}</p>
+            </Link>
             <span>Sent you a friend request</span>
             {errorPost ? (
               <p>Server Error!</p>

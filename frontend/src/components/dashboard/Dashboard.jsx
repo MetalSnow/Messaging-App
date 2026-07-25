@@ -84,17 +84,20 @@ const Dashboard = () => {
               <span>RippleChat</span>
             </h1>
             <div>
-              <label htmlFor="q">
-                <Search />
-                <input
-                  type="search"
-                  name="q"
-                  id="q"
-                  placeholder="Search users..."
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                />
-              </label>
+              <form>
+                <label htmlFor="q">
+                  <Search />
+                  <input
+                    type="search"
+                    name="q"
+                    id="q"
+                    placeholder="Search users..."
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                  />
+                </label>
+                <button>Search</button>
+              </form>
               <SearchBar searchInput={searchInput} />
             </div>
 

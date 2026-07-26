@@ -107,10 +107,27 @@ const deleteReq = asyncHandler(async (req, res) => {
   res.json({ data, message: 'Request Rejected' });
 });
 
+const getFriendReq = asyncHandler(async (req, res) => {
+  const userId = req.user.id;
+  const senderId = Number(req.params.senderId);
+
+  const data = await prisma.friends.findFirst({
+    where: {
+      OR: [
+        { userId1: senderId, userId2: userId },
+        { userId1: userId, userId2: senderId },
+      ],
+    },
+  });
+
+  res.json({ data });
+});
+
 module.exports = {
   getAllFriends,
   sendRequest,
   updateReqStatus,
   deleteReq,
   getFriendReqs,
+  getFriendReq,
 };

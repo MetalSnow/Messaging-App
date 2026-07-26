@@ -43,19 +43,25 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
     loading: loadingRequest,
   } = usePost(`${API_URL}/friend-requests/`);
   const [reqStatus, setReqSatatus] = useState(null);
+
   useEffect(() => {
     const getProfile = async () => {
       try {
         const profile = await fetchProfile('GET');
         const { name, username } = await fetchUser('GET', profile.userId);
-
         setData({ ...profile, name, username });
+
+        //Get friend request status
+        if (profile.userId !== user?.id) {
+          const res = await removeFriend('GET', profile.userId);
+          setReqSatatus({ senderId: res.userId1, status: res.status });
+        }
       } catch (error) {
         console.error(error);
       }
     };
     getProfile();
-  }, [fetchProfile, fetchUser]);
+  }, [fetchProfile, fetchUser, removeFriend, user]);
 
   const handleRemoveFriend = async () => {
     try {
@@ -72,8 +78,7 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
   const handleFriendReq = async () => {
     try {
       const res = await postData('POST', undefined, data?.userId);
-      console.log(res);
-      setReqSatatus(res.data.status);
+      setReqSatatus({ senderId: res.data.userId1, status: res.data.status });
     } catch (error) {
       console.error(error);
     }
@@ -82,8 +87,16 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
   const handleCancelReq = async () => {
     try {
       const res = await postData('DELETE', undefined, data?.userId);
-      console.log(res);
-      setReqSatatus(res.data.status);
+      setReqSatatus({ senderId: res.data.userId1, status: res.data.status });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAccepteReq = async () => {
+    try {
+      const res = await postData('PATCH', undefined, reqStatus.senderId);
+      setReqSatatus({ senderId: res.data.userId1, status: res.data.status });
     } catch (error) {
       console.error(error);
     }
@@ -116,7 +129,7 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
               <>
                 {friendList.some(
                   (friend) => friend.username === data?.username,
-                ) ? (
+                ) || reqStatus?.status === 'ACCEPTED' ? (
                   <>
                     <button onClick={() => setIsOpen(true)}>
                       <UserCheck /> Friends
@@ -130,17 +143,45 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                   </>
                 ) : (
                   <>
-                    {reqStatus === 'PENDING' ? (
-                      <button onClick={handleCancelReq}>
-                        <UserX />
-                        {errorRequest ? (
-                          'Error request'
-                        ) : loadingRequest ? (
-                          <LoaderCircle />
+                    {reqStatus?.status === 'PENDING' ? (
+                      <>
+                        {reqStatus?.senderId === user?.id ? (
+                          <button onClick={handleCancelReq}>
+                            <UserX />
+                            {errorRequest ? (
+                              'Error request'
+                            ) : loadingRequest ? (
+                              <LoaderCircle />
+                            ) : (
+                              'Cancel request'
+                            )}
+                          </button>
                         ) : (
-                          'Cancel request'
+                          <>
+                            {' '}
+                            <button onClick={handleCancelReq}>
+                              <UserX />
+                              {errorRequest ? (
+                                'Error request'
+                              ) : loadingRequest ? (
+                                <LoaderCircle />
+                              ) : (
+                                'Decline request'
+                              )}
+                            </button>
+                            <button onClick={handleAccepteReq}>
+                              <UserCheck />
+                              {errorRequest ? (
+                                'Error request'
+                              ) : loadingRequest ? (
+                                <LoaderCircle />
+                              ) : (
+                                'Accepte request'
+                              )}
+                            </button>
+                          </>
                         )}
-                      </button>
+                      </>
                     ) : (
                       <button onClick={handleFriendReq}>
                         <UserPlus />

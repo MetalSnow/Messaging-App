@@ -9,7 +9,7 @@ import {
   Users,
 } from 'lucide-react';
 import useFetch from '../../hooks/useFetch';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Dashboard.module.css';
 import Aside from './Aside';
 import ThemeToggle from '../header/ThemeToggle';
@@ -36,6 +36,7 @@ const Dashboard = () => {
   const { name, username } = useParams();
   const [notifToggle, setNotifToggle] = useState(false);
   const [searchInput, setSearchInput] = useState('');
+  const notifRef = useRef(null);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -54,9 +55,14 @@ const Dashboard = () => {
   useEffect(() => {
     if (!notifToggle) return;
 
-    document.addEventListener('mousedown', () => setNotifToggle(false));
-    return () =>
-      document.removeEventListener('mousedown', setNotifToggle(false));
+    const handleClickOutside = (e) => {
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setNotifToggle(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [notifToggle]);
 
   const validPages = [
@@ -84,20 +90,18 @@ const Dashboard = () => {
               <span>RippleChat</span>
             </h1>
             <div>
-              <form>
-                <label htmlFor="q">
-                  <Search />
-                  <input
-                    type="search"
-                    name="q"
-                    id="q"
-                    placeholder="Search users..."
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                  />
-                </label>
-                <button>Search</button>
-              </form>
+              <label htmlFor="q">
+                <Search />
+                <input
+                  type="search"
+                  name="q"
+                  id="q"
+                  placeholder="Search users..."
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                />
+              </label>
+
               <SearchBar searchInput={searchInput} />
             </div>
 
@@ -114,6 +118,7 @@ const Dashboard = () => {
                   <Notifications
                     setFriendList={setFriendList}
                     fetchFriendList={fetchFriendList}
+                    notifRef={notifRef}
                   />
                 )}
               </li>

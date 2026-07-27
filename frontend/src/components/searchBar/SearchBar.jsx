@@ -36,6 +36,8 @@ const SearchBar = ({ searchInput }) => {
         <p>Server error occured!</p>
       ) : loading ? (
         <LoaderCircle />
+      ) : users.length === 0 && searchInput !== '' ? (
+        <p>No users found</p>
       ) : (
         users.map((user) => (
           <li key={user.id}>

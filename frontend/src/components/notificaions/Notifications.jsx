@@ -12,7 +12,7 @@ import {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Notifications = ({ fetchFriendList, setFriendList }) => {
+const Notifications = ({ fetchFriendList, setFriendList, notifRef }) => {
   const { fetchData, loading, error } = useFetch(`${API_URL}/friend-requests`);
   const {
     postData,
@@ -48,7 +48,7 @@ const Notifications = ({ fetchFriendList, setFriendList }) => {
   };
 
   return (
-    <ul>
+    <ul ref={notifRef}>
       {error ? (
         <p>Server error occured.</p>
       ) : loading ? (

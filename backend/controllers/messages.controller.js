@@ -1,5 +1,12 @@
 const asyncHandler = require('express-async-handler');
 const prisma = require('../config/prismaClient');
+const { createClient } = require('@supabase/supabase-js');
+
+require('dotenv').config();
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 const getMessages = asyncHandler(async (req, res) => {
   const userId = req.user.id;
@@ -32,12 +39,35 @@ const createMessage = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const friendId = Number(req.params.friendId);
   const newMessage = req.body.message;
+  const img = req.file;
+  let imgPublicUrl;
+
+  if (newMessage === '' && img === undefined) return;
+
+  if (img) {
+    const imgPath = `${req.user.id}/${Date.now()}-${img.originalname}`;
+
+    const { data, error } = await supabase.storage
+      .from('messageImg')
+      .upload(imgPath, img.buffer, {
+        contentType: img.mimetype,
+      });
+
+    if (error) {
+      console.error('Upload error:', error);
+      return next(error);
+    }
+
+    imgPublicUrl = supabase.storage.from('messageImg').getPublicUrl(imgPath)
+      .data.publicUrl;
+  }
 
   const data = await prisma.messages.create({
     data: {
       senderId: userId,
       receiverId: friendId,
-      message: newMessage,
+      messageText: newMessage || null,
+      messageImg: img ? imgPublicUrl : null,
     },
   });
 
@@ -70,7 +100,7 @@ const editMessage = asyncHandler(async (req, res) => {
       senderId: userId,
     },
     data: {
-      message: editedMsg,
+      messageText: editedMsg,
     },
   });
 

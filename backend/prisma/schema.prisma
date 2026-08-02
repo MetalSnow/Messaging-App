@@ -68,13 +68,14 @@ model Friends {
 }
 
 model Messages {
-  id         Int      @id @default(autoincrement())
-  message    String
-  senderId   Int
-  receiverId Int
-  createdAt  DateTime @default(now())
-  deletedBy  Int?
-  user       User?    @relation("deletedBy", fields: [deletedBy], references: [id])
+  id          Int      @id @default(autoincrement())
+  messageText String?
+  messageImg  String?
+  senderId    Int
+  receiverId  Int
+  createdAt   DateTime @default(now())
+  deletedBy   Int?
+  user        User?    @relation("deletedBy", fields: [deletedBy], references: [id])
 
   user1 User @relation("sentMessages", fields: [senderId], references: [id])
   user2 User @relation("receivedMessages", fields: [receiverId], references: [id])

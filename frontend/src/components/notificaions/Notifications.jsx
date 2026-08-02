@@ -35,8 +35,7 @@ const Notifications = ({ fetchFriendList, setFriendList, notifRef }) => {
 
   const handleReq = async (senderId, method) => {
     try {
-      const res = await postData(method, undefined, senderId);
-      console.log(res);
+      await postData(method, undefined, senderId);
       //Update the UI
       const reqs = await fetchData('GET');
       setRequests(reqs);

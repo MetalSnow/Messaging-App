@@ -56,11 +56,12 @@ const Conversation = ({
 
   const sendMessage = async (formData) => {
     const message = formData.get('message');
-    if (message === '') return;
+    const image = formData.get('messageImg');
+    if (!message && !image) return;
 
     const friend = convo.friend;
     try {
-      await postData('POST', { message }, convo.friend.id);
+      await postData('POST', formData, friend.id);
       // Update the UI
       const msgs = await fetchData('GET', friend.id);
       setConvo({ friend, msgs });
@@ -177,6 +178,11 @@ const Conversation = ({
                   <Send />
                 </button>
               )}
+              <input
+                type="file"
+                name="messageImg"
+                accept="image/png, image/jpeg"
+              />
             </form>
           </>
         )}

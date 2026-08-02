@@ -38,8 +38,7 @@ const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
 
   const handlRemove = async () => {
     try {
-      const res = await removeMsg('DELETE');
-      console.log(res);
+      await removeMsg('DELETE');
       //Update the UI
       const msgs = await refetchMsgs('GET', friend.id);
       setConvo({ friend, msgs });
@@ -50,7 +49,16 @@ const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
 
   return (
     <>
-      {!showForm && <p>{msg.message}</p>}
+      {!showForm && msg.messageImg === null ? (
+        <p>{msg.messageText}</p>
+      ) : !showForm && msg.messageText === null ? (
+        <img width={100} src={msg.messageImg} alt="img" />
+      ) : (
+        <>
+          <img width={100} src={msg.messageImg} alt="img" />{' '}
+          <p>{msg.messageText}</p>
+        </>
+      )}
       <span style={{ fontSize: '10px' }}>
         {error || errorRemove
           ? 'Server error'

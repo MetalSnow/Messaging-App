@@ -38,11 +38,16 @@ const getMessages = asyncHandler(async (req, res) => {
 const createMessage = asyncHandler(async (req, res) => {
   const userId = req.user.id;
   const friendId = Number(req.params.friendId);
+  const io = req.app.get('io');
   const newMessage = req.body.message;
   const img = req.file;
   let imgPublicUrl;
+  const onlineUsers = req.app.get('onlineUsers');
+  const socketId = onlineUsers.get(friendId);
 
-  if (newMessage === '' && img === undefined) return;
+  if (newMessage === '' && img === undefined) {
+    return res.status(400).json({ message: 'Message cannot be empty.' });
+  }
 
   if (img) {
     const imgPath = `${req.user.id}/${Date.now()}-${img.originalname}`;
@@ -70,6 +75,10 @@ const createMessage = asyncHandler(async (req, res) => {
       messageImg: img ? imgPublicUrl : null,
     },
   });
+
+  if (socketId) {
+    io.to(socketId).emit('new message', data);
+  }
 
   res.json({ data, message: 'Message has been created.' });
 });

@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import Message from './Message';
+import socket from '../../socket';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -45,6 +46,19 @@ const Conversation = ({
     fetchMsgs();
   }, [location, fetchData]);
 
+  useEffect(() => {
+    const handler = (msg) => {
+      setConvo((prev) => ({
+        ...prev,
+        msgs: [...prev.msgs, msg],
+      }));
+    };
+
+    socket.on('new message', handler);
+
+    return () => socket.off('new message', handler);
+  }, []);
+
   const handleMsgsBtn = async (friend) => {
     try {
       const msgs = await fetchData('GET', friend.id);
@@ -61,10 +75,11 @@ const Conversation = ({
 
     const friend = convo.friend;
     try {
-      await postData('POST', formData, friend.id);
-      // Update the UI
-      const msgs = await fetchData('GET', friend.id);
-      setConvo({ friend, msgs });
+      const msg = await postData('POST', formData, friend.id);
+      setConvo((prev) => ({
+        ...prev,
+        msgs: [...prev.msgs, msg.data],
+      }));
     } catch (error) {
       console.error(error);
     }

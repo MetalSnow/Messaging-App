@@ -4,6 +4,112 @@
 
 .header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  margin: 20px 85px;
+  padding: 0px 70px;
+  border-radius: 20px;
+  background-color: light-dark(#ffffffbb, #7c609032);
+  box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.1);
+  & h1 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 26px;
+  }
+  & ul {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    & > :first-child {
+      padding-right: 40px;
+      border-right: 2px solid #908f8f3a;
+      display: flex;
+      gap: 1.5rem;
+    }
+    & a {
+      text-decoration: none;
+      color: light-dark(black, white);
+      font-weight: 500;
+      font-size: 16px;
+      background-color: light-dark(#ffffffbb, #f3f2f432);
+      padding: 8px 20px;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
+
+      &:first-child {
+        &:hover {
+          background-color: light-dark(#f8f3f3f3, #cfcfd066);
+        }
+      }
+      &:last-child {
+        background: linear-gradient(to bottom, #7c77fc, #5a51f7);
+        color: white;
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+    }
+    & .themeToggle {
+      --track-w: 64px;
+      --track-h: 32px;
+      --gap: 3px;
+      --knob: calc(var(--track-h) - var(--gap) * 2);
+
+      position: relative;
+      flex: none;
+      inline-size: var(--track-w);
+      block-size: var(--track-h);
+      padding: 0;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      background: light-dark(#d8d2f5, #131c33);
+      transition: background 0.35s ease;
+      -webkit-tap-highlight-color: transparent;
+
+      &:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      &[aria-checked='true'] .toggle__knob {
+        transform: translateX(calc(var(--track-w) - var(--track-h)));
+      }
+
+      &:active .theme-toggle__knob {
+        inline-size: calc(var(--knob) + 4px);
+      }
+
+      & .toggle__icons {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: 8px;
+      }
+      & .toggle__knob {
+        position: absolute;
+        inset-block-start: var(--gap);
+        inset-inline-start: var(--gap);
+        inline-size: var(--knob);
+        block-size: var(--knob);
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+        transition: transform 0.35s cubic-bezier(0.35, 0.1, 0.25, 1.4);
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .themeToggle,
+  .toggle__knob {
+    transition-duration: 0.01ms;
+  }
 }

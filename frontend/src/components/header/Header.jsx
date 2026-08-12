@@ -8,15 +8,15 @@ const Header = () => {
     <>
       <header className={styles.header}>
         <h1>
-          <img src="/icons/rippleLogo.png" alt="ripple-logo" width={80} />
-          <span>RippleChat</span>
+          <img src="/icons/rippleLogo.png" alt="ripple-logo" width={58} />
+          <span>Ripple Chat</span>
         </h1>
         <ul>
           <li>
             <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup">Signup</Link>
+            <Link className={styles.signupBtn} to="/signup">
+              Signup
+            </Link>
           </li>
           <li>
             <ThemeToggle />

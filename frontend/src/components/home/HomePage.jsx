@@ -1,14 +1,24 @@
 import {
   ArrowRightIcon,
+  LoaderCircle,
   MessageCircleMore,
   ShieldCheck,
   UsersRound,
   Zap,
 } from 'lucide-react';
 import styles from './HomePage.module.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from '../../context/AuthContext';
 
 const HomePage = () => {
+  const { user, checking } = useContext(AuthContext);
+
+  if (!checking && user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  if (checking) return <LoaderCircle />;
   return (
     <main className={styles.main}>
       <div>

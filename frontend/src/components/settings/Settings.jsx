@@ -96,6 +96,7 @@ const Settings = ({ user, setUser }) => {
   const handleLogOut = async () => {
     try {
       await postLogOut('POST');
+      setUser(null);
       navigate('/');
     } catch (error) {
       console.error(error);

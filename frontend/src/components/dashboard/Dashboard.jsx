@@ -9,11 +9,11 @@ import {
   Users,
 } from 'lucide-react';
 import useFetch from '../../hooks/useFetch';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import styles from './Dashboard.module.css';
 import Aside from './Aside';
 import ThemeToggle from '../header/ThemeToggle';
-import { Outlet, useParams, Link } from 'react-router-dom';
+import { Outlet, useParams, Link, Navigate } from 'react-router-dom';
 import Friends from '../friends/Friends';
 import ErrorPage from '../../error/ErrorPage';
 import Conversation from '../messages/Conversation';
@@ -21,18 +21,18 @@ import Profile from '../profile/Profile';
 import Settings from '../settings/Settings';
 import Notifications from '../notificaions/Notifications';
 import SearchBar from '../searchBar/SearchBar';
+import AuthContext from '../../context/AuthContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Dashboard = () => {
-  const { fetchData, error, loading } = useFetch(`${API_URL}/user`);
+  const { user, setUser, checking } = useContext(AuthContext);
   const {
     fetchData: fetchFriendList,
     error: friendListError,
     loading: friendListLoading,
   } = useFetch(`${API_URL}/friends`);
   const [friendList, setFriendList] = useState([]);
-  const [user, setUser] = useState(null);
   const { name, username } = useParams();
   const [notifToggle, setNotifToggle] = useState(false);
   const [searchInput, setSearchInput] = useState('');
@@ -41,8 +41,6 @@ const Dashboard = () => {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const userData = await fetchData();
-        setUser(userData);
         const friends = await fetchFriendList('GET');
         setFriendList(friends);
       } catch (error) {
@@ -50,7 +48,7 @@ const Dashboard = () => {
       }
     };
     getUserData();
-  }, [fetchData, fetchFriendList]);
+  }, [fetchFriendList]);
 
   useEffect(() => {
     if (!notifToggle) return;
@@ -76,11 +74,13 @@ const Dashboard = () => {
   if (name && !validPages.includes(name)) return <ErrorPage />;
   if (name === 'profile' && !username) return <ErrorPage />;
 
-  if (error) return <p>{error.message}</p>;
+  if (!checking && !user) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <>
-      {loading ? (
+      {checking ? (
         <LoaderCircle />
       ) : (
         <div className={styles.dashBoard}>

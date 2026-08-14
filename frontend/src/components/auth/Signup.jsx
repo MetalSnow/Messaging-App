@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import usePost from '../../hooks/usePost';
 import { LoaderCircle } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -9,6 +10,7 @@ const Signup = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const { postData, validation, error, loading } = usePost(`${API_URL}/signup`);
+  const { user, checking } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const signupUser = async (formData) => {
@@ -29,6 +31,12 @@ const Signup = () => {
       console.error(error);
     }
   };
+
+  if (!checking && user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  if (checking) return <LoaderCircle />;
 
   return (
     <>
@@ -82,6 +90,9 @@ const Signup = () => {
         />
         {loading ? <LoaderCircle /> : <button type="submit">Sign up</button>}
       </form>
+      <p>
+        Already have an account? <Link to="/login">Log in</Link>
+      </p>
     </>
   );
 };

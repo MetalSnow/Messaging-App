@@ -1,7 +1,8 @@
-import { Check } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Check, LoaderCircle } from 'lucide-react';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import AuthContext from '../../context/AuthContext';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -9,6 +10,7 @@ const Login = () => {
   const location = useLocation().state;
   const [username, setUsername] = useState('');
   const { postData, validation, error, loading } = usePost(`${API_URL}/login`);
+  const { user, setUser, checking } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const loginUser = async (formData) => {
@@ -20,6 +22,7 @@ const Login = () => {
 
     try {
       const res = await postData('POST', data);
+      setUser(res.data);
       if (res?.success) {
         navigate('/dashboard');
       }
@@ -27,6 +30,12 @@ const Login = () => {
       console.error(error);
     }
   };
+
+  if (!checking && user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  if (checking) return <LoaderCircle />;
 
   return (
     <>
@@ -60,6 +69,9 @@ const Login = () => {
         />
         {loading ? <LoaderCircle /> : <button type="submit">Log in</button>}
       </form>
+      <p>
+        Don't have an account? <Link to="/signup">Sign up</Link>
+      </p>
     </>
   );
 };

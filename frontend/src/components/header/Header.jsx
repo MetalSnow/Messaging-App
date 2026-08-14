@@ -7,10 +7,12 @@ const Header = () => {
   return (
     <>
       <header className={styles.header}>
-        <h1>
-          <img src="/icons/rippleLogo.png" alt="ripple-logo" width={58} />
-          <span>Ripple Chat</span>
-        </h1>
+        <Link to="/">
+          <h1>
+            <img src="/icons/rippleLogo.png" alt="ripple-logo" width={58} />
+            <span>Ripple Chat</span>
+          </h1>
+        </Link>
         <ul>
           <li>
             <Link to="/login">Login</Link>

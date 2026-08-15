@@ -3,6 +3,7 @@ import usePost from '../../hooks/usePost';
 import { LoaderCircle } from 'lucide-react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
+import styles from './auth.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -39,15 +40,13 @@ const Signup = () => {
   if (checking) return <LoaderCircle />;
 
   return (
-    <>
+    <div className={styles.signupDiv}>
       <h2>Sign Up</h2>
       {error && <p>Server error occured!</p>}
       {validation && (
         <ul>
           {validation.map((error, index) => (
-            <li key={index} style={{ color: 'red' }}>
-              {error.msg}
-            </li>
+            <li key={index}>*{error.msg} </li>
           ))}
         </ul>
       )}
@@ -93,7 +92,7 @@ const Signup = () => {
       <p>
         Already have an account? <Link to="/login">Log in</Link>
       </p>
-    </>
+    </div>
   );
 };
 

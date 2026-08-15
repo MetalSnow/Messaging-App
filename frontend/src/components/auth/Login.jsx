@@ -3,6 +3,7 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import { useContext, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
+import styles from './auth.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -38,7 +39,7 @@ const Login = () => {
   if (checking) return <LoaderCircle />;
 
   return (
-    <>
+    <div className={styles.loginDiv}>
       {location && (
         <p>
           {location.message}{' '}
@@ -47,9 +48,9 @@ const Login = () => {
       )}
       <h2>Log in</h2>
       {error && <p>Server error occured!</p>}
-      {validation && <p>{validation}</p>}
+      {validation && <p>*{validation}</p>}
       <form action={loginUser}>
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="username">Username</label>
         <input
           type="text"
           name="username"
@@ -59,7 +60,7 @@ const Login = () => {
           placeholder="Enter Username"
           required
         />
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           name="password"
@@ -67,12 +68,16 @@ const Login = () => {
           placeholder="Enter password"
           required
         />
-        {loading ? <LoaderCircle /> : <button type="submit">Log in</button>}
+        {loading ? (
+          <LoaderCircle className="loader" />
+        ) : (
+          <button type="submit">Log in</button>
+        )}
       </form>
       <p>
         Don't have an account? <Link to="/signup">Sign up</Link>
       </p>
-    </>
+    </div>
   );
 };
 

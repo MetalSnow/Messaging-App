@@ -197,7 +197,7 @@ const Settings = ({ user, setUser }) => {
           {editMode === 'profile' && (
             <>
               {loadingPatch ? (
-                <LoaderCircle className={styles.loader} />
+                <LoaderCircle className="loader" />
               ) : errorPatch ? (
                 <p>Server error!</p>
               ) : (

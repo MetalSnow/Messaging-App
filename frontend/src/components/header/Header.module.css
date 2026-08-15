@@ -53,57 +53,57 @@
         }
       }
     }
-    & .themeToggle {
-      --track-w: 64px;
-      --track-h: 32px;
-      --gap: 3px;
-      --knob: calc(var(--track-h) - var(--gap) * 2);
+  }
+}
+.themeToggle {
+  --track-w: 64px;
+  --track-h: 32px;
+  --gap: 3px;
+  --knob: calc(var(--track-h) - var(--gap) * 2);
 
-      position: relative;
-      flex: none;
-      inline-size: var(--track-w);
-      block-size: var(--track-h);
-      padding: 0;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      background: light-dark(#d8d2f5, #131c33);
-      transition: background 0.35s ease;
-      -webkit-tap-highlight-color: transparent;
+  position: relative;
+  flex: none;
+  inline-size: var(--track-w);
+  block-size: var(--track-h);
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: light-dark(#d8d2f5, #131c33);
+  transition: background 0.35s ease;
+  -webkit-tap-highlight-color: transparent;
 
-      &:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
-      }
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
 
-      &[aria-checked='true'] .toggle__knob {
-        transform: translateX(calc(var(--track-w) - var(--track-h)));
-      }
+  &[aria-checked='true'] .toggle__knob {
+    transform: translateX(calc(var(--track-w) - var(--track-h)));
+  }
 
-      &:active .theme-toggle__knob {
-        inline-size: calc(var(--knob) + 4px);
-      }
+  &:active .theme-toggle__knob {
+    inline-size: calc(var(--knob) + 4px);
+  }
 
-      & .toggle__icons {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-inline: 8px;
-      }
-      & .toggle__knob {
-        position: absolute;
-        inset-block-start: var(--gap);
-        inset-inline-start: var(--gap);
-        inline-size: var(--knob);
-        block-size: var(--knob);
-        border-radius: 50%;
-        background: #fff;
-        box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
-        transition: transform 0.35s cubic-bezier(0.35, 0.1, 0.25, 1.4);
-      }
-    }
+  & .toggle__icons {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 8px;
+  }
+  & .toggle__knob {
+    position: absolute;
+    inset-block-start: var(--gap);
+    inset-inline-start: var(--gap);
+    inline-size: var(--knob);
+    block-size: var(--knob);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+    transition: transform 0.35s cubic-bezier(0.35, 0.1, 0.25, 1.4);
   }
 }
 

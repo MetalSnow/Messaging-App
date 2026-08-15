@@ -7,6 +7,7 @@
 }
 
 .main {
+  flex: 1;
   position: relative;
   display: flex;
   align-items: center;
@@ -39,10 +40,9 @@
     }
   }
   & a {
-    color: light-dark(black, white);
+    color: white;
     font-weight: 500;
     font-size: 16px;
-    background-color: light-dark(#ffffffbb, #f3f2f432);
     padding: 10px 46px;
     display: flex;
     align-items: center;
@@ -52,7 +52,6 @@
     border-radius: 20px;
     box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
     background-image: linear-gradient(to bottom, #7c77fc, #5a51f7);
-    color: white;
     &:hover {
       opacity: 0.9;
     }
@@ -67,7 +66,7 @@
     gap: 1rem;
     align-items: center;
     justify-content: center;
-    background-color: light-dark(#e2e2e245, #ffffff49);
+    background-color: light-dark(#f2e1ffbb, #ffffff49);
     box-shadow: 1px 1px 6px 1px rgba(255, 255, 255, 0.349);
     & li {
       border-right: 2px solid rgba(226, 225, 225, 0.641);
@@ -87,12 +86,23 @@
     top: 10%;
     width: 300px;
     z-index: 0;
+    animation: bounce 1.5s ease-out infinite alternate;
+    will-change: transform;
   }
   & .bubbleRight {
     right: 7%;
   }
   & .bubbleLeft {
     left: 7%;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(3%);
+  }
+  100% {
+    transform: translateY(0%);
   }
 }
 

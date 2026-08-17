@@ -84,113 +84,111 @@ const Dashboard = () => {
         <LoaderCircle />
       ) : (
         <div className={styles.dashBoard}>
-          <header>
-            <h1>
-              <img src="/icons/rippleLogo.png" alt="ripple-logo" width={80} />
-              <span>RippleChat</span>
-            </h1>
-            <div>
-              <label htmlFor="q">
-                <Search />
-                <input
-                  type="search"
-                  name="q"
-                  id="q"
-                  placeholder="Search users..."
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                />
-              </label>
-
-              <SearchBar searchInput={searchInput} />
-            </div>
-
-            <ul>
-              <li>
-                <button
-                  onClick={() =>
-                    notifToggle ? setNotifToggle(false) : setNotifToggle(true)
-                  }
-                >
-                  <Bell />
-                </button>
-                {notifToggle && (
-                  <Notifications
-                    setFriendList={setFriendList}
-                    fetchFriendList={fetchFriendList}
-                    notifRef={notifRef}
-                  />
-                )}
-              </li>
-              <li>
-                <Link to={`/profile/${user?.username}`}>
-                  <CircleUserRound />
-                  <span>{user?.username}</span>
-                </Link>
-              </li>
-              <li>
-                <ThemeToggle />
-              </li>
-            </ul>
-          </header>
-          <main>
-            <Aside />
-            {name === 'friends' ? (
-              <Friends
-                setFriendList={setFriendList}
-                friendList={friendList}
-                fetchData={fetchFriendList}
-                error={friendListError}
-                loading={friendListLoading}
-              />
-            ) : name === 'messages' ? (
-              <Conversation
-                user={user}
-                friendList={friendList}
-                friendListError={friendListError}
-                friendListLoading={friendListLoading}
-              />
-            ) : name === 'profile' && username ? (
-              <Profile
-                friendList={friendList}
-                user={user}
-                fetchData={fetchFriendList}
-                setFriendList={setFriendList}
-              />
-            ) : name === 'settings' ? (
-              <Settings user={user} setUser={setUser} />
-            ) : (
+          <Aside />
+          <div className={styles.contentArea}>
+            <header>
               <div>
-                <div>
-                  <h1>
-                    Welcome back, {user?.username} <HeartHandshake />
-                  </h1>
-                  <p>Here's what's happening with your network today.</p>
-                </div>
-                <div>
-                  <div>
-                    <MessageCircle size={18} />
-                    <span>12 unread messages</span>
-                  </div>
-
-                  <div>
-                    <Users size={18} />
-                    <span>3 active groups</span>
-                  </div>
-
-                  <Link to="/messages">
-                    <Plus size={18} />
-                    Start New Chat
-                  </Link>
-                  <img
-                    src="/icons/rippleLogo.png"
-                    alt="ripple-logo"
-                    width={100}
+                <label htmlFor="q">
+                  <Search />
+                  <input
+                    type="search"
+                    name="q"
+                    id="q"
+                    placeholder="Search users..."
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
                   />
-                </div>
+                </label>
+
+                <SearchBar searchInput={searchInput} />
               </div>
-            )}
-          </main>
+
+              <ul>
+                <li>
+                  <button
+                    onClick={() =>
+                      notifToggle ? setNotifToggle(false) : setNotifToggle(true)
+                    }
+                  >
+                    <Bell />
+                  </button>
+                  {notifToggle && (
+                    <Notifications
+                      setFriendList={setFriendList}
+                      fetchFriendList={fetchFriendList}
+                      notifRef={notifRef}
+                    />
+                  )}
+                </li>
+                <li>
+                  <Link to={`/profile/${user?.username}`}>
+                    <CircleUserRound />
+                    <span>{user?.username}</span>
+                  </Link>
+                </li>
+                <li>
+                  <ThemeToggle />
+                </li>
+              </ul>
+            </header>
+            <main>
+              {name === 'friends' ? (
+                <Friends
+                  setFriendList={setFriendList}
+                  friendList={friendList}
+                  fetchData={fetchFriendList}
+                  error={friendListError}
+                  loading={friendListLoading}
+                />
+              ) : name === 'messages' ? (
+                <Conversation
+                  user={user}
+                  friendList={friendList}
+                  friendListError={friendListError}
+                  friendListLoading={friendListLoading}
+                />
+              ) : name === 'profile' && username ? (
+                <Profile
+                  friendList={friendList}
+                  user={user}
+                  fetchData={fetchFriendList}
+                  setFriendList={setFriendList}
+                />
+              ) : name === 'settings' ? (
+                <Settings user={user} setUser={setUser} />
+              ) : (
+                <div>
+                  <div>
+                    <h1>
+                      Welcome back, {user?.username} <HeartHandshake />
+                    </h1>
+                    <p>Here's what's happening with your network today.</p>
+                  </div>
+                  <div>
+                    <div>
+                      <MessageCircle size={18} />
+                      <span>12 unread messages</span>
+                    </div>
+
+                    <div>
+                      <Users size={18} />
+                      <span>3 active groups</span>
+                    </div>
+
+                    <Link to="/messages">
+                      <Plus size={18} />
+                      Start New Chat
+                    </Link>
+                    <img
+                      src="/icons/rippleLogo.png"
+                      alt="ripple-logo"
+                      width={100}
+                    />
+                  </div>
+                </div>
+              )}
+            </main>
+          </div>
         </div>
       )}
     </>

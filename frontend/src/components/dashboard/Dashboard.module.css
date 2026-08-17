@@ -1,17 +1,92 @@
 .dashBoard {
-  width: 100%;
-  & header {
+  flex: 1;
+  position: relative;
+  display: flex;
+  height: 100%;
+
+  & aside {
+    position: fixed;
+    background-color: light-dark(#ffffffbd, #4f4e4e44);
+    height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  & main {
-    display: flex;
-    & div {
-      width: 80%;
+    flex-direction: column;
+    padding-left: 30px;
+    padding-right: 30px;
+    gap: 2rem;
+
+    & h1 {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 26px;
     }
-    & aside {
-      width: 20%;
+
+    & a {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      justify-content: start;
+      text-decoration: none;
+      color: light-dark(rgb(73, 73, 73), #d8d8d8);
+      font-weight: 500;
+      font-size: 16px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      &:hover {
+        background-color: light-dark(#eacff9f3, #bd83d066);
+        color: light-dark(#7a459df3, #daa5fd);
+      }
+    }
+    & ul {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  & .contentArea {
+    background-color: light-dark(transparent, #ffffff1a);
+    margin-left: 252px;
+    box-shadow: 0px 0px 2px 0px rgba(255, 255, 255, 0.259);
+    width: 100%;
+
+    & header {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+    & main {
+      display: flex;
+      justify-content: center;
+      & div {
+        width: 80%;
+      }
+      & aside {
+        width: 20%;
+      }
+    }
+  }
+}
+
+.aside {
+  & .newChatBtn {
+    margin-top: 20px;
+    color: light-dark(black, white);
+    font-weight: 500;
+    font-size: 16px;
+    background-color: light-dark(#f0dcffbb, #f3f2f432);
+    padding: 8px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
+    &:hover {
+      color: light-dark(black, white);
+      background-color: light-dark(#dbc7e9bb, #cfcfd066);
     }
   }
 }

@@ -12,6 +12,10 @@ import {
 const Aside = () => {
   return (
     <aside className={styles.aside}>
+      <h1>
+        <img src="/icons/rippleLogo.png" alt="ripple-logo" width={65} />
+        <span>RippleChat</span>
+      </h1>
       <ul>
         <li>
           <Link to="/dashboard">
@@ -32,22 +36,16 @@ const Aside = () => {
           </Link>
         </li>
         <li>
-          <Link>
-            <UsersRound />
-            Groups
-          </Link>
-        </li>
-        <li>
           <Link to="/settings">
             <Settings />
             Settings
           </Link>
         </li>
       </ul>
-      <button>
+      <Link to="/messages" className={styles.newChatBtn}>
         <Plus />
         New chat
-      </button>
+      </Link>
     </aside>
   );
 };

@@ -32,11 +32,17 @@ const Dashboard = () => {
     error: friendListError,
     loading: friendListLoading,
   } = useFetch(`${API_URL}/friends`);
+  const { fetchData: fetchProfile } = useFetch(
+    `${API_URL}/profile/${user?.username}`,
+  );
+  const { fetchData, loading, error } = useFetch(`${API_URL}/friend-requests`);
   const [friendList, setFriendList] = useState([]);
   const { name, username } = useParams();
   const [notifToggle, setNotifToggle] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const notifRef = useRef(null);
+  const [avatarUrl, setAvatarUrl] = useState(null);
+  const [requests, setRequests] = useState([]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -51,6 +57,19 @@ const Dashboard = () => {
   }, [fetchFriendList]);
 
   useEffect(() => {
+    if (!user?.username) return;
+    const getProfileData = async () => {
+      try {
+        const profile = await fetchProfile('GET');
+        setAvatarUrl(profile?.profilePic);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getProfileData();
+  }, [fetchProfile, user?.username]);
+
+  useEffect(() => {
     if (!notifToggle) return;
 
     const handleClickOutside = (e) => {
@@ -62,6 +81,18 @@ const Dashboard = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [notifToggle]);
+
+  useEffect(() => {
+    const getNotif = async () => {
+      try {
+        const reqs = await fetchData('GET');
+        setRequests(reqs);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getNotif();
+  }, [fetchData]);
 
   const validPages = [
     'dashboard',
@@ -89,7 +120,7 @@ const Dashboard = () => {
             <header>
               <div>
                 <label htmlFor="q">
-                  <Search />
+                  <Search size={18} strokeWidth={3} />
                   <input
                     type="search"
                     name="q"
@@ -106,23 +137,32 @@ const Dashboard = () => {
               <ul>
                 <li>
                   <button
+                    className={styles.notifBtn}
                     onClick={() =>
                       notifToggle ? setNotifToggle(false) : setNotifToggle(true)
                     }
                   >
-                    <Bell />
+                    <Bell size={16} strokeWidth={2} absoluteStrokeWidth />
+                    <span>{requests.length}</span>
                   </button>
                   {notifToggle && (
                     <Notifications
                       setFriendList={setFriendList}
                       fetchFriendList={fetchFriendList}
-                      notifRef={notifRef}
+                      requests={requests}
+                      setRequests={setRequests}
+                      fetchData={fetchData}
+                      error={error}
+                      loading={loading}
                     />
                   )}
                 </li>
                 <li>
                   <Link to={`/profile/${user?.username}`}>
-                    <CircleUserRound />
+                    <div>
+                      <img src={avatarUrl} alt="avatar" />
+                      <span className={styles.status}></span>
+                    </div>
                     <span>{user?.username}</span>
                   </Link>
                 </li>

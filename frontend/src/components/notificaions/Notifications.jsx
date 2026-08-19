@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import useFetch from '../../hooks/useFetch';
 import usePost from '../../hooks/usePost';
 import { Link } from 'react-router-dom';
 import {
@@ -12,26 +10,21 @@ import {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Notifications = ({ fetchFriendList, setFriendList, notifRef }) => {
-  const { fetchData, loading, error } = useFetch(`${API_URL}/friend-requests`);
+const Notifications = ({
+  fetchFriendList,
+  setFriendList,
+  notifRef,
+  requests,
+  setRequests,
+  fetchData,
+  error,
+  loading,
+}) => {
   const {
     postData,
     loading: loadingPost,
     error: errorPost,
   } = usePost(`${API_URL}/friend-requests/`);
-  const [requests, setRequests] = useState([]);
-
-  useEffect(() => {
-    const getNotif = async () => {
-      try {
-        const reqs = await fetchData('GET');
-        setRequests(reqs);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getNotif();
-  }, [fetchData]);
 
   const handleReq = async (senderId, method) => {
     try {

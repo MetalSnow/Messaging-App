@@ -1,0 +1,54 @@
+.notif {
+  min-width: 300px;
+  font-size: 14px;
+  padding: 10px 20px;
+  margin-top: 7px;
+  border-radius: 10px;
+  position: absolute;
+  transform: translateX(-90%);
+  background-color: light-dark(#fbfafa, #62596d);
+  display: flex;
+  flex-direction: column;
+  & li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    & div {
+      display: flex;
+      flex-direction: column;
+      & a {
+        align-self: self-start;
+        & p {
+          font-size: 15px;
+          overflow: hidden;
+          max-width: 120px;
+          text-overflow: ellipsis;
+        }
+        & img {
+          border-radius: 5px;
+        }
+      }
+      & span {
+        margin-top: 10px;
+        color: gray;
+        min-width: 120px;
+        line-height: 17px;
+      }
+    }
+    & button {
+      display: flex;
+      font-size: 13px;
+      font-weight: 700;
+      align-items: center;
+      gap: 6px;
+      background-color: #0080005b;
+      &:last-child {
+        background-color: #8000005b;
+      }
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}

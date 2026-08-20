@@ -98,6 +98,9 @@
         align-items: center;
         gap: 2rem;
         & li {
+          &:first-child {
+            position: relative;
+          }
           & .notifBtn {
             position: relative;
             background-color: light-dark(#fbfafa, #62596d);

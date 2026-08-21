@@ -39,8 +39,12 @@ const Dashboard = () => {
   const [friendList, setFriendList] = useState([]);
   const { name, username } = useParams();
   const [notifToggle, setNotifToggle] = useState(false);
-  const [searchInput, setSearchInput] = useState('');
   const notifRef = useRef(null);
+  const notifBtnRef = useRef(null);
+  const [searchInput, setSearchInput] = useState('');
+  const [searchToggle, setSearchToggle] = useState(false);
+  const searchRef = useRef(null);
+  const searchInputRef = useRef(null);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [requests, setRequests] = useState([]);
 
@@ -73,7 +77,11 @@ const Dashboard = () => {
     if (!notifToggle) return;
 
     const handleClickOutside = (e) => {
-      if (notifRef.current && !notifRef.current.contains(e.target)) {
+      if (
+        notifRef.current &&
+        !notifRef.current.contains(e.target) &&
+        !notifBtnRef.current.contains(e.target)
+      ) {
         setNotifToggle(false);
       }
     };
@@ -81,6 +89,23 @@ const Dashboard = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [notifToggle]);
+
+  useEffect(() => {
+    if (!searchToggle) return;
+
+    const handleClickOutside = (e) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(e.target) &&
+        !searchInputRef.current.contains(e.target)
+      ) {
+        setSearchToggle(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [searchToggle, searchInput]);
 
   useEffect(() => {
     const getNotif = async () => {
@@ -122,21 +147,25 @@ const Dashboard = () => {
                 <label htmlFor="q">
                   <Search size={18} strokeWidth={3} />
                   <input
+                    ref={searchInputRef}
                     type="search"
                     name="q"
                     id="q"
                     placeholder="Search users..."
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
+                    onFocus={() => setSearchToggle(true)}
                   />
                 </label>
-
-                <SearchBar searchInput={searchInput} />
+                {searchToggle && (
+                  <SearchBar searchInput={searchInput} searchRef={searchRef} />
+                )}
               </div>
 
-              <ul>
+              <ul style={{ gap: '2rem' }}>
                 <li>
                   <button
+                    ref={notifBtnRef}
                     className={styles.notifBtn}
                     onClick={() =>
                       notifToggle ? setNotifToggle(false) : setNotifToggle(true)
@@ -153,6 +182,7 @@ const Dashboard = () => {
                       setRequests={setRequests}
                       fetchData={fetchData}
                       error={error}
+                      notifRef={notifRef}
                       loading={loading}
                     />
                   )}

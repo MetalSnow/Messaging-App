@@ -1,5 +1,7 @@
 .notif {
   min-width: 300px;
+  max-height: 400px;
+  overflow-y: scroll;
   font-size: 14px;
   padding: 10px 20px;
   margin-top: 7px;
@@ -9,6 +11,7 @@
   background-color: light-dark(#fbfafa, #62596d);
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   & li {
     display: flex;
     align-items: center;

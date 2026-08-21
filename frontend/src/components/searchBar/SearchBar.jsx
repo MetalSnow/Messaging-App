@@ -3,10 +3,11 @@ import useFetch from '../../hooks/useFetch';
 import { useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import styles from './SearchBar.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const SearchBar = ({ searchInput }) => {
+const SearchBar = ({ searchInput, searchRef }) => {
   const { fetchData, error, loading } = useFetch(
     `${API_URL}/users?q=${searchInput}`,
   );
@@ -31,12 +32,12 @@ const SearchBar = ({ searchInput }) => {
   }, [searchInput, fetchData]);
 
   return (
-    <ul>
+    <ul className={styles.searchBar} ref={searchRef}>
       {error ? (
         <p>Server error occured!</p>
       ) : loading ? (
         <LoaderCircle />
-      ) : users.length === 0 && searchInput !== '' ? (
+      ) : users.length === 0 ? (
         <p>No users found</p>
       ) : (
         users.map((user) => (

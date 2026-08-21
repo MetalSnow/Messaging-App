@@ -2,10 +2,13 @@
   width: 25%;
   padding: 30px 60px;
   gap: 3rem;
+  &::backdrop {
+    background-color: light-dark(#00000050, #ffffff33);
+  }
 
   & .closeBtn {
     padding: 0;
-    background-color: transparent;
+    color: white;
     width: 100%;
     padding: 0.6em 1.2em;
     display: flex;

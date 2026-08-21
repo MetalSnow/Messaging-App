@@ -1,15 +1,38 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import {
   LayoutDashboard,
   MessageCircle,
   Users,
-  UsersRound,
   Settings,
   Plus,
+  LoaderCircle,
+  LogOut,
 } from 'lucide-react';
+import usePost from '../../hooks/usePost';
+import { useState } from 'react';
+import Modal from '../modal/Modal';
 
-const Aside = () => {
+const API_URL = import.meta.env.VITE_API_URL;
+
+const Aside = ({ setUser }) => {
+  const {
+    postData: postLogOut,
+    loading: loadingLogOut,
+    error: errorLogOut,
+  } = usePost(`${API_URL}/logout`);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogOut = async () => {
+    try {
+      await postLogOut('POST');
+      setUser(null);
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <aside className={styles.aside}>
       <h1>
@@ -46,6 +69,20 @@ const Aside = () => {
         <Plus />
         New chat
       </Link>
+      <button onClick={() => setIsOpen(true)} className={styles.logoutBtn}>
+        Log out <LogOut size={15} absoluteStrokeWidth />
+      </button>
+      <Modal modalIsOpen={modalIsOpen} closeModal={() => setIsOpen(false)}>
+        <h2>Log out?</h2>
+        <p>Are you sure you want to log out?</p>
+        {errorLogOut ? (
+          <p>Server error!</p>
+        ) : loadingLogOut ? (
+          <LoaderCircle className={styles.loader} />
+        ) : (
+          <button onClick={handleLogOut}>Log out</button>
+        )}
+      </Modal>
     </aside>
   );
 };

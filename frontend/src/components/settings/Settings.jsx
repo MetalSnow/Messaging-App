@@ -359,7 +359,6 @@ const Settings = ({ user, setUser }) => {
         )}
       </form>
       <button onClick={() => setIsOpen(true)}>Log out</button>
-      <button>Delete Account</button>
       <Modal modalIsOpen={modalIsOpen} closeModal={() => setIsOpen(false)}>
         <h2>Log out?</h2>
         <p>Are you sure you want to log out?</p>

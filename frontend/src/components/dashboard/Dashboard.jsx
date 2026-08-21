@@ -140,7 +140,7 @@ const Dashboard = () => {
         <LoaderCircle />
       ) : (
         <div className={styles.dashBoard}>
-          <Aside />
+          <Aside setUser={setUser} />
           <div className={styles.contentArea}>
             <header>
               <div>
@@ -158,7 +158,11 @@ const Dashboard = () => {
                   />
                 </label>
                 {searchToggle && (
-                  <SearchBar searchInput={searchInput} searchRef={searchRef} />
+                  <SearchBar
+                    searchInput={searchInput}
+                    searchRef={searchRef}
+                    setSearchToggle={setSearchToggle}
+                  />
                 )}
               </div>
 
@@ -227,34 +231,30 @@ const Dashboard = () => {
               ) : name === 'settings' ? (
                 <Settings user={user} setUser={setUser} />
               ) : (
-                <div>
-                  <div>
+                <div className={styles.lobby}>
+                  <div className={styles.title}>
                     <h1>
-                      Welcome back, {user?.username} <HeartHandshake />
+                      Welcome back, {user?.username}{' '}
+                      <HeartHandshake
+                        size={38}
+                        strokeWidth={4}
+                        absoluteStrokeWidth
+                      />
                     </h1>
-                    <p>Here's what's happening with your network today.</p>
+                    <p>See what your network's been up to.</p>
                   </div>
-                  <div>
+                  <div className={styles.btns}>
                     <div>
-                      <MessageCircle size={18} />
-                      <span>12 unread messages</span>
-                    </div>
-
-                    <div>
-                      <Users size={18} />
-                      <span>3 active groups</span>
+                      <MessageCircle size={18} strokeWidth={3} />
+                      <span>Messages are waiting</span>
                     </div>
 
                     <Link to="/messages">
-                      <Plus size={18} />
+                      <Plus size={18} strokeWidth={3} />
                       Start New Chat
                     </Link>
-                    <img
-                      src="/icons/rippleLogo.png"
-                      alt="ripple-logo"
-                      width={100}
-                    />
                   </div>
+                  <img src="/icons/rippleLogo.png" alt="ripple-logo" />
                 </div>
               )}
             </main>

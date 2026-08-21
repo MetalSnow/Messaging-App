@@ -46,6 +46,20 @@
       flex-direction: column;
       gap: 0.5rem;
     }
+    & .logoutBtn {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      bottom: 5%;
+      gap: 6px;
+      align-self: center;
+      justify-self: center;
+      background-color: #f54242a3;
+
+      &:hover {
+        background-color: #e659594d;
+      }
+    }
   }
 
   & .contentArea {
@@ -159,12 +173,78 @@
     }
     & main {
       display: flex;
-      justify-content: center;
-      & div {
-        width: 80%;
-      }
-      & aside {
-        width: 20%;
+      justify-content: left;
+      align-items: center;
+      & .lobby {
+        position: relative;
+        padding: 40px;
+        margin: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: first baseline;
+        text-align: start;
+        background-color: light-dark(#fdfaff8e, #fdfaff1c);
+        border-radius: 15px;
+        border: none;
+        box-shadow: inset 1px 0px 4px 0px rgba(0, 0, 0, 0.3);
+        gap: 3rem;
+        & .title {
+          & h1 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px;
+            font-size: 48px;
+            @media (max-width: 1285px) {
+              font-size: 36px;
+              margin: 20px 0;
+            }
+          }
+          & p {
+            margin: 10px 15px;
+            color: light-dark(#606060, #c1bfbf);
+          }
+        }
+        & .btns {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          & div,
+          a {
+            color: initial;
+            font-weight: 600;
+            background-color: light-dark(#fdfaff8e, #fdfaff1c);
+            font-size: 14px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.1);
+          }
+          & a {
+            color: white;
+            font-weight: 600;
+            border-radius: 20px;
+            background-image: linear-gradient(to bottom, #7c77fc, #5a51f7);
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+        }
+        & img {
+          width: 200px;
+          position: absolute;
+          right: 10%;
+          padding: 30px;
+          bottom: 10%;
+          background-color: rgba(207, 157, 213, 0.3);
+          border-radius: 30%;
+          box-shadow: inset 1px 0px 4px 0px
+            light-dark(rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.3));
+        }
       }
     }
   }

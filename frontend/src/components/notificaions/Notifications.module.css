@@ -34,7 +34,7 @@
       }
       & span {
         margin-top: 10px;
-        color: gray;
+        color: light-dark(gray, #dfdada);
         min-width: 120px;
         line-height: 17px;
       }

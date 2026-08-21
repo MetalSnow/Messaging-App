@@ -7,7 +7,7 @@ import styles from './SearchBar.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const SearchBar = ({ searchInput, searchRef }) => {
+const SearchBar = ({ searchInput, searchRef, setSearchToggle }) => {
   const { fetchData, error, loading } = useFetch(
     `${API_URL}/users?q=${searchInput}`,
   );
@@ -42,7 +42,10 @@ const SearchBar = ({ searchInput, searchRef }) => {
       ) : (
         users.map((user) => (
           <li key={user.id}>
-            <Link to={`/profile/${user.username}`}>
+            <Link
+              to={`/profile/${user.username}`}
+              onClick={() => setSearchToggle(false)}
+            >
               <img width={40} src={user.profile?.profilePic} alt="profilePic" />
               <p>{user.name || user.username}</p>
             </Link>

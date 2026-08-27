@@ -22,6 +22,12 @@ const getAllFriends = asyncHandler(async (req, res) => {
         in: friends,
       },
     },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      profile: { select: { profilePic: true } },
+    },
   });
 
   const filtredData = data.map(({ password, ...rest }) => rest);

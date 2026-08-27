@@ -8,7 +8,6 @@ import {
 import useFetch from '../../hooks/useFetch';
 import { useEffect, useState } from 'react';
 import styles from './Settings.module.css';
-import Select from 'react-select';
 import usePost from '../../hooks/usePost';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../modal/Modal';

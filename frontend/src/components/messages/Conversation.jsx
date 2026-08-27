@@ -30,6 +30,7 @@ const Conversation = ({
   } = usePost(`${API_URL}/msgs/`);
   const [convo, setConvo] = useState(null);
   const location = useLocation();
+  const [activeFriendId, setActiveFriendId] = useState(null);
 
   useEffect(() => {
     const fetchMsgs = async () => {
@@ -60,9 +61,10 @@ const Conversation = ({
   }, []);
 
   const handleMsgsBtn = async (friend) => {
+    setActiveFriendId(friend.id);
     try {
       const msgs = await fetchData('GET', friend.id);
-      setConvo({ friend, msgs });
+      setConvo({ friend, msgs, profilePic: friend.profile?.profilePic });
     } catch (error) {
       console.error(error);
     }
@@ -94,12 +96,12 @@ const Conversation = ({
 
   return (
     <div className={styles.conversation}>
-      <h2>Messages</h2>
-      <div>
-        <button>All</button>
-        <ListFilter size={14} />
-      </div>
-      <div>
+      <div className={styles.sideBar}>
+        <h2>Messages</h2>
+        <div>
+          <button>All</button>
+          <ListFilter size={14} />
+        </div>
         {friendListError ? (
           <p>Server error occured!</p>
         ) : friendListLoading ? (
@@ -108,15 +110,19 @@ const Conversation = ({
           <ul>
             {friendList.map((friend) => (
               <li key={friend.id}>
-                <button onClick={() => handleMsgsBtn(friend)}>
-                  {friend.name ?? friend.username}
+                <button
+                  onClick={() => handleMsgsBtn(friend)}
+                  className={activeFriendId === friend.id ? styles.active : ''}
+                >
+                  <img src={friend.profile?.profilePic} alt="profilePic" />
+                  <span>{friend.name ?? friend.username}</span>
                 </button>
               </li>
             ))}
           </ul>
         )}
       </div>
-      <div className={styles.messages}>
+      <div className={styles.messagesContainer}>
         {convo === null ? (
           <>
             {' '}
@@ -126,19 +132,16 @@ const Conversation = ({
           </>
         ) : (
           <>
-            <div>
+            <div className={styles.profile}>
               <Link to={`/profile/${convo.friend.username}`}>
-                <img src={null} alt="pfp" />
+                <img src={convo.profilePic} alt="pfp" />
                 <div>
                   <p>{convo.friend.name ?? convo.friend.username}</p>
                   <p>{convo.friend.username}</p>
                 </div>
               </Link>
-              <button>
-                <EllipsisVertical />
-              </button>
             </div>
-            <div>
+            <div className={styles.messages}>
               {error ? (
                 <p>Server error occured</p>
               ) : loading ? (

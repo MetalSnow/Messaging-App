@@ -46,7 +46,14 @@ const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
         <ul>
           {friendList.map((friend) => (
             <li key={friend.id}>
-              <Link to={`/profile/${friend.username}`}>{friend.username}</Link>{' '}
+              <Link to={`/profile/${friend.username}`}>
+                <img
+                  src={friend.profile?.profilePic}
+                  alt="profilePic"
+                  width={40}
+                />
+                {friend.username}
+              </Link>{' '}
               <button onClick={() => navigate('/messages', { state: friend })}>
                 <MessageCircleMore />
                 Chat

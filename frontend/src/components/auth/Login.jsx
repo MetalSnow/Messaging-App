@@ -1,9 +1,10 @@
 import { Check, LoaderCircle } from 'lucide-react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import styles from './auth.module.css';
+import socket from '../../socket';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -13,6 +14,14 @@ const Login = () => {
   const { postData, validation, error, loading } = usePost(`${API_URL}/login`);
   const { user, setUser, checking } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!checking && user) {
+      socket.connect();
+    } else {
+      socket.disconnect();
+    }
+  }, [user, checking]);
 
   const loginUser = async (formData) => {
     const username = formData.get('username');
@@ -26,6 +35,7 @@ const Login = () => {
       setUser(res.data);
       if (res?.success) {
         navigate('/dashboard');
+        socket.connect();
       }
     } catch (error) {
       console.error(error);

@@ -180,6 +180,7 @@
       justify-content: left;
       align-items: center;
       & .lobby {
+        align-self: start;
         position: relative;
         padding: 40px;
         margin: 20px;

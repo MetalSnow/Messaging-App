@@ -12,6 +12,7 @@ import {
 import usePost from '../../hooks/usePost';
 import { useState } from 'react';
 import Modal from '../modal/Modal';
+import socket from '../../socket';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -29,6 +30,7 @@ const Aside = ({ setUser }) => {
       await postLogOut('POST');
       setUser(null);
       navigate('/');
+      socket.disconnect();
     } catch (error) {
       console.error(error);
     }

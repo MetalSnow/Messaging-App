@@ -1,19 +1,17 @@
 import {
   Bell,
-  CircleUserRound,
   HeartHandshake,
   LoaderCircle,
   MessageCircle,
   Plus,
   Search,
-  Users,
 } from 'lucide-react';
 import useFetch from '../../hooks/useFetch';
 import { useContext, useEffect, useRef, useState } from 'react';
 import styles from './Dashboard.module.css';
 import Aside from './Aside';
 import ThemeToggle from '../header/ThemeToggle';
-import { Outlet, useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import Friends from '../friends/Friends';
 import ErrorPage from '../../error/ErrorPage';
 import Conversation from '../messages/Conversation';
@@ -22,6 +20,7 @@ import Settings from '../settings/Settings';
 import Notifications from '../notificaions/Notifications';
 import SearchBar from '../searchBar/SearchBar';
 import AuthContext from '../../context/AuthContext';
+import socket from '../../socket';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -47,6 +46,7 @@ const Dashboard = () => {
   const searchInputRef = useRef(null);
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [requests, setRequests] = useState([]);
+  const [onlineUserIds, setOnlineUserIds] = useState([]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -118,6 +118,21 @@ const Dashboard = () => {
     };
     getNotif();
   }, [fetchData]);
+
+  useEffect(() => {
+    if (!checking && user) {
+      socket.connect();
+    } else {
+      socket.disconnect();
+    }
+    const handler = (userIds) => {
+      setOnlineUserIds(userIds);
+    };
+
+    socket.on('online users', handler);
+
+    return () => socket.off('new message', handler);
+  }, [checking, user]);
 
   const validPages = [
     'dashboard',
@@ -213,6 +228,7 @@ const Dashboard = () => {
                   fetchData={fetchFriendList}
                   error={friendListError}
                   loading={friendListLoading}
+                  onlineUserIds={onlineUserIds}
                 />
               ) : name === 'messages' ? (
                 <Conversation

@@ -22,7 +22,6 @@ const Signup = () => {
 
     try {
       const res = await postData('POST', data);
-      console.log(res);
       if (res?.success) {
         navigate('/login', {
           state: { message: 'Account created successfully' },

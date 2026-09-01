@@ -6,7 +6,14 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
+const Friends = ({
+  fetchData,
+  error,
+  loading,
+  setFriendList,
+  friendList,
+  onlineUserIds,
+}) => {
   const [friend, setFriend] = useState(null);
   const {
     fetchData: removeFriend,
@@ -53,6 +60,9 @@ const Friends = ({ fetchData, error, loading, setFriendList, friendList }) => {
                   width={40}
                 />
                 {friend.username}
+                <span>
+                  {onlineUserIds.includes(friend.id) ? 'Online' : 'Offline'}
+                </span>
               </Link>{' '}
               <button onClick={() => navigate('/messages', { state: friend })}>
                 <MessageCircleMore />

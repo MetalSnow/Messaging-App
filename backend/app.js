@@ -84,9 +84,11 @@ io.on('connection', (socket) => {
 
   const userId = socket.request.user.id;
   onlineUsers.set(userId, socket.id);
+  io.emit('online users', Array.from(onlineUsers.keys()));
 
   socket.on('disconnect', () => {
     onlineUsers.delete(userId);
+    io.emit('online users', Array.from(onlineUsers.keys()));
   });
 });
 

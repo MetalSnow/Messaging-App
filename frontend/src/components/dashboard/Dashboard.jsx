@@ -236,6 +236,7 @@ const Dashboard = () => {
                   friendList={friendList}
                   friendListError={friendListError}
                   friendListLoading={friendListLoading}
+                  onlineUserIds={onlineUserIds}
                 />
               ) : name === 'profile' && username ? (
                 <Profile

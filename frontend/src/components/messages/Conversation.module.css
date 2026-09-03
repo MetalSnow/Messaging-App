@@ -39,18 +39,48 @@
         & button {
           padding: 15px 25px;
           width: 100%;
-          overflow: hidden;
-          text-overflow: ellipsis;
           box-shadow: none;
           border-radius: 0;
           display: flex;
+          gap: 1rem;
           align-items: center;
           background-color: light-dark(#dbc7e936, #cfcfd01b);
-          gap: 1.5rem;
+          & .icon {
+            position: relative;
+            width: fit-content;
+            padding: 0;
+            & img {
+              position: relative;
+              border-radius: 50%;
+              width: 40px;
+            }
+            & span {
+              position: absolute;
+              bottom: 0;
+              right: 2px;
+              border-radius: 50%;
+              padding: 5px;
+              background-color: #89fa89;
+            }
+          }
+          & .userInfo {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            gap: 4px;
+            padding: 0;
+            & span {
+              font-size: 14px;
+              color: light-dark(#585555, #878787);
+              letter-spacing: 1px;
+            }
+          }
           &:hover {
             background-color: light-dark(#dbc7e9bb, #cfcfd066);
           }
-          & span {
+          & p {
             text-align: start;
             font-weight: 600;
             width: 140px;
@@ -73,6 +103,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* background-color: light-dark(white, black);s */
 
     & .profile {
       & a {

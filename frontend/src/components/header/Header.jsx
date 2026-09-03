@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
-import { Rotate3d } from 'lucide-react';
 import styles from './Header.module.css';
 
 const Header = () => {

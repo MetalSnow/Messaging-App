@@ -21,6 +21,7 @@ const Conversation = ({
   friendList,
   friendListError,
   friendListLoading,
+  onlineUserIds,
 }) => {
   const { fetchData, error, loading } = useFetch(`${API_URL}/msgs/`);
   const {
@@ -114,8 +115,22 @@ const Conversation = ({
                   onClick={() => handleMsgsBtn(friend)}
                   className={activeFriendId === friend.id ? styles.active : ''}
                 >
-                  <img src={friend.profile?.profilePic} alt="profilePic" />
-                  <span>{friend.name ?? friend.username}</span>
+                  <div className={styles.icon}>
+                    <img src={friend.profile?.profilePic} alt="profilePic" />
+                    <span
+                      style={{
+                        backgroundColor: onlineUserIds.includes(friend.id)
+                          ? '#89fa89'
+                          : '#8d8d8d',
+                      }}
+                    ></span>
+                  </div>
+                  <div className={styles.userInfo}>
+                    <p>{friend.name ?? friend.username}</p>
+                    <span>
+                      {onlineUserIds.includes(friend.id) ? 'Online' : 'Offline'}
+                    </span>
+                  </div>
                 </button>
               </li>
             ))}
@@ -162,7 +177,8 @@ const Conversation = ({
                             key={msg.id}
                             style={{
                               backgroundColor:
-                                msg.senderId == user.id ? '#7646ff' : '#2c2c2c',
+                                msg.senderId == user.id && '#7646ff',
+                              color: msg.senderId == user.id && 'white',
                             }}
                           >
                             <Message

@@ -139,20 +139,30 @@ const Conversation = ({
       </div>
       <div className={styles.messagesContainer}>
         {convo === null ? (
-          <>
+          <div className={styles.convoMsg}>
             {' '}
             <MessageCircleMore size={46} />
             <h3>No conversation selected</h3>
             <p>Choose a friend from the list to start chatting.</p>
-          </>
+          </div>
         ) : (
           <>
             <div className={styles.profile}>
               <Link to={`/profile/${convo.friend.username}`}>
-                <img src={convo.profilePic} alt="pfp" />
+                <div className={styles.icon}>
+                  <img src={convo.profilePic} alt="pfp" />
+                  <span
+                    style={{
+                      backgroundColor: onlineUserIds.includes(convo.friend.id)
+                        ? '#89fa89'
+                        : '#8d8d8d',
+                    }}
+                  ></span>
+                </div>
+
                 <div>
                   <p>{convo.friend.name ?? convo.friend.username}</p>
-                  <p>{convo.friend.username}</p>
+                  <span>{convo.friend.username}</span>
                 </div>
               </Link>
             </div>
@@ -164,34 +174,32 @@ const Conversation = ({
               ) : (
                 <>
                   {convo.msgs.length === 0 ? (
-                    <>
-                      <MessageCircleMore size={46} />
+                    <div>
+                      <MessageCircleMore size={60} />
                       <h2>Say hello 👋</h2>
                       <p>Start the conversation by sending a message.</p>
-                    </>
+                    </div>
                   ) : (
-                    <>
-                      <ul>
-                        {convo.msgs.map((msg) => (
-                          <li
-                            key={msg.id}
-                            style={{
-                              backgroundColor:
-                                msg.senderId == user.id && '#7646ff',
-                              color: msg.senderId == user.id && 'white',
-                            }}
-                          >
-                            <Message
-                              msg={msg}
-                              user={user}
-                              refetchMsgs={fetchData}
-                              friend={convo.friend}
-                              setConvo={setConvo}
-                            />
-                          </li>
-                        ))}
-                      </ul>
-                    </>
+                    <ul>
+                      {convo.msgs.map((msg) => (
+                        <li
+                          key={msg.id}
+                          style={{
+                            backgroundColor:
+                              msg.senderId == user.id && '#7646ff',
+                            color: msg.senderId == user.id && 'white',
+                          }}
+                        >
+                          <Message
+                            msg={msg}
+                            user={user}
+                            refetchMsgs={fetchData}
+                            friend={convo.friend}
+                            setConvo={setConvo}
+                          />
+                        </li>
+                      ))}
+                    </ul>
                   )}
                 </>
               )}

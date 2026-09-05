@@ -1,6 +1,7 @@
 import {
   CloudAlert,
   EllipsisVertical,
+  ImageUp,
   ListFilter,
   LoaderCircle,
   MessageCircleMore,
@@ -205,6 +206,14 @@ const Conversation = ({
               )}
             </div>
             <form action={sendMessage}>
+              <label className={styles.customFileUpload}>
+                <ImageUp size={20} strokeWidth={2.5} />
+                <input
+                  type="file"
+                  name="messageImg"
+                  accept="image/png, image/jpeg"
+                />
+              </label>
               <textarea
                 onKeyDown={handleKeyDown}
                 name="message"
@@ -217,14 +226,9 @@ const Conversation = ({
                 <LoaderCircle />
               ) : (
                 <button type="submit">
-                  <Send />
+                  <Send size={20} strokeWidth={2.5} />
                 </button>
               )}
-              <input
-                type="file"
-                name="messageImg"
-                accept="image/png, image/jpeg"
-              />
             </form>
           </>
         )}

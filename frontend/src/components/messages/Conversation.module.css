@@ -160,14 +160,70 @@
     }
 
     & .messages {
-      height: 100%;
+      flex: 1;
       box-sizing: border-box;
+      min-height: 0;
       & div {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 1.5rem;
         padding-top: 80px;
+      }
+      & ul {
+        min-height: 0;
+        overflow-y: auto;
+      }
+    }
+    & form {
+      width: 80%;
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      box-sizing: border-box;
+      margin: 10px 60px;
+      & textarea {
+        font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+        flex: 1;
+        width: 100%;
+        min-width: 280px;
+        background-color: #f7effc5c;
+        border-radius: 15px;
+        border: none;
+        box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+        outline: none;
+        padding: 13px 10px 0 10px;
+        &::placeholder {
+          font-size: 14px;
+          color: #868686;
+        }
+      }
+      & input[type='file'] {
+        display: none;
+      }
+      & .customFileUpload {
+        border: 2px solid #ccc;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        box-shadow: inset 1px 1px 20px 6px rgba(169, 95, 203, 0.433);
+        width: fit-content;
+        border-radius: 50%;
+        cursor: pointer;
+        &:hover {
+          background-color: light-dark(#dbc7e9bb, #cfcfd066);
+        }
+      }
+      & button {
+        display: flex;
+        align-items: center;
+        border-radius: 50%;
+        padding: 10px;
+        color: white;
+        background-color: #7646ff;
+        &:hover {
+          opacity: 0.8;
+        }
       }
     }
   }

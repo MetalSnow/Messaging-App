@@ -3,12 +3,14 @@ import { format } from 'date-fns';
 import { EllipsisVertical } from 'lucide-react';
 import usePost from '../../hooks/usePost';
 import useFetch from '../../hooks/useFetch';
+import styles from './Conversation.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
   const [editInput, setEditInput] = useState(msg.message);
   const [showForm, setShowForm] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
   const { postData, error, loading } = usePost(`${API_URL}/msg/${msg.id}`);
   const {
     fetchData: removeMsg,
@@ -59,7 +61,7 @@ const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
           <p>{msg.messageText}</p>
         </>
       )}
-      <span style={{ fontSize: '10px' }}>
+      <span style={{ fontSize: '10px', left: '8px' }}>
         {error || errorRemove
           ? 'Server error'
           : (loading || loadingRemove) && 'loading...'}
@@ -74,18 +76,22 @@ const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
           />
         </form>
       )}
-      <span>{format(new Date(msg.createdAt), 'MM/dd/yy HH:mm')}</span>
-      <button>
+      <span style={{ color: msg.senderId === user.id && '#e7e7e7' }}>
+        {format(new Date(msg.createdAt), 'MM/dd/yy HH:mm')}
+      </span>
+      <button onClick={() => setToggleSetting(toggleSetting ? false : true)}>
         <EllipsisVertical />
       </button>
-      <div>
-        {msg.senderId === user.id && isEditable && (
-          <button onClick={() => setShowForm(true)}>Edit</button>
-        )}
-        <button onClick={handlRemove}>
-          {msg.senderId === user.id ? 'unsend' : 'remove'}
-        </button>
-      </div>
+      {toggleSetting && (
+        <div className={styles.msgSettings}>
+          {msg.senderId === user.id && isEditable && (
+            <button onClick={() => setShowForm(true)}>Edit</button>
+          )}
+          <button onClick={handlRemove}>
+            {msg.senderId === user.id ? 'unsend' : 'remove'}
+          </button>
+        </div>
+      )}
     </>
   );
 };

@@ -36,7 +36,6 @@
       & li {
         box-sizing: border-box;
         width: 100%;
-        padding-left: 6px;
         & button {
           padding: 15px 25px;
           width: 100%;
@@ -164,7 +163,8 @@
     & .messages {
       flex: 1;
       width: 100%;
-      overflow: auto;
+      box-sizing: border-box;
+      overflow-y: auto;
       & div {
         display: flex;
         flex-direction: column;
@@ -173,7 +173,45 @@
         padding-top: 80px;
       }
       & ul {
+        color: black;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
         overflow-y: auto;
+        & li {
+          position: relative;
+          max-width: 45%;
+          width: fit-content;
+          min-width: 15%;
+          display: flex;
+          padding: 6px 6px 20px 6px;
+          border-radius: 8px;
+          align-items: center;
+
+          margin-left: 25px;
+          & img {
+            position: absolute;
+            align-self: baseline;
+
+            left: -50px;
+            border-radius: 50%;
+            width: 40px;
+            border: 1px #00000016 solid;
+          }
+          & p {
+            text-align: start;
+            flex: 1;
+          }
+
+          & span {
+            font-size: 13px;
+            color: #4e4e4e;
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+          }
+        }
       }
     }
     & form {
@@ -187,7 +225,6 @@
         font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
         flex: 1;
         width: 100%;
-        min-width: 280px;
         background-color: #f7effc5c;
         border-radius: 15px;
         border: none;

@@ -80,6 +80,7 @@ const Conversation = ({
     const friend = convo.friend;
     try {
       const msg = await postData('POST', formData, friend.id);
+      console.log(msg);
       setConvo((prev) => ({
         ...prev,
         msgs: [...prev.msgs, msg.data],
@@ -187,10 +188,14 @@ const Conversation = ({
                           key={msg.id}
                           style={{
                             backgroundColor:
-                              msg.senderId == user.id && '#7646ff',
+                              msg.senderId == user.id ? '#7646ff' : '#f1e3ff',
                             color: msg.senderId == user.id && 'white',
+                            alignSelf: msg.senderId == user.id && 'flex-end',
                           }}
                         >
+                          {msg.senderId !== user.id && (
+                            <img src={convo.profilePic} alt="pfp" />
+                          )}
                           <Message
                             msg={msg}
                             user={user}

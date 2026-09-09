@@ -35,7 +35,7 @@ const getMessages = asyncHandler(async (req, res) => {
   res.json({ data });
 });
 
-const createMessage = asyncHandler(async (req, res) => {
+const createMessage = asyncHandler(async (req, res, next) => {
   const userId = req.user.id;
   const friendId = Number(req.params.friendId);
   const io = req.app.get('io');

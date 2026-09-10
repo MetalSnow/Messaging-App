@@ -79,7 +79,14 @@ const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
       <span style={{ color: msg.senderId === user.id && '#e7e7e7' }}>
         {format(new Date(msg.createdAt), 'MM/dd/yy HH:mm')}
       </span>
-      <button onClick={() => setToggleSetting(toggleSetting ? false : true)}>
+      <button
+        className={styles.msgActions}
+        style={{
+          right: msg.senderId !== user.id && '-30px',
+          left: msg.senderId !== user.id && 'auto',
+        }}
+        onClick={() => setToggleSetting(toggleSetting ? false : true)}
+      >
         <EllipsisVertical />
       </button>
       {toggleSetting && (

@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import styles from './Conversation.module.css';
 import useFetch from '../../hooks/useFetch';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import usePost from '../../hooks/usePost';
 import Message from './Message';
@@ -33,6 +33,13 @@ const Conversation = ({
   const [convo, setConvo] = useState(null);
   const location = useLocation();
   const [activeFriendId, setActiveFriendId] = useState(null);
+  const msgsBarRef = useRef(null);
+
+  useEffect(() => {
+    if (msgsBarRef.current) {
+      msgsBarRef.current.scrollTop = msgsBarRef.current.scrollHeight;
+    }
+  }, [convo?.msgs]);
 
   useEffect(() => {
     const fetchMsgs = async () => {
@@ -80,7 +87,6 @@ const Conversation = ({
     const friend = convo.friend;
     try {
       const msg = await postData('POST', formData, friend.id);
-      console.log(msg);
       setConvo((prev) => ({
         ...prev,
         msgs: [...prev.msgs, msg.data],
@@ -168,7 +174,7 @@ const Conversation = ({
                 </div>
               </Link>
             </div>
-            <div className={styles.messages}>
+            <div className={styles.messages} ref={msgsBarRef}>
               {error ? (
                 <p>Server error occured</p>
               ) : loading ? (
@@ -191,6 +197,7 @@ const Conversation = ({
                               msg.senderId == user.id ? '#7646ff' : '#f1e3ff',
                             color: msg.senderId == user.id && 'white',
                             alignSelf: msg.senderId == user.id && 'flex-end',
+                            borderRadius: msg.senderId !== user.id && '10px',
                           }}
                         >
                           {msg.senderId !== user.id && (

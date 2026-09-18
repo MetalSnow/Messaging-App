@@ -90,7 +90,14 @@ const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
         <EllipsisVertical />
       </button>
       {toggleSetting && (
-        <div className={styles.msgSettings}>
+        <div
+          className={styles.msgSettings}
+          style={{
+            right: msg.senderId === user.id && 'auto',
+            left: msg.senderId === user.id && '10px',
+            transform: msg.senderId === user.id && 'translateX(-150%)',
+          }}
+        >
           {msg.senderId === user.id && isEditable && (
             <button onClick={() => setShowForm(true)}>Edit</button>
           )}

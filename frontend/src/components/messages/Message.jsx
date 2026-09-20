@@ -54,10 +54,24 @@ const Message = ({ msg, user, refetchMsgs, friend, setConvo }) => {
       {!showForm && msg.messageImg === null ? (
         <p>{msg.messageText}</p>
       ) : !showForm && msg.messageText === null ? (
-        <img width={100} src={msg.messageImg} alt="img" />
+        <a href={msg.messageImg} target="_blank" rel="noopener noreferrer">
+          <img
+            className={styles.messageImg}
+            width={100}
+            src={msg.messageImg}
+            alt="img"
+          />{' '}
+        </a>
       ) : (
         <>
-          <img width={100} src={msg.messageImg} alt="img" />{' '}
+          <a href={msg.messageImg} target="_blank" rel="noopener noreferrer">
+            <img
+              className={styles.messageImg}
+              width={100}
+              src={msg.messageImg}
+              alt="img"
+            />{' '}
+          </a>
           <p>{msg.messageText}</p>
         </>
       )}

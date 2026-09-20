@@ -1,6 +1,7 @@
 import {
   CircleSmall,
   LoaderCircle,
+  LogOut,
   Mars,
   SquarePen,
   Venus,
@@ -115,11 +116,15 @@ const Settings = ({ user, setUser }) => {
           onSubmit={editProfile}
           style={{ backgroundColor: editMode === 'profile' && '#4a5568' }}
         >
-          <button type="button" onClick={() => setEditMode('profile')}>
+          <button
+            className={styles.editBtn}
+            type="button"
+            onClick={() => setEditMode('profile')}
+          >
             Edit <SquarePen />
           </button>
           <label htmlFor="profilePic">
-            Profile picture:
+            <span>Profile picture:</span>
             <img src={profile?.profilePic} alt="profile-pic" width="80px" />
             {editMode === 'profile' && (
               <input
@@ -131,7 +136,7 @@ const Settings = ({ user, setUser }) => {
             )}
           </label>
           <label htmlFor="coverPic">
-            Cover picture:
+            <span>Cover picture:</span>
             <img
               src={profile?.coverPic}
               alt="cover-pic"
@@ -148,7 +153,7 @@ const Settings = ({ user, setUser }) => {
             )}
           </label>
           <label htmlFor="gender">
-            Gender:
+            <span>Gender:</span>
             {editMode === 'profile' ? (
               <select name="gender" id="gender" defaultValue={profile?.gender}>
                 <option value="MALE">Male</option>
@@ -181,7 +186,7 @@ const Settings = ({ user, setUser }) => {
             )}
           </label>
           <label htmlFor="bio">
-            Bio:
+            <span>Bio:</span>
             {editMode === 'profile' ? (
               <textarea
                 name="bio"
@@ -218,7 +223,11 @@ const Settings = ({ user, setUser }) => {
         onSubmit={editProfile}
         style={{ backgroundColor: editMode === 'account' && '#4a5568' }}
       >
-        <button type="button" onClick={() => setEditMode('account')}>
+        <button
+          className={styles.editBtn}
+          type="button"
+          onClick={() => setEditMode('account')}
+        >
           Edit <SquarePen />
         </button>
         {userValidation && (
@@ -231,7 +240,7 @@ const Settings = ({ user, setUser }) => {
           </ul>
         )}
         <label htmlFor="name">
-          Name:
+          <span>Name:</span>
           <input
             type="text"
             name="name"
@@ -242,7 +251,7 @@ const Settings = ({ user, setUser }) => {
           />
         </label>
         <label htmlFor="username">
-          Username:
+          <span>Username:</span>
           <input
             type="text"
             name="username"
@@ -254,7 +263,7 @@ const Settings = ({ user, setUser }) => {
           />
         </label>
         <label htmlFor="email">
-          Email:
+          <span>Email:</span>
           <input
             type="text"
             name="email"
@@ -290,13 +299,14 @@ const Settings = ({ user, setUser }) => {
         style={{ backgroundColor: editMode === 'password' && '#4a5568' }}
       >
         <button
+          className={styles.editBtn}
           type="button"
           onClick={() => {
             setEditMode('password');
             setpasswordMsg(null);
           }}
         >
-          Change password <SquarePen />
+          Edit <SquarePen />
         </button>
         {passwordMsg && <p style={{ color: '#8ffb61dd' }}>{passwordMsg}</p>}
         {editMode === 'password' ? (
@@ -311,7 +321,7 @@ const Settings = ({ user, setUser }) => {
               </ul>
             )}
             <label htmlFor="currentPassword">
-              Current Password:
+              <span>Current Password:</span>
               <input
                 type="password"
                 name="currentPassword"
@@ -321,7 +331,7 @@ const Settings = ({ user, setUser }) => {
               />
             </label>
             <label htmlFor="newPassword">
-              New Password:
+              <span>New Password:</span>
               <input
                 type="password"
                 name="newPassword"
@@ -331,7 +341,7 @@ const Settings = ({ user, setUser }) => {
               />
             </label>
             <label htmlFor="confirmedPassword">
-              Re-type new Password:
+              <span>Re-type new Password:</span>
               <input
                 type="password"
                 name="confirmedPassword"
@@ -357,7 +367,9 @@ const Settings = ({ user, setUser }) => {
           </label>
         )}
       </form>
-      <button onClick={() => setIsOpen(true)}>Log out</button>
+      <button className={styles.logoutBtn} onClick={() => setIsOpen(true)}>
+        Log out <LogOut size={15} absoluteStrokeWidth />
+      </button>
       <Modal modalIsOpen={modalIsOpen} closeModal={() => setIsOpen(false)}>
         <h2>Log out?</h2>
         <p>Are you sure you want to log out?</p>
@@ -366,7 +378,9 @@ const Settings = ({ user, setUser }) => {
         ) : loadingLogOut ? (
           <LoaderCircle className={styles.loader} />
         ) : (
-          <button onClick={handleLogOut}>Log out</button>
+          <button className={styles.logoutBtn} onClick={handleLogOut}>
+            Log out <LogOut size={15} absoluteStrokeWidth />
+          </button>
         )}
       </Modal>
     </div>

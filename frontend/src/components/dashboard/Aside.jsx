@@ -82,7 +82,9 @@ const Aside = ({ setUser }) => {
         ) : loadingLogOut ? (
           <LoaderCircle className={styles.loader} />
         ) : (
-          <button onClick={handleLogOut}>Log out</button>
+          <button onClick={handleLogOut}>
+            Log out <LogOut size={15} absoluteStrokeWidth />
+          </button>
         )}
       </Modal>
     </aside>

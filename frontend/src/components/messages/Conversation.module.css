@@ -186,20 +186,27 @@
           width: fit-content;
           min-width: 100px;
           display: flex;
+          flex-direction: column;
           padding: 10px 10px 35px 10px;
           border-radius: 10px 10px 0 10px;
 
-          align-items: center;
           margin-left: 25px;
           &:hover .msgActions {
             display: block;
           }
-
           & img {
             position: absolute;
             left: -50px;
             border-radius: 50%;
             width: 40px;
+            border: 1px #00000016 solid;
+          }
+          & .messageImg {
+            position: relative;
+            border-radius: 6px;
+            left: auto;
+            width: 70px;
+            display: block;
             border: 1px #00000016 solid;
           }
           & p {

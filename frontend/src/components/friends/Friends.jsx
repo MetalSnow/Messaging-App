@@ -3,6 +3,7 @@ import useFetch from '../../hooks/useFetch';
 import { LoaderCircle, MessageCircleMore, UserRoundX } from 'lucide-react';
 import Modal from '../modal/Modal';
 import { useNavigate, Link } from 'react-router-dom';
+import styles from './Friends.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -41,7 +42,7 @@ const Friends = ({
   };
 
   return (
-    <>
+    <div className={styles.friends}>
       <h2>Friend list</h2>
       {error ? (
         <p>Server error occured!</p>
@@ -54,24 +55,30 @@ const Friends = ({
           {friendList.map((friend) => (
             <li key={friend.id}>
               <Link to={`/profile/${friend.username}`}>
-                <img
-                  src={friend.profile?.profilePic}
-                  alt="profilePic"
-                  width={40}
-                />
-                {friend.username}
-                <span>
-                  {onlineUserIds.includes(friend.id) ? 'Online' : 'Offline'}
-                </span>
+                <div className={styles.icon}>
+                  <img src={friend.profile?.profilePic} alt="profilePic" />
+                  <span
+                    style={{
+                      backgroundColor: onlineUserIds.includes(friend.id)
+                        ? '#89fa89'
+                        : '#8d8d8d',
+                    }}
+                  ></span>
+                </div>
+                <p>{friend.username}</p>
               </Link>{' '}
-              <button onClick={() => navigate('/messages', { state: friend })}>
-                <MessageCircleMore />
-                Chat
-              </button>
-              <button onClick={() => openModal(friend)}>
-                <UserRoundX />
-                Unfriend
-              </button>
+              <div className={styles.btns}>
+                <button
+                  onClick={() => navigate('/messages', { state: friend })}
+                >
+                  <MessageCircleMore />
+                  Chat
+                </button>
+                <button onClick={() => openModal(friend)}>
+                  <UserRoundX />
+                  Unfriend
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -91,7 +98,7 @@ const Friends = ({
           <button onClick={handleRemoveFriend}>Confirm</button>
         )}
       </Modal>
-    </>
+    </div>
   );
 };
 

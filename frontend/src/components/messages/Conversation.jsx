@@ -124,7 +124,14 @@ const Conversation = ({
                   className={activeFriendId === friend.id ? styles.active : ''}
                 >
                   <div className={styles.icon}>
-                    <img src={friend.profile?.profilePic} alt="profilePic" />
+                    <img
+                      src={
+                        friend.profile?.profilePic
+                          ? friend.profile?.profilePic
+                          : '/icons/user.png'
+                      }
+                      alt="profilePic"
+                    />
                     <span
                       style={{
                         backgroundColor: onlineUserIds.includes(friend.id)
@@ -158,7 +165,12 @@ const Conversation = ({
             <div className={styles.profile}>
               <Link to={`/profile/${convo.friend.username}`}>
                 <div className={styles.icon}>
-                  <img src={convo.profilePic} alt="pfp" />
+                  <img
+                    src={
+                      convo.profilePic ? convo.profilePic : '/icons/user.png'
+                    }
+                    alt="pfp"
+                  />
                   <span
                     style={{
                       backgroundColor: onlineUserIds.includes(convo.friend.id)
@@ -201,7 +213,14 @@ const Conversation = ({
                           }}
                         >
                           {msg.senderId !== user.id && (
-                            <img src={convo.profilePic} alt="pfp" />
+                            <img
+                              src={
+                                convo.profilePic
+                                  ? convo.profilePic
+                                  : '/icons/user.png'
+                              }
+                              alt="pfp"
+                            />
                           )}
                           <Message
                             msg={msg}

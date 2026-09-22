@@ -209,7 +209,11 @@ const Dashboard = () => {
                 <li>
                   <Link to={`/profile/${user?.username}`}>
                     <div>
-                      <img src={avatarUrl} alt="avatar" />
+                      {console.log(avatarUrl ? avatarUrl : 'user.png')}
+                      <img
+                        src={avatarUrl ? avatarUrl : '/icons/user.png'}
+                        alt="avatar"
+                      />
                       <span className={styles.status}></span>
                     </div>
                     <span>{user?.username}</span>

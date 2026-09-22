@@ -46,7 +46,15 @@ const SearchBar = ({ searchInput, searchRef, setSearchToggle }) => {
               to={`/profile/${user.username}`}
               onClick={() => setSearchToggle(false)}
             >
-              <img width={40} src={user.profile?.profilePic} alt="profilePic" />
+              <img
+                width={40}
+                src={
+                  user.profile?.profilePic
+                    ? user.profile?.profilePic
+                    : '/icons/user.png'
+                }
+                alt="profilePic"
+              />
               <p>{user.name || user.username}</p>
             </Link>
           </li>

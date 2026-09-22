@@ -125,7 +125,13 @@ const Settings = ({ user, setUser }) => {
           </button>
           <label htmlFor="profilePic">
             <span>Profile picture:</span>
-            <img src={profile?.profilePic} alt="profile-pic" width="80px" />
+            <img
+              src={
+                profile?.profilePic ? profile?.profilePic : '/icons/user.png'
+              }
+              alt="profile-pic"
+              width="80px"
+            />
             {editMode === 'profile' && (
               <input
                 type="file"
@@ -138,7 +144,7 @@ const Settings = ({ user, setUser }) => {
           <label htmlFor="coverPic">
             <span>Cover picture:</span>
             <img
-              src={profile?.coverPic}
+              src={profile?.coverPic ? profile?.coverPic : '/icons/cover.jpg'}
               alt="cover-pic"
               width={160}
               height={80}

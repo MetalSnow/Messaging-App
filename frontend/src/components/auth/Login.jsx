@@ -51,7 +51,7 @@ const Login = () => {
   return (
     <div className={styles.loginDiv}>
       {location && (
-        <p>
+        <p style={{ color: 'green', marginBottom: '10px' }}>
           {location.message}{' '}
           <Check color="green" size={16} strokeWidth={3} absoluteStrokeWidth />
         </p>

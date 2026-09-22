@@ -152,6 +152,7 @@
             & div {
               position: relative;
               & img {
+                border: 1px #afafaf solid;
                 position: relative;
                 border-radius: 50%;
                 width: 40px;

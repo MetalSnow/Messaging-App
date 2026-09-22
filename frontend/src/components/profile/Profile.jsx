@@ -114,9 +114,14 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
         <>
           <div
             className={styles.profile}
-            style={{ backgroundImage: `url(${data?.coverPic})` }}
+            style={{
+              backgroundImage: `url(${data?.coverPic ? data?.coverPic : '/icons/cover.jpg'})`,
+            }}
           >
-            <img src={data?.profilePic} alt="profile-pic" />
+            <img
+              src={data?.profilePic ? data.profilePic : '/icons/user.png'}
+              alt="profile-pic"
+            />
             <p>
               {data?.name ?? data?.username}{' '}
               <span>

@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import useFetch from '../../hooks/useFetch';
-import { LoaderCircle, MessageCircleMore, UserRoundX } from 'lucide-react';
+import {
+  Check,
+  LoaderCircle,
+  MessageCircleMore,
+  UserRoundX,
+} from 'lucide-react';
 import Modal from '../modal/Modal';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './Friends.module.css';
@@ -56,7 +61,14 @@ const Friends = ({
             <li key={friend.id}>
               <Link to={`/profile/${friend.username}`}>
                 <div className={styles.icon}>
-                  <img src={friend.profile?.profilePic} alt="profilePic" />
+                  <img
+                    src={
+                      friend.profile?.profilePic
+                        ? friend.profile?.profilePic
+                        : '/icons/user.png'
+                    }
+                    alt="profilePic"
+                  />
                   <span
                     style={{
                       backgroundColor: onlineUserIds.includes(friend.id)
@@ -95,7 +107,9 @@ const Friends = ({
         ) : loadingRemove ? (
           'Removing...'
         ) : (
-          <button onClick={handleRemoveFriend}>Confirm</button>
+          <button className={styles.confirmBtn} onClick={handleRemoveFriend}>
+            Confirm <Check />
+          </button>
         )}
       </Modal>
     </div>

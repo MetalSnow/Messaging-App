@@ -13,7 +13,7 @@ async function main() {
         email: faker.internet.email(),
         password: faker.internet.password(),
 
-        profiles: {
+        profile: {
           create: {
             profilePic: faker.image.avatar(),
             coverPic: faker.image.url(),
@@ -53,7 +53,7 @@ async function main() {
 
     await prisma.messages.create({
       data: {
-        message: faker.lorem.sentence(),
+        messageText: faker.lorem.sentence(),
         senderId: sender.id,
         receiverId: receiver.id,
         createdAt: faker.date.recent(),

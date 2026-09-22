@@ -75,7 +75,6 @@ const Settings = ({ user, setUser }) => {
       } else if (editMode === 'account') {
         const updatedUser = Object.fromEntries(formData.entries());
         const res = await patchUser('PATCH', updatedUser);
-        console.log(res);
         setUser(res.data);
         if (res.data) {
           setEditMode(null);

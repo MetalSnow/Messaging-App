@@ -209,7 +209,6 @@ const Dashboard = () => {
                 <li>
                   <Link to={`/profile/${user?.username}`}>
                     <div>
-                      {console.log(avatarUrl ? avatarUrl : 'user.png')}
                       <img
                         src={avatarUrl ? avatarUrl : '/icons/user.png'}
                         alt="avatar"

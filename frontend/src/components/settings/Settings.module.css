@@ -37,6 +37,7 @@
       align-self: center;
     }
     & label {
+      flex-wrap: wrap;
       display: flex;
       align-items: center;
       gap: 6px;

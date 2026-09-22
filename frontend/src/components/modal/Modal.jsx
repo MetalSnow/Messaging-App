@@ -17,8 +17,8 @@ const Modal = ({ modalIsOpen, closeModal, children }) => {
     <dialog className={styles.modal} ref={ref} onCancel={closeModal}>
       {children}
       <button className={styles.closeBtn} onClick={closeModal}>
-        <SquareX size={24} />
         Cancel
+        <SquareX size={24} />
       </button>
     </dialog>
   );

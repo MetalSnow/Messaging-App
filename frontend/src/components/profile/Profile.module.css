@@ -1,0 +1,63 @@
+.profileContainer {
+  width: 100%;
+  & .profile {
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 2rem;
+    box-shadow: inset 0px 0px 10px 300px rgba(0, 0, 0, 0.526);
+    & img {
+      width: 100px;
+      border: white 2px solid;
+    }
+    & p {
+      margin: 0 auto;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: white;
+      padding: 20px;
+      font-weight: 500;
+      font-size: 2em;
+    }
+    & .btns {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      & button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: white;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+  & .bio {
+    display: flex;
+    background: light-dark(#00000082, #ffffff84);
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-radius: 10px;
+    font-weight: 500;
+    padding: 20px;
+    max-height: 200px;
+    overflow: auto;
+    color: light-dark(white, black);
+    & span {
+      padding-left: 10%;
+      height: fit-content;
+      width: 80%;
+      overflow-wrap: break-word;
+    }
+  }
+  & .confirmBtn {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 5px 18px;
+    gap: 3px;
+  }
+}

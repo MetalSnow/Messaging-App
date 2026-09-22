@@ -363,7 +363,8 @@ const Settings = ({ user, setUser }) => {
           </div>
         ) : (
           <label>
-            Password: <input type="password" value="**************" disabled />
+            <span>Password:</span>{' '}
+            <input type="password" value="**************" disabled />
           </label>
         )}
       </form>

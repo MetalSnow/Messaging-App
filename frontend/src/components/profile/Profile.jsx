@@ -4,6 +4,7 @@ import usePost from '../../hooks/usePost';
 import { useEffect } from 'react';
 import Modal from '../modal/Modal';
 import {
+  Check,
   Heading1,
   LoaderCircle,
   Mars,
@@ -14,6 +15,7 @@ import {
   Venus,
 } from 'lucide-react';
 import { useState } from 'react';
+import styles from './Profile.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -103,30 +105,43 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
   };
 
   return (
-    <div>
+    <div className={styles.profileContainer}>
       {error || userError ? (
         <p>Server error occured!</p>
       ) : loading || userLoading ? (
         <LoaderCircle />
       ) : (
         <>
-          <div style={{ backgroundImage: `url(${data?.coverPic})` }}>
+          <div
+            className={styles.profile}
+            style={{ backgroundImage: `url(${data?.coverPic})` }}
+          >
             <img src={data?.profilePic} alt="profile-pic" />
-            <h1>
+            <p>
               {data?.name ?? data?.username}{' '}
               <span>
                 {' '}
                 {data?.gender === 'MALE' ? (
-                  <Mars size={18} color="#297fff" absoluteStrokeWidth />
+                  <Mars
+                    size={25}
+                    color="#297fff"
+                    strokeWidth={3}
+                    absoluteStrokeWidth
+                  />
                 ) : data?.gender === 'FEMALE' ? (
-                  <Venus size={18} color="#f56bff" absoluteStrokeWidth />
+                  <Venus
+                    size={25}
+                    strokeWidth={3}
+                    color="#f56bff"
+                    absoluteStrokeWidth
+                  />
                 ) : (
                   ''
                 )}
               </span>
-            </h1>
+            </p>
             {user?.username !== data?.username && (
-              <>
+              <div className={styles.btns}>
                 {friendList.some(
                   (friend) => friend.username === data?.username,
                 ) || reqStatus?.status === 'ACCEPTED' ? (
@@ -159,17 +174,10 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                         ) : (
                           <>
                             {' '}
-                            <button onClick={handleCancelReq}>
-                              <UserX />
-                              {errorRequest ? (
-                                'Error request'
-                              ) : loadingRequest ? (
-                                <LoaderCircle />
-                              ) : (
-                                'Decline request'
-                              )}
-                            </button>
-                            <button onClick={handleAccepteReq}>
+                            <button
+                              style={{ backgroundColor: '#0aff026b' }}
+                              onClick={handleAccepteReq}
+                            >
                               <UserCheck />
                               {errorRequest ? (
                                 'Error request'
@@ -177,6 +185,19 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                                 <LoaderCircle />
                               ) : (
                                 'Accepte request'
+                              )}
+                            </button>
+                            <button
+                              style={{ backgroundColor: '#ff02204f' }}
+                              onClick={handleCancelReq}
+                            >
+                              <UserX />
+                              {errorRequest ? (
+                                'Error request'
+                              ) : loadingRequest ? (
+                                <LoaderCircle />
+                              ) : (
+                                'Decline request'
                               )}
                             </button>
                           </>
@@ -190,10 +211,14 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                     )}
                   </>
                 )}
-              </>
+              </div>
             )}
           </div>
-          <p>{data?.bio}</p>
+          <div className={styles.bio}>
+            <span>
+              {data?.bio ? data.bio : "This user hasn't added a bio yet"}
+            </span>
+          </div>
         </>
       )}
       <Modal modalIsOpen={modalIsOpen} closeModal={() => setIsOpen(false)}>
@@ -208,7 +233,9 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
         ) : loadingRemove ? (
           'Removing...'
         ) : (
-          <button onClick={handleRemoveFriend}>Confirm</button>
+          <button className={styles.confirmBtn} onClick={handleRemoveFriend}>
+            Confirm <Check />
+          </button>
         )}
       </Modal>
     </div>

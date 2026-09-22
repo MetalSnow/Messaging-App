@@ -7,10 +7,11 @@
   }
 
   & .closeBtn {
+    margin: 0 auto;
+    text-align: center;
     padding: 0;
     color: white;
-    width: 100%;
-    padding: 0.6em 1.2em;
+    padding: 0.3em 1.2em;
     display: flex;
     align-items: center;
     justify-content: center;

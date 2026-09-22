@@ -61,11 +61,17 @@ const signupUser = [
       },
     });
 
+    const profile = await prisma.profile.create({
+      data: {
+        userId: user.id,
+      },
+    });
+
     const { password, ...rest } = user;
 
     res.json({
       success: true,
-      data: rest,
+      data: { ...profile, rest },
       message: 'Account created successfully. You can now log in.',
     });
   }),

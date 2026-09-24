@@ -21,8 +21,6 @@
   color-scheme: light dark;
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color: var(--text);
-  background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -39,7 +37,10 @@ body {
 }
 
 #root {
-  background-image: light-dark(var(--light-bg), var(--dark-bg));
+  background: light-dark(
+    linear-gradient(to top, rgb(255, 255, 255), rgb(198, 171, 244)),
+    linear-gradient(to bottom, #0b1120, #2d1b4e)
+  );
   color: light-dark(var(--light-color), var(--dark-color));
   max-width: 100%;
   margin: 0 auto;

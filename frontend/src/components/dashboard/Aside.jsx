@@ -80,7 +80,7 @@ const Aside = ({ setUser }) => {
         {errorLogOut ? (
           <p>Server error!</p>
         ) : loadingLogOut ? (
-          <LoaderCircle className={styles.loader} />
+          <LoaderCircle className="loader" />
         ) : (
           <button
             style={{ position: 'relative' }}

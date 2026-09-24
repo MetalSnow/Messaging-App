@@ -191,7 +191,7 @@ const Dashboard = () => {
                     }
                   >
                     <Bell size={16} strokeWidth={2} absoluteStrokeWidth />
-                    <span>{requests.length}</span>
+                    <span>{requests?.length || 0}</span>
                   </button>
                   {notifToggle && (
                     <Notifications

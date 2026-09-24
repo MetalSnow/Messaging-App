@@ -109,7 +109,7 @@ const Settings = ({ user, setUser }) => {
       {error ? (
         <p>Server error occured!</p>
       ) : loading ? (
-        <LoaderCircle className={styles.loader} />
+        <LoaderCircle className="loader" />
       ) : (
         <form
           onSubmit={editProfile}
@@ -282,7 +282,7 @@ const Settings = ({ user, setUser }) => {
         {editMode === 'account' && (
           <>
             {loadingUser ? (
-              <LoaderCircle className={styles.loader} />
+              <LoaderCircle className="loader" />
             ) : errorUser ? (
               <p>Server error!</p>
             ) : (
@@ -356,7 +356,7 @@ const Settings = ({ user, setUser }) => {
               />
             </label>
             {loadingPassword ? (
-              <LoaderCircle className={styles.loader} />
+              <LoaderCircle className="loader" />
             ) : errorPassword ? (
               <p>Server error!</p>
             ) : (
@@ -382,7 +382,7 @@ const Settings = ({ user, setUser }) => {
         {errorLogOut ? (
           <p>Server error!</p>
         ) : loadingLogOut ? (
-          <LoaderCircle className={styles.loader} />
+          <LoaderCircle className="loader" />
         ) : (
           <button className={styles.logoutBtn} onClick={handleLogOut}>
             Log out <LogOut size={15} absoluteStrokeWidth />

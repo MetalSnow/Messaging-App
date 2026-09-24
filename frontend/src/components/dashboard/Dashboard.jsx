@@ -152,7 +152,7 @@ const Dashboard = () => {
   return (
     <>
       {checking ? (
-        <LoaderCircle />
+        <LoaderCircle className="loader" />
       ) : (
         <div className={styles.dashBoard}>
           <Aside setUser={setUser} />

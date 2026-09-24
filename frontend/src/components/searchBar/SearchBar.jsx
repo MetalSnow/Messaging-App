@@ -36,7 +36,7 @@ const SearchBar = ({ searchInput, searchRef, setSearchToggle }) => {
       {error ? (
         <p>Server error occured!</p>
       ) : loading ? (
-        <LoaderCircle />
+        <LoaderCircle className="loader" />
       ) : users.length === 0 ? (
         <p>No users found</p>
       ) : (

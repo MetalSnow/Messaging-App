@@ -122,6 +122,7 @@ button {
 }
 
 .loader {
+  margin: 0 auto;
   animation: spin 1s linear infinite;
 }
 

@@ -114,7 +114,7 @@ const Conversation = ({
         {friendListError ? (
           <p>Server error occured!</p>
         ) : friendListLoading ? (
-          <LoaderCircle />
+          <LoaderCircle className="loader" />
         ) : (
           <ul>
             {friendList.map((friend) => (
@@ -190,7 +190,7 @@ const Conversation = ({
               {error ? (
                 <p>Server error occured</p>
               ) : loading ? (
-                <LoaderCircle />
+                <LoaderCircle className="loader" />
               ) : (
                 <>
                   {convo.msgs.length === 0 ? (
@@ -254,7 +254,7 @@ const Conversation = ({
               {errorPost ? (
                 <CloudAlert />
               ) : loadingPost ? (
-                <LoaderCircle />
+                <LoaderCircle className="loader" />
               ) : (
                 <button type="submit">
                   <Send size={20} strokeWidth={2.5} />

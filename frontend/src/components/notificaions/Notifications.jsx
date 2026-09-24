@@ -47,7 +47,7 @@ const Notifications = ({
       {error ? (
         <p>Server error occured.</p>
       ) : loading ? (
-        <LoaderCircle />
+        <LoaderCircle className="loader" />
       ) : requests.length === 0 ? (
         <p>No friend requests</p>
       ) : (
@@ -67,7 +67,7 @@ const Notifications = ({
             {req.error ? (
               <p>Server Error!</p>
             ) : req.loading ? (
-              <LoaderCircle />
+              <LoaderCircle className="loader" />
             ) : (
               <>
                 <button onClick={() => handleReq(req.id, 'PATCH')}>

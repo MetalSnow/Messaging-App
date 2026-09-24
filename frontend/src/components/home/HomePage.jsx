@@ -20,7 +20,8 @@ const HomePage = () => {
     return <Navigate to="/dashboard" replace />;
   }
 
-  if (checking) return <LoaderCircle />;
+  if (!checking)
+    return <LoaderCircle className="loader" style={{ marginTop: '100px' }} />;
   return (
     <main className={styles.main}>
       <div>

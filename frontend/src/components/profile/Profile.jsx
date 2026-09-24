@@ -109,7 +109,7 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
       {error || userError ? (
         <p>Server error occured!</p>
       ) : loading || userLoading ? (
-        <LoaderCircle />
+        <LoaderCircle className="loader" />
       ) : (
         <>
           <div
@@ -171,7 +171,7 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                             {errorRequest ? (
                               'Error request'
                             ) : loadingRequest ? (
-                              <LoaderCircle />
+                              <LoaderCircle className="loader" />
                             ) : (
                               'Cancel request'
                             )}
@@ -187,7 +187,7 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                               {errorRequest ? (
                                 'Error request'
                               ) : loadingRequest ? (
-                                <LoaderCircle />
+                                <LoaderCircle className="loader" />
                               ) : (
                                 'Accepte request'
                               )}
@@ -200,7 +200,7 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
                               {errorRequest ? (
                                 'Error request'
                               ) : loadingRequest ? (
-                                <LoaderCircle />
+                                <LoaderCircle className="loader" />
                               ) : (
                                 'Decline request'
                               )}

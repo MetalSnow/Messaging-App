@@ -36,7 +36,7 @@ const Signup = () => {
     return <Navigate to="/dashboard" replace />;
   }
 
-  if (checking) return <LoaderCircle />;
+  if (checking) return <LoaderCircle className="loader" />;
 
   return (
     <div className={styles.signupDiv}>
@@ -86,7 +86,11 @@ const Signup = () => {
           placeholder="Confirm password"
           required
         />
-        {loading ? <LoaderCircle /> : <button type="submit">Sign up</button>}
+        {loading ? (
+          <LoaderCircle className="loader" />
+        ) : (
+          <button type="submit">Sign up</button>
+        )}
       </form>
       <p>
         Already have an account? <Link to="/login">Log in</Link>

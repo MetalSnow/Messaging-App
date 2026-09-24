@@ -46,7 +46,7 @@ const Login = () => {
     return <Navigate to="/dashboard" replace />;
   }
 
-  if (checking) return <LoaderCircle />;
+  if (checking) return <LoaderCircle className="loader" />;
 
   return (
     <div className={styles.loginDiv}>

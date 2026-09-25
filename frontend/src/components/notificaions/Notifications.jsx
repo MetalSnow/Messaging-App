@@ -48,10 +48,10 @@ const Notifications = ({
         <p>Server error occured.</p>
       ) : loading ? (
         <LoaderCircle className="loader" />
-      ) : requests.length === 0 ? (
+      ) : requests?.length === 0 ? (
         <p>No friend requests</p>
       ) : (
-        requests.map((req) => (
+        requests?.map((req) => (
           <li key={req.id}>
             <div>
               <Link to={`/profile/${req.username}`}>

@@ -147,7 +147,7 @@ const Profile = ({ friendList, user, fetchData, setFriendList }) => {
             </p>
             {user?.username !== data?.username && (
               <div className={styles.btns}>
-                {friendList.some(
+                {friendList?.some(
                   (friend) => friend.username === data?.username,
                 ) || reqStatus?.status === 'ACCEPTED' ? (
                   <>

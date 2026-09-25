@@ -53,11 +53,11 @@ const Friends = ({
         <p>Server error occured!</p>
       ) : loading ? (
         <LoaderCircle />
-      ) : friendList.length == 0 ? (
+      ) : friendList?.length == 0 ? (
         <p>You haven't added any friends yet.</p>
       ) : (
         <ul>
-          {friendList.map((friend) => (
+          {friendList?.map((friend) => (
             <li key={friend.id}>
               <Link to={`/profile/${friend.username}`}>
                 <div className={styles.icon}>

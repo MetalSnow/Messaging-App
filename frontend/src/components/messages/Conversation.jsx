@@ -117,7 +117,7 @@ const Conversation = ({
           <LoaderCircle className="loader" />
         ) : (
           <ul>
-            {friendList.map((friend) => (
+            {friendList?.map((friend) => (
               <li key={friend.id}>
                 <button
                   onClick={() => handleMsgsBtn(friend)}
@@ -181,8 +181,8 @@ const Conversation = ({
                 </div>
 
                 <div>
-                  <p>{convo.friend.name ?? convo.friend.username}</p>
-                  <span>{convo.friend.username}</span>
+                  <p>{convo?.friend.name ?? convo?.friend.username}</p>
+                  <span>{convo?.friend.username}</span>
                 </div>
               </Link>
             </div>
@@ -193,7 +193,7 @@ const Conversation = ({
                 <LoaderCircle className="loader" />
               ) : (
                 <>
-                  {convo.msgs.length === 0 ? (
+                  {convo?.msgs.length === 0 ? (
                     <div>
                       <MessageCircleMore size={60} />
                       <h2>Say hello 👋</h2>
@@ -201,7 +201,7 @@ const Conversation = ({
                     </div>
                   ) : (
                     <ul>
-                      {convo.msgs.map((msg) => (
+                      {convo?.msgs.map((msg) => (
                         <li
                           key={msg.id}
                           style={{
@@ -215,8 +215,8 @@ const Conversation = ({
                           {msg.senderId !== user.id && (
                             <img
                               src={
-                                convo.profilePic
-                                  ? convo.profilePic
+                                convo?.profilePic
+                                  ? convo?.profilePic
                                   : '/icons/user.png'
                               }
                               alt="pfp"

@@ -37,10 +37,10 @@ const SearchBar = ({ searchInput, searchRef, setSearchToggle }) => {
         <p>Server error occured!</p>
       ) : loading ? (
         <LoaderCircle className="loader" />
-      ) : users.length === 0 ? (
+      ) : users?.length === 0 ? (
         <p>No users found</p>
       ) : (
-        users.map((user) => (
+        users?.map((user) => (
           <li key={user.id}>
             <Link
               to={`/profile/${user.username}`}

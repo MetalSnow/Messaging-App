@@ -21,6 +21,7 @@ const io = new Server(server, {
     origin: [
       'http://localhost:5173',
       'https://messaging-app-beryl-chi.vercel.app',
+      'http://localhost:4173',
     ],
     credentials: true,
   },
@@ -33,6 +34,7 @@ app.use(
     origin: [
       'http://localhost:5173',
       'https://messaging-app-beryl-chi.vercel.app',
+      'http://localhost:4173',
     ],
   }),
 );

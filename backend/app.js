@@ -46,6 +46,8 @@ app.use(express.static('public'));
 
 const isProd = process.env.NODE_ENV === 'production';
 
+app.set('trust proxy', 1);
+
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false,

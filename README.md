@@ -1,6 +1,6 @@
-# Ripple — Messaging App
+# RippleChat — Messaging App
 
-Ripple is a full-stack real-time messaging application where users can connect with friends, send messages, share images, and see who's currently online.
+RippleChat is a full-stack real-time messaging application where users can connect with friends, send messages, share images, and see who's currently online.
 
 The project was built to practice full-stack web development, authentication, database management, real-time communication, and deployment.
 

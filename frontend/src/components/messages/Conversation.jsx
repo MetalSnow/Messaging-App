@@ -34,6 +34,7 @@ const Conversation = ({
   const location = useLocation();
   const [activeFriendId, setActiveFriendId] = useState(null);
   const msgsBarRef = useRef(null);
+  const [isMessageImg, setIsMessageImg] = useState(false);
 
   useEffect(() => {
     if (msgsBarRef.current) {
@@ -239,10 +240,16 @@ const Conversation = ({
             <form action={sendMessage}>
               <label className={styles.customFileUpload}>
                 <ImageUp size={20} strokeWidth={2.5} />
+                {isMessageImg && <span>1</span>}
                 <input
                   type="file"
                   name="messageImg"
                   accept="image/png, image/jpeg"
+                  onChange={(e) => {
+                    if (e.target.files.length > 0) {
+                      setIsMessageImg(true);
+                    }
+                  }}
                 />
               </label>
               <textarea

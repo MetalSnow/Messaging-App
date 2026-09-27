@@ -292,7 +292,7 @@
         border: none;
         box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
         outline: none;
-        padding: 13px 10px 0 10px;
+        padding: 13px 10px 3px 10px;
         &::placeholder {
           font-size: 14px;
           color: #868686;
@@ -302,6 +302,7 @@
         display: none;
       }
       & .customFileUpload {
+        position: relative;
         border: 2px solid #ccc;
         display: flex;
         align-items: center;
@@ -312,6 +313,22 @@
         cursor: pointer;
         &:hover {
           background-color: light-dark(#dbc7e9bb, #cfcfd066);
+        }
+        & span {
+          font-weight: bold;
+          font-size: 10px;
+          width: 12px;
+          height: 12px;
+          padding: 2px;
+          border-radius: 50%;
+          position: absolute;
+          bottom: -5px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          right: -3px;
+          background-color: red;
+          color: white;
         }
       }
       & button {

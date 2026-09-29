@@ -196,6 +196,7 @@
         box-shadow: inset 1px 0px 4px 0px rgba(0, 0, 0, 0.3);
         gap: 3rem;
         & .title {
+          z-index: 1;
           & h1 {
             display: flex;
             align-items: center;
@@ -213,6 +214,7 @@
           }
         }
         & .btns {
+          z-index: 1;
           flex-wrap: wrap;
           display: flex;
           align-items: center;
@@ -242,6 +244,7 @@
           }
         }
         & img {
+          opacity: 0.8;
           width: 200px;
           position: absolute;
           right: 10%;
@@ -249,6 +252,7 @@
           bottom: 10%;
           background-color: rgba(207, 157, 213, 0.3);
           border-radius: 30%;
+          z-index: 0;
           box-shadow: inset 1px 0px 4px 0px
             light-dark(rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.3));
         }

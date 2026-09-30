@@ -57,7 +57,11 @@ const Notifications = ({
               <Link to={`/profile/${req.username}`}>
                 <img
                   width={40}
-                  src={req.profile?.profilePic}
+                  src={
+                    req.profile?.profilePic
+                      ? req.profile?.profilePic
+                      : '/icons/user.png'
+                  }
                   alt="profilePic"
                 />
                 <p>{req.username}</p>
